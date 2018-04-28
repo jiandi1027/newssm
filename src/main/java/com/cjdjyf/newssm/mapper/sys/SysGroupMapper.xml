@@ -167,11 +167,7 @@
         <where>
             <include refid="findAllWhere"/>
         </where>
-        <if test="orderStr!=null">
-            <![CDATA[
-           order by  ${orderStr}
-      ]]>
-        </if>
+        order by t.order_num
     </select>
     <sql id="findAllWhere">
         <if test="groupName != null and groupName!=''">

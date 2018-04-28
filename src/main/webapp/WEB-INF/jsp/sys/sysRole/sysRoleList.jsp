@@ -15,15 +15,19 @@
         <div data-options="region:'east',iconCls:'icon-reload',title:'搜索条件',split:true" class="searchForm-east">
             <div class="easyui-layout">
                 <div data-options="region:'center'" class="center">
-                    <span> 角色名称： </span> <input class="easyui-textbox" name="roleName" data-options="width:100" title="">
+                    <span> 角色名称： </span> <input class="easyui-textbox" name="roleName" data-options="width:100"
+                                                title="">
                 </div>
                 <div data-options="region:'south'" class="south">
-                    <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="sysRoleList_search"
+                    <a class="easyui-linkbutton search_btn" data-options="iconCls:'icon-search'" id="sysRoleList_search"
                        onClick="$('#sysRoleList_list').datagrid('load',$.serializeObject($('#sysRoleList_searchForm')));">搜索</a>
+                    <a class="easyui-linkbutton" data-options="iconCls:'icon-clear'" id="sysAccountList_clear"
+                       onClick="$('#sysRoleList_searchForm').form('clear');$('#sysRoleList_list').datagrid('load',$.serializeObject($('#sysRoleList_searchForm')));">清空</a>
                 </div>
             </div>
         </div>
-    </form>
+</div>
+</form>
 </div>
 <div id="sysRoleList_toolbar">
     <a onclick="sysRoleList_add(null);" href="javascript:void(0);"
@@ -53,9 +57,11 @@
             },
             columns: [[
                 {title: 'id', field: 'id', checkbox: true},
-                {title: '角色名称', field: 'roleName', width: '22%', align: 'center'},
-                {title: '拥有权限', field: 'permissionName', width: '33%', align: 'center'},
-                {title: '操作列', field: 'a', width: '43%', align: 'center', formatter: operate}
+                {title: '角色名称', field: 'roleName', width: '19%', align: 'center'},
+                {title: '拥有权限', field: 'permissionName', width: '19%', align: 'center'},
+                {title: '创建人', field: 'createPeople', width: '19%', align: 'center'},
+                {title: '创建时间', field: 'createTime', width: '19%', align: 'center'},
+                {title: '操作列', field: 'a', width: '23%', align: 'center', formatter: operate}
             ]]
         });
     });
@@ -70,7 +76,7 @@
 
     //添加 修改
     function sysRoleList_add(id) {
-        window.location = document.getElementsByTagName("base")[0].getAttribute("href")+ 'sys/sysRole/addList?id=' + id;
+        window.location = document.getElementsByTagName("base")[0].getAttribute("href") + 'sys/sysRole/addList?id=' + id;
     }
 
     //删除

@@ -19,15 +19,18 @@
                 </div>
                 <div data-options="region:'center'" class="center" title="条件查询">
                     <div>
-                        <span> 账号： </span> <input class="easyui-textbox" name="userName" data-options="width:100" title="">
+                        <span> 账号： </span> <input class="easyui-textbox" name="fuzzyName" data-options="width:100"
+                                                  title="">
                     </div>
                     <div>
                         <span> 角色： </span> <input class="combobox-role" name="roleId" data-options="width:100" title="">
                     </div>
                 </div>
                 <div data-options="region:'south'" class="south">
-                    <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="sysAccountList_search"
+                    <a class="easyui-linkbutton search_btn" data-options="iconCls:'icon-search'" id="sysAccountList_search"
                        onClick="$('#sysAccountList_list').datagrid('load',$.serializeObject($('#sysAccountList_searchForm')));">搜索</a>
+                    <a class="easyui-linkbutton" data-options="iconCls:'icon-clear'" id="sysAccountList_clear"
+                       onClick="$('#sysAccountList_searchForm').form('clear');$('#sysAccountList_list').datagrid('load',$.serializeObject($('#sysAccountList_searchForm')));">清空</a>
                 </div>
             </div>
         </div>

@@ -45,7 +45,7 @@
         </tr>
         <tr>
             <td>备注：</td>
-            <td><input name=" note" id="sysAccountAddList_note"
+            <td><input name="note" id="sysAccountAddList_note"
                 class="easyui-textbox easyui-validatebox"
                 data-options="validType:['length[0,20]'],delay:'0'"
                 value="${sysAccount.note}  " title=""/>

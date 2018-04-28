@@ -173,7 +173,7 @@
     </update>
     <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.sys.SysAccount" resultMap="BaseResultMap">
         select t.id,t.user_name,a.role_id,
-        b.group_name,t.note,t.create_people from sys_account t
+        b.group_name,t.note,t.create_people,t.note from sys_account t
         left join sys_account_role a on a.account_id = t.id
         left join sys_group b on b.id = t.group_id
         <where>

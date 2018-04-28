@@ -21,5 +21,6 @@
     height: 35px;
 }
 
-.searchForm-east .easyui-layout input {
+.searchForm-east .easyui-layout .south .search_btn {
+    margin-right: 20px;
 }
