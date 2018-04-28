@@ -17,61 +17,50 @@ import java.util.*;
  */
 @Service
 public class SysPermissionService extends BaseService<SysPermissionMapper, SysPermission> {
-    private Set<SysPermission> treeSet;
+    private Set<String> treeSet;
 
     /**
      * @return : java.util.List<com.cjdjyf.newssm.pojo.sys.TreeNode.MenuNode>
      * @author : cjd
-     * @description : 根据ID获取子菜单
+     * @description : 获取菜单
      * @params : [id]
      * @date : 22:21 2018/3/11
      */
-    public List<MenuNode> getMenu(SysPermission sysPermission1, Boolean is_mean) {
+    public List<MenuNode> getMenu(SysPermission sysPermission1) {
         //权限ID
         String permissionId = (String) SecurityUtils.getSubject().getSession().getAttribute("permissionId");
         Set<String> set = new HashSet<String>(Arrays.asList(permissionId.split(",")));
-        treeSet = new HashSet<>();
 
+        treeSet = new HashSet<>();
         ArrayList<MenuNode> menuNodes = new ArrayList<>();
-        if (is_mean) {
-            //如果是首页菜单 条件加上flag = 1
-            sysPermission1.setMenuFlag("1");
-        } else {
-            //找根目录菜单
-            sysPermission1.setParentId(SysConstant.SOURCE_MENU_PARENT);
-        }
         for (SysPermission sysPermission : this.findAll(sysPermission1)) {
-            //非首页进入     或     首页进入要有菜单权限
-            if (treeSet.add(sysPermission) && !is_mean || set.contains(sysPermission.getId())) {
-                menuNodes.add(getChildren(sysPermission.getMenuNode(), is_mean, sysPermission1.getLoginGroupId()));
+            //有菜单权限
+            if (treeSet.add(sysPermission.getId()) && set.contains(sysPermission.getId())) {
+                menuNodes.add(getMenuChildren(sysPermission.getMenuNode(), sysPermission1.getLoginGroupId()));
             }
         }
         //树查询要返回List
         return menuNodes;
     }
-
     /**
      * @return : com.cjdjyf.newssm.pojo.sys.SysMenu
      * @author : cjd
-     * @description : 递归实现菜单
+     * @description : 获取菜单子节点
      * @params : [sysMenu]
      * @date : 19:49 2018/3/11
      */
-    private MenuNode getChildren(MenuNode menuNode, Boolean is_mean, String loginGroupId) {
+    private MenuNode getMenuChildren(MenuNode menuNode, String loginGroupId) {
         String permissionId = (String) SecurityUtils.getSubject().getSession().getAttribute("permissionId");
         Set<String> set = new HashSet<String>(Arrays.asList(permissionId.split(",")));
         SysPermission sysPermission1 = new SysPermission(menuNode.getId());
-
-        //如果是首页菜单 条件加上flag = 1
-        if (is_mean) {
-            sysPermission1.setMenuFlag("1");
-        }
+        sysPermission1.setMenuFlag("1");
+        //找到团队下创建的菜单
         sysPermission1.setLoginGroupId(loginGroupId);
         for (SysPermission sysPermission : this.findAll(sysPermission1)) {
-            //非首页进入     或     首页进入要有菜单权限
-            if (treeSet.add(sysPermission) && !is_mean || set.contains(sysPermission.getId())) {
+            //有菜单权限
+            if (set.contains(sysPermission.getId())) {
                 //递归调用
-                menuNode.addChildren(getChildren(sysPermission.getMenuNode(), is_mean,loginGroupId));
+                menuNode.addChildren(getMenuChildren(sysPermission.getMenuNode(), loginGroupId));
             }
         }
         //easyui-tree有BUG 没有children时会显示所有节点 所以这里关闭节点
@@ -81,4 +70,46 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
         return menuNode;
     }
 
+
+
+    /**
+     * @return : java.util.List<com.cjdjyf.newssm.pojo.sys.TreeNode.MenuNode>
+     * @author : cjd
+     * @description : 获取权限列表
+     * @params : [sysPermission1]
+     * @date : 12:07 2018/4/28
+     */
+    public List<MenuNode> getPermissionList(String  loginGroupId) {
+        treeSet = new HashSet<>();
+        ArrayList<MenuNode> menuNodes = new ArrayList<>();
+        //查根目录下的权限
+        if (treeSet.add(SysConstant.SOURCE_MENU_ID)) {
+            menuNodes.add(getPermissionChildren(this.findById(SysConstant.SOURCE_MENU_ID).getMenuNode(),loginGroupId));
+        }
+        //树查询要返回List
+        return menuNodes;
+    }
+
+    /**
+     * @return : com.cjdjyf.newssm.pojo.sys.TreeNode.MenuNode
+     * @author : cjd
+     * @description : 获取权限列表子节点
+     * @params : [menuNode, loginGroupId]
+     * @date : 12:26 2018/4/28
+     */
+    private MenuNode getPermissionChildren(MenuNode menuNode, String loginGroupId) {
+        SysPermission sysPermission1 = new SysPermission(menuNode.getId());
+        sysPermission1.setLoginGroupId(loginGroupId);
+        for (SysPermission sysPermission : this.findAll(sysPermission1)) {
+            if (treeSet.add(sysPermission.getId())) {
+                //递归调用
+                menuNode.addChildren(getPermissionChildren(sysPermission.getMenuNode(), loginGroupId));
+            }
+        }
+        //easyui-tree有BUG 没有children时会显示所有节点 所以这里关闭节点
+        if (menuNode.getChildrenSize() == 0) {
+            menuNode.setState("1");
+        }
+        return menuNode;
+    }
 }

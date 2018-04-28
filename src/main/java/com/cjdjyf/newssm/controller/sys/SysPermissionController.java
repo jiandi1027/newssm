@@ -5,7 +5,6 @@ import com.cjdjyf.newssm.pojo.sys.SysAccount;
 import com.cjdjyf.newssm.pojo.sys.SysPermission;
 import com.cjdjyf.newssm.pojo.sys.TreeNode.MenuNode;
 import com.cjdjyf.newssm.service.sys.SysPermissionService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +28,10 @@ public class SysPermissionController {
     private SysPermissionService SysPermissionService;
 
     /**
+     * @return :java.lang.String
      * @Author : cjd
      * @Description : 权限列表页面
      * @params :[]
-     * @return :java.lang.String
      * @Date : 11:14 2018/4/20
      */
     @GetMapping("list")
@@ -41,10 +40,10 @@ public class SysPermissionController {
     }
 
     /**
+     * @return :java.lang.String
      * @Author : cjd
      * @Description : 权限新增页面
      * @params :[id, request]
-     * @return :java.lang.String
      * @Date : 11:13 2018/4/20
      */
     @GetMapping("/addList")
@@ -54,10 +53,10 @@ public class SysPermissionController {
     }
 
     /**
+     * @return :com.cjdjyf.newssm.base.ResultBean<java.lang.String>
      * @Author : cjd
      * @Description : 权限编辑
      * @params :[sysPermission]
-     * @return :com.cjdjyf.newssm.base.ResultBean<java.lang.String>
      * @Date : 11:13 2018/4/20
      */
     @PostMapping("save")
@@ -67,31 +66,27 @@ public class SysPermissionController {
     }
 
     /**
+     * @return :HashMap<String,Object>
      * @Author : cjd
      * @Description : 权限列表数据
      * @params :[sysPermission]
-     * @return :HashMap<String,Object>
      * @Date : 11:13 2018/4/20
      */
     @PostMapping("/list")
     @ResponseBody
-    public HashMap<String,Object> forList(SysPermission sysPermission,HttpServletRequest request) {
-        //如果部门为空 就查自己部门下添加的数据
-        if (StringUtils.isEmpty(sysPermission.getLoginGroupId())) {
-            SysAccount user = (SysAccount)request.getSession().getAttribute("user");
-            sysPermission.setLoginGroupId(user.getGroupId());
-        }
+    public HashMap<String, Object> forList( HttpServletRequest request) {
+        SysAccount user = (SysAccount) request.getSession().getAttribute("user");
         HashMap<String, Object> map = new HashMap<>();
         //treegrid只接收rows数据
-        map.put("rows",SysPermissionService.getMenu(sysPermission,false));
+        map.put("rows", SysPermissionService.getPermissionList(user.getGroupId()));
         return map;
     }
 
     /**
+     * @return :com.cjdjyf.newssm.base.ResultBean<java.lang.Integer>
      * @Author : cjd
      * @Description : 权限删除
      * @params :[sysPermission]
-     * @return :com.cjdjyf.newssm.base.ResultBean<java.lang.Integer>
      * @Date : 11:12 2018/4/20
      */
     @PostMapping("del")
@@ -110,7 +105,6 @@ public class SysPermissionController {
     @PostMapping("/getMenu")
     @ResponseBody
     public ResultBean<List<MenuNode>> getMenu(SysPermission sysPermission) {
-        return new ResultBean<>(SysPermissionService.getMenu(sysPermission,true));
+        return new ResultBean<>(SysPermissionService.getMenu(sysPermission));
     }
-
 }

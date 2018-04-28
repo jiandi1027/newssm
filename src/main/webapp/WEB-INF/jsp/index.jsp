@@ -56,7 +56,7 @@
         for (var i = 0; i < $elements.length; i++) {
             var id = $elements.get(i).id;
             $('#' + id).tree({
-                url: 'sys/sysPermission/getMenu?parentId=' + id.split('_')[1],
+                url: 'sys/sysPermission/getMenu?parentId=' + id.split('_')[1] + '&menuFlag=1',
                 loadFilter: function (data) {
                     data = data.data;
                     return data;
