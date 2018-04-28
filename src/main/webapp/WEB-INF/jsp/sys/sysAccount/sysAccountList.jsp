@@ -23,7 +23,7 @@
                     </div>
                     <div>
                         <span> 角色： </span> <input class="combobox-role" name="roleId" data-options="width:100" title="">
-                    </div>dddddddddddddd
+                    </div>
                 </div>
                 <div data-options="region:'south'" class="south">
                     <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" id="sysAccountList_search"
