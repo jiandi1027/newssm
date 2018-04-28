@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjdjyf.newssm.mapper.sys.SysGroupMapper">
+    <resultMap id="BaseResultMap" type="com.cjdjyf.newssm.pojo.sys.SysGroup">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="group_name" jdbcType="VARCHAR" property="groupName"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="group_icon" jdbcType="VARCHAR" property="groupIcon"/>
+        <result column="group_state" jdbcType="VARCHAR" property="groupState"/>
+        <result column="order_num" jdbcType="VARCHAR" property="orderNum"/>
+        <result column="create_people" jdbcType="VARCHAR" property="createPeople"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_people" jdbcType="VARCHAR" property="updatePeople"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    t.id, t.group_name, t.parent_id, t.create_people, t.create_time, t.update_people, t.update_time,
+    t.del_flag, t.group_icon, t.group_state, t.order_num
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_group t
+        where t.id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_group
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.cjdjyf.newssm.pojo.sys.SysGroup">
+    insert into sys_group (id, group_name, parent_id, 
+      create_people, create_time, update_people, 
+      update_time, del_flag, group_icon, group_state, order_num)
+    values (#{id,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+      #{createPeople,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updatePeople,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR},#{groupIcon,jdbcType=VARCHAR},#{groupState,jdbcType=VARCHAR},#{orderNum,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.cjdjyf.newssm.pojo.sys.SysGroup">
+        insert into sys_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="groupName != null">
+                group_name,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="createPeople != null">
+                create_people,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updatePeople != null">
+                update_people,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="groupIcon != null">
+                group_icon,
+            </if>
+            <if test="groupState != null">
+                group_state,
+            </if>
+            <if test="orderNum != null">
+                order_num,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="groupName != null">
+                #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="createPeople != null">
+                #{createPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePeople != null">
+                #{updatePeople,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="groupIcon != null">
+                #{groupIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="groupState != null">
+                #{groupState,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNum != null">
+                #{orderNum,jdbcType=VARCHAR},
+            </if>
+
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cjdjyf.newssm.pojo.sys.SysGroup">
+        update sys_group
+        <set>
+            <if test="groupName != null">
+                group_name = #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="createPeople != null">
+                create_people = #{createPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePeople != null">
+                update_people = #{updatePeople,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="groupIcon != null">
+                group_icon = #{groupIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="groupState != null">
+                group_state = #{groupState,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNum != null">
+                order_num = #{orderNum,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cjdjyf.newssm.pojo.sys.SysGroup">
+    update sys_group
+    set group_name = #{groupName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      group_icon = #{groupIcon,jdbcType=VARCHAR},
+      group_state = #{groupState,jdbcType=VARCHAR},
+      order_num = #{orderNum,jdbcType=VARCHAR},
+      create_people = #{createPeople,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_people = #{updatePeople,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+    <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.sys.SysGroup" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_group t
+        <where>
+            <include refid="findAllWhere"/>
+        </where>
+        <if test="orderStr!=null">
+            <![CDATA[
+           order by  ${orderStr}
+      ]]>
+        </if>
+    </select>
+    <sql id="findAllWhere">
+        <if test="groupName != null and groupName!=''">
+            AND group_name = #{groupName,jdbcType=VARCHAR}
+        </if>
+        <if test="parentId != null and parentId!=''">
+            AND parent_id = #{parentId,jdbcType=VARCHAR}
+        </if>
+        <if test="createPeople != null and createPeople!=''">
+            AND create_people = #{createPeople,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null">
+            AND create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updatePeople != null and updatePeople!=''">
+            AND update_people = #{updatePeople,jdbcType=VARCHAR}
+        </if>
+        <if test="updateTime != null">
+            AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="delFlag != null and delFlag!=''">
+            AND del_flag = #{delFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="groupIcon != null and groupIcon!=''">
+            AND group_icon = #{groupIcon,jdbcType=VARCHAR}
+        </if>
+        <if test="groupState != null and groupState!=''">
+            AND group_state = #{groupState,jdbcType=VARCHAR}
+        </if>
+        <if test="orderNum != null and orderNum!=''">
+            AND order_num = #{orderNum,jdbcType=VARCHAR}
+        </if>
+    </sql>
+</mapper>

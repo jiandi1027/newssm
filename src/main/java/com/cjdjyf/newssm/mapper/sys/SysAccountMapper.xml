@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjdjyf.newssm.mapper.sys.SysAccountMapper">
+    <resultMap id="BaseResultMap" type="com.cjdjyf.newssm.pojo.sys.SysAccount">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="group_id" jdbcType="VARCHAR" property="groupId"/>
+        <result column="note" jdbcType="VARCHAR" property="note"/>
+        <result column="create_people" jdbcType="VARCHAR" property="createPeople"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_people" jdbcType="VARCHAR" property="updatePeople"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+        <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
+        <result column="group_name" jdbcType="VARCHAR" property="groupName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        t.id, t.user_name, t.password, t.group_id, t.note, t.create_people, t.create_time, t.update_people,
+        t.update_time, t.del_flag
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+            t.id,
+            t.user_name,
+            a.role_id,
+            t.group_id,
+            b.group_name,
+            t.note,
+            t.create_people
+        FROM sys_account t
+            LEFT JOIN sys_account_role a ON a.account_id = t.id
+            LEFT JOIN sys_group b ON b.id = t.group_id
+        WHERE t.id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+            t.id,
+            t.user_name,
+            t.password,
+            t.group_id
+        FROM sys_account t
+        WHERE t.user_name = #{0} AND t.del_flag = 0
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        DELETE FROM sys_account
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.cjdjyf.newssm.pojo.sys.SysAccount">
+        INSERT INTO sys_account (id, user_name, password,
+                                 group_id, note, create_people,
+                                 create_time, update_people, update_time,
+                                 del_flag)
+        VALUES (#{id,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{groupId,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{createPeople,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP}, #{updatePeople,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+                #{delFlag,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.cjdjyf.newssm.pojo.sys.SysAccount">
+        insert into sys_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="groupId != null">
+                group_id,
+            </if>
+            <if test="note != null">
+                note,
+            </if>
+            <if test="createPeople != null">
+                create_people,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updatePeople != null">
+                update_people,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="groupId != null">
+                #{groupId,jdbcType=VARCHAR},
+            </if>
+            <if test="note != null">
+                #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="createPeople != null">
+                #{createPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePeople != null">
+                #{updatePeople,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cjdjyf.newssm.pojo.sys.SysAccount">
+        update sys_account
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="groupId != null">
+                group_id = #{groupId,jdbcType=VARCHAR},
+            </if>
+            <if test="note != null">
+                note = #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="createPeople != null">
+                create_people = #{createPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePeople != null">
+                update_people = #{updatePeople,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cjdjyf.newssm.pojo.sys.SysAccount">
+        UPDATE sys_account
+        SET user_name     = #{userName,jdbcType=VARCHAR},
+            password      = #{password,jdbcType=VARCHAR},
+            group_id      = #{groupId,jdbcType=VARCHAR},
+            note          = #{note,jdbcType=VARCHAR},
+            create_people = #{createPeople,jdbcType=VARCHAR},
+            create_time   = #{createTime,jdbcType=TIMESTAMP},
+            update_people = #{updatePeople,jdbcType=VARCHAR},
+            update_time   = #{updateTime,jdbcType=TIMESTAMP},
+            del_flag      = #{delFlag,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+    <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.sys.SysAccount" resultMap="BaseResultMap">
+        select t.id,t.user_name,a.role_id,
+        b.group_name,t.note,t.create_people from sys_account t
+        left join sys_account_role a on a.account_id = t.id
+        left join sys_group b on b.id = t.group_id
+        <where>
+            <include refid="findAllWhere"/>
+        </where>
+        <if test="orderStr!=null">
+            <![CDATA[
+               order by  b.create_time, b.group_name,${orderStr}
+            ]]>
+        </if>
+    </select>
+    <sql id="findAllWhere">
+        <if test="fuzzyName != null and fuzzyName!=''">
+            AND INSTR(t.user_name,#{fuzzyName,jdbcType=VARCHAR}) > 0
+        </if>
+        <if test="userName != null and userName!=''">
+            AND t.user_name = #{userName,jdbcType=VARCHAR}
+        </if>
+
+        <if test="password != null and password!=''">
+            AND t.password = #{password,jdbcType=VARCHAR}
+        </if>
+        <if test="groupId != null and groupId!=''">
+            AND FIND_IN_SET(b.id,getChild_oneself(#{groupId,jdbcType=VARCHAR}))>0
+        </if>
+        <if test="note != null and note!=''">
+            AND t.note = #{note,jdbcType=VARCHAR}
+        </if>
+        <if test="createPeople != null and createPeople!=''">
+            AND t.create_people = #{createPeople,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null">
+            AND t.create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updatePeople != null and updatePeople!=''">
+            AND t.update_people = #{updatePeople,jdbcType=VARCHAR}
+        </if>
+        <if test="updateTime != null">
+            AND t.update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="delFlag != null and delFlag!=''">
+            AND t.del_flag = #{delFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="roleId != null and roleId!=''">
+            AND INSTR(a.role_id,#{roleId,jdbcType=VARCHAR}) >0
+        </if>
+    </sql>
+</mapper>

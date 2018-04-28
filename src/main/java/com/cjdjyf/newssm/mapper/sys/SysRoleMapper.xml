@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjdjyf.newssm.mapper.sys.SysRoleMapper">
+    <resultMap id="BaseResultMap" type="com.cjdjyf.newssm.pojo.sys.SysRole">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="create_people" jdbcType="VARCHAR" property="createPeople"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_people" jdbcType="VARCHAR" property="updatePeople"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+        <result column="permission_id" jdbcType="VARCHAR" property="permissionId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    t.id, t.role_name, t.create_people, t.create_time, t.update_people, t.update_time, t.del_flag
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>,a.permission_id
+        from sys_role t
+        right join sys_role_permission a on a.role_id = t.id
+        where t.id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_role
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.cjdjyf.newssm.pojo.sys.SysRole">
+    insert into sys_role (id, role_name, create_people, 
+      create_time, update_people, update_time, 
+      del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{createPeople,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updatePeople,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.cjdjyf.newssm.pojo.sys.SysRole">
+        insert into sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="roleName != null">
+                role_name,
+            </if>
+            <if test="createPeople != null">
+                create_people,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updatePeople != null">
+                update_people,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="roleName != null">
+                #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="createPeople != null">
+                #{createPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePeople != null">
+                #{updatePeople,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cjdjyf.newssm.pojo.sys.SysRole">
+        update sys_role t
+        <set>
+            <if test="roleName != null">
+                t.role_name = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="createPeople != null">
+                t.create_people = #{createPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                t.create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePeople != null">
+                t.update_people = #{updatePeople,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                t.update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                t.del_flag = #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where t.id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cjdjyf.newssm.pojo.sys.SysRole">
+    update sys_role t
+    set t.role_name = #{roleName,jdbcType=VARCHAR},
+      t.create_people = #{createPeople,jdbcType=VARCHAR},
+      t.create_time = #{createTime,jdbcType=TIMESTAMP},
+      t.update_people = #{updatePeople,jdbcType=VARCHAR},
+      t.update_time = #{updateTime,jdbcType=TIMESTAMP},
+      t.del_flag = #{delFlag,jdbcType=VARCHAR}
+    where t.id = #{id,jdbcType=VARCHAR}
+  </update>
+    <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.sys.SysRole" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>,a.permission_id
+        from sys_role t
+        left join sys_role_permission a on a.role_id = t.id
+        left join sys_account b on b.user_name = t.create_people
+        <where>
+            <include refid="findAllWhere"/>
+        </where>
+        <if test="orderStr!=null">
+            <![CDATA[
+           order by  ${orderStr}
+       ]]>
+        </if>
+    </select>
+    <sql id="findAllWhere">
+        <if test="LoginGroupId != null and LoginGroupId!=''">
+            AND FIND_IN_SET(b.group_id,getChild_oneself( #{LoginGroupId,jdbcType=VARCHAR}))>0
+        </if>
+        <if test="roleName != null and roleName!=''">
+            AND t.role_name = #{roleName,jdbcType=VARCHAR}
+        </if>
+        <if test="createPeople != null and createPeople!=''">
+            AND t.create_people = #{createPeople,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null">
+            AND t.create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updatePeople != null and updatePeople!=''">
+            AND t.update_people = #{updatePeople,jdbcType=VARCHAR}
+        </if>
+        <if test="updateTime != null">
+            AND t.update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="delFlag != null and delFlag!=''">
+            AND t.del_flag = #{delFlag,jdbcType=VARCHAR}
+        </if>
+    </sql>
+</mapper>

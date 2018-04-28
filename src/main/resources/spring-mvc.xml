@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/context      
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd      
+                        http://www.springframework.org/schema/mvc      
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                        http://www.springframework.org/schema/aop 
+						http://www.springframework.org/schema/aop/spring-aop.xsd 
+                        ">
+    <!-- 自动扫描该包 -->
+    <context:component-scan base-package="com.cjdjyf.newssm.controller"/>
+
+    <!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 返回的前缀和后缀 -->
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--日志拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <!-- <mvc:exclude-mapping path="/sys/home"/>-->
+            <bean class="com.cjdjyf.newssm.interceptor.SysLogInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!--aop拦截-->
+    <aop:aspectj-autoproxy/>
+    <bean id="controllerAop" class="com.cjdjyf.newssm.aop.ControllerAOP"/>
+    <aop:config>
+        <aop:aspect id="myAop" ref="controllerAop">
+            <aop:pointcut id="target"
+                          expression="execution(public com.cjdjyf.newssm.base.ResultBean *(..))"/>
+            <aop:around method="handlerControllerMethod" pointcut-ref="target"/>
+        </aop:aspect>
+    </aop:config>
+
+    <!--开启自动注入-->
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+    <!-- aop类代理 -->
+    <aop:config proxy-target-class="true"/>
+    <!--使用默认的Servlet来响应静态文件-->
+    <mvc:default-servlet-handler/>
+    <mvc:annotation-driven/>
+
+</beans>    

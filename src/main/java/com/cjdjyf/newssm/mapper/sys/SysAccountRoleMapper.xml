@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjdjyf.newssm.mapper.sys.SysAccountRoleMapper">
+    <resultMap id="BaseResultMap" type="com.cjdjyf.newssm.pojo.sys.SysAccountRole">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="account_id" jdbcType="VARCHAR" property="accountId"/>
+        <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
+        <result column="create_people" jdbcType="VARCHAR" property="createPeople"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_people" jdbcType="VARCHAR" property="updatePeople"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, account_id, role_id, create_people, create_time, update_people, update_time, 
+    del_flag
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_account_role
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_account_role
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.cjdjyf.newssm.pojo.sys.SysAccountRole">
+    insert into sys_account_role (id, account_id, role_id, 
+      create_people, create_time, update_people, 
+      update_time, del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{accountId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, 
+      #{createPeople,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updatePeople,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.cjdjyf.newssm.pojo.sys.SysAccountRole">
+        insert into sys_account_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="roleId != null">
+                role_id,
+            </if>
+            <if test="createPeople != null">
+                create_people,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updatePeople != null">
+                update_people,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="accountId != null">
+                #{accountId,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null">
+                #{roleId,jdbcType=VARCHAR},
+            </if>
+            <if test="createPeople != null">
+                #{createPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePeople != null">
+                #{updatePeople,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cjdjyf.newssm.pojo.sys.SysAccountRole">
+        update sys_account_role
+        <set>
+            <if test="accountId != null">
+                account_id = #{accountId,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null">
+                role_id = #{roleId,jdbcType=VARCHAR},
+            </if>
+            <if test="createPeople != null">
+                create_people = #{createPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePeople != null">
+                update_people = #{updatePeople,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cjdjyf.newssm.pojo.sys.SysAccountRole">
+    update sys_account_role
+    set account_id = #{accountId,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      create_people = #{createPeople,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_people = #{updatePeople,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <update id="updateRoleByAccountId" parameterType="com.cjdjyf.newssm.pojo.sys.SysAccountRole">
+    update sys_account_role
+    set role_id = #{roleId,jdbcType=VARCHAR}
+    where account_id = #{accountId,jdbcType=VARCHAR}
+  </update>
+
+    <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.sys.SysAccountRole" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_account_role t
+        <where>
+            <include refid="findAllWhere"/>
+        </where>
+        <if test="orderStr!=null">
+            <![CDATA[
+           order by  ${orderStr}
+      ]]>
+        </if>
+    </select>
+    <sql id="findAllWhere">
+        <if test="accountId != null and accountId!=''">
+            AND account_id = #{accountId,jdbcType=VARCHAR}
+        </if>
+        <if test="roleId != null and roleId!=''">
+            AND role_id = #{roleId,jdbcType=VARCHAR}
+        </if>
+        <if test="createPeople != null and createPeople!=''">
+            AND create_people = #{createPeople,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null">
+            AND create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updatePeople != null and updatePeople!=''">
+            AND update_people = #{updatePeople,jdbcType=VARCHAR}
+        </if>
+        <if test="updateTime != null">
+            AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="delFlag != null and delFlag!=''">
+            AND del_flag = #{delFlag,jdbcType=VARCHAR}
+        </if>
+    </sql>
+</mapper>

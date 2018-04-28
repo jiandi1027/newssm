@@ -1,0 +1,116 @@
+package com.cjdjyf.newssm.controller.sys;
+
+import com.cjdjyf.newssm.base.ResultBean;
+import com.cjdjyf.newssm.pojo.sys.SysAccount;
+import com.cjdjyf.newssm.pojo.sys.SysPermission;
+import com.cjdjyf.newssm.pojo.sys.TreeNode.MenuNode;
+import com.cjdjyf.newssm.service.sys.SysPermissionService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * @author : cjd
+ * @description : 权限管理控制器
+ * @date : 2018/4/24 11:18
+ */
+@Controller
+@RequestMapping("/sys/sysPermission")
+public class SysPermissionController {
+    @Autowired
+    private SysPermissionService SysPermissionService;
+
+    /**
+     * @Author : cjd
+     * @Description : 权限列表页面
+     * @params :[]
+     * @return :java.lang.String
+     * @Date : 11:14 2018/4/20
+     */
+    @GetMapping("list")
+    public String list() {
+        return "sys/sysPermission/sysPermissionList";
+    }
+
+    /**
+     * @Author : cjd
+     * @Description : 权限新增页面
+     * @params :[id, request]
+     * @return :java.lang.String
+     * @Date : 11:13 2018/4/20
+     */
+    @GetMapping("/addList")
+    public String sysPermissionAddList(String id, HttpServletRequest request) {
+        request.setAttribute("sysPermission", SysPermissionService.findById(id));
+        return "sys/sysPermission/sysPermissionAddList";
+    }
+
+    /**
+     * @Author : cjd
+     * @Description : 权限编辑
+     * @params :[sysPermission]
+     * @return :com.cjdjyf.newssm.base.ResultBean<java.lang.String>
+     * @Date : 11:13 2018/4/20
+     */
+    @PostMapping("save")
+    @ResponseBody
+    public ResultBean<String> save(SysPermission sysPermission) {
+        return new ResultBean<>(SysPermissionService.save(sysPermission));
+    }
+
+    /**
+     * @Author : cjd
+     * @Description : 权限列表数据
+     * @params :[sysPermission]
+     * @return :HashMap<String,Object>
+     * @Date : 11:13 2018/4/20
+     */
+    @PostMapping("/list")
+    @ResponseBody
+    public HashMap<String,Object> forList(SysPermission sysPermission,HttpServletRequest request) {
+        //如果部门为空 就查自己部门下添加的数据
+        if (StringUtils.isEmpty(sysPermission.getLoginGroupId())) {
+            SysAccount user = (SysAccount)request.getSession().getAttribute("user");
+            sysPermission.setLoginGroupId(user.getGroupId());
+        }
+        HashMap<String, Object> map = new HashMap<>();
+        //treegrid只接收rows数据
+        map.put("rows",SysPermissionService.getMenu(sysPermission,false));
+        return map;
+    }
+
+    /**
+     * @Author : cjd
+     * @Description : 权限删除
+     * @params :[sysPermission]
+     * @return :com.cjdjyf.newssm.base.ResultBean<java.lang.Integer>
+     * @Date : 11:12 2018/4/20
+     */
+    @PostMapping("del")
+    @ResponseBody
+    public ResultBean<String> del(SysPermission sysPermission) {
+        return new ResultBean<>(SysPermissionService.del(sysPermission));
+    }
+
+    /**
+     * @return :com.cjdjyf.newssm.base.ResultBean<java.util.List<com.cjdjyf.newssm.pojo.sys.TreeNode.MenuNode>>
+     * @Author : cjd
+     * @Description : 获取主页面菜单
+     * @params :[id]
+     * @Date : 10:57 2018/4/19
+     */
+    @PostMapping("/getMenu")
+    @ResponseBody
+    public ResultBean<List<MenuNode>> getMenu(SysPermission sysPermission) {
+        return new ResultBean<>(SysPermissionService.getMenu(sysPermission,true));
+    }
+
+}

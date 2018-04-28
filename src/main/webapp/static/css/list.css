@@ -1,0 +1,25 @@
+/*list页面 css*/
+.searchForm-east {
+    width: 220px;
+}
+
+.searchForm-east .easyui-layout {
+    width: 100%;
+    height: 100%;
+}
+
+.searchForm-east .easyui-layout .center {
+    padding: 20px 10px;
+}
+
+.searchForm-east .easyui-layout .center div {
+    margin: 0 0 10px 0;
+}
+
+.searchForm-east .easyui-layout .south {
+    padding: 10px 30px;
+    height: 35px;
+}
+
+.searchForm-east .easyui-layout input {
+}

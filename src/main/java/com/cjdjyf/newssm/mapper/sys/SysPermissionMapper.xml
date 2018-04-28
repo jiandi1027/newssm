@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjdjyf.newssm.mapper.sys.SysPermissionMapper">
+    <resultMap id="BaseResultMap" type="com.cjdjyf.newssm.pojo.sys.SysPermission">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="permission_name" jdbcType="VARCHAR" property="permissionName"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="menu_flag" jdbcType="VARCHAR" property="menuFlag"/>
+        <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon"/>
+        <result column="menu_state" jdbcType="VARCHAR" property="menuState"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="order_num" jdbcType="VARCHAR" property="orderNum"/>
+
+        <result column="create_people" jdbcType="VARCHAR" property="createPeople"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_people" jdbcType="VARCHAR" property="updatePeople"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    t.id, t.permission_name, t.url, t.menu_flag, t.menu_icon, t.menu_state,t. parent_id, t.create_people,
+    t.create_time, t.update_people, t.update_time, t.del_flag, t.order_num
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_permission t
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_permission
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.cjdjyf.newssm.pojo.sys.SysPermission">
+    insert into sys_permission (id, permission_name, url, 
+      menu_flag, menu_icon, menu_state, 
+      parent_id, create_people, create_time, 
+      update_people, update_time, del_flag, order_num
+      )
+    values (#{id,jdbcType=VARCHAR}, #{permissionName,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{menuFlag,jdbcType=VARCHAR}, #{menuIcon,jdbcType=VARCHAR}, #{menuState,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=VARCHAR}, #{createPeople,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updatePeople,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR},
+      #{orderNum,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.cjdjyf.newssm.pojo.sys.SysPermission">
+        insert into sys_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="permissionName != null">
+                permission_name,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="menuFlag != null">
+                menu_flag,
+            </if>
+            <if test="menuIcon != null">
+                menu_icon,
+            </if>
+            <if test="menuState != null">
+                menu_state,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="createPeople != null">
+                create_people,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updatePeople != null">
+                update_people,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="orderNum != null">
+                order_num,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionName != null">
+                #{permissionName,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="menuFlag != null">
+                #{menuFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="menuIcon != null">
+                #{menuIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="menuState != null">
+                #{menuState,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="createPeople != null">
+                #{createPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePeople != null">
+                #{updatePeople,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNum != null">
+                #{orderNum,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cjdjyf.newssm.pojo.sys.SysPermission">
+        update sys_permission
+        <set>
+            <if test="permissionName != null">
+                permission_name = #{permissionName,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="menuFlag != null">
+                menu_flag = #{menuFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="menuIcon != null">
+                menu_icon = #{menuIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="menuState != null">
+                menu_state = #{menuState,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="createPeople != null">
+                create_people = #{createPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePeople != null">
+                update_people = #{updatePeople,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNum != null">
+                order_num = #{orderNum,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cjdjyf.newssm.pojo.sys.SysPermission">
+    update sys_permission
+    set permission_name = #{permissionName,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      menu_flag = #{menuFlag,jdbcType=VARCHAR},
+      menu_icon = #{menuIcon,jdbcType=VARCHAR},
+      menu_state = #{menuState,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      create_people = #{createPeople,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_people = #{updatePeople,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      order_num = #{orderNum,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+    <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.sys.SysPermission" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_permission t
+        left join sys_role_permission a on a.role_id = t.id
+        left join sys_account b on b.user_name = t.create_people
+        <where>
+            <include refid="findAllWhere"/>
+        </where>
+
+        order by t.order_num
+    </select>
+    <sql id="findAllWhere">
+        <if test="LoginGroupId != null and LoginGroupId!=''">
+            AND FIND_IN_SET(b.group_id,getChild_oneself( #{LoginGroupId,jdbcType=VARCHAR}))>0
+        </if>
+        <if test="permissionName != null and permissionName!=''">
+            AND t.permission_name = #{permissionName,jdbcType=VARCHAR}
+        </if>
+        <if test="url != null and url!=''">
+            AND t.url = #{url,jdbcType=VARCHAR}
+        </if>
+        <if test="menuFlag != null and menuFlag!=''">
+            AND t.menu_flag = #{menuFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="menuIcon != null and menuIcon!=''">
+            AND t.menu_icon = #{menuIcon,jdbcType=VARCHAR}
+        </if>
+        <if test="menuState != null and menuState!=''">
+            AND t.menu_state = #{menuState,jdbcType=VARCHAR}
+        </if>
+        <if test="parentId != null and parentId!=''">
+            AND t.parent_id = #{parentId,jdbcType=VARCHAR}
+        </if>
+        <if test="createPeople != null and createPeople!=''">
+            AND t.create_people = #{createPeople,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null">
+            AND t.create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updatePeople != null and updatePeople!=''">
+            AND t.update_people = #{updatePeople,jdbcType=VARCHAR}
+        </if>
+        <if test="updateTime != null">
+            AND t.update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="delFlag != null and delFlag!=''">
+            AND t.del_flag = #{delFlag,jdbcType=VARCHAR}
+        </if>
+    </sql>
+</mapper>
