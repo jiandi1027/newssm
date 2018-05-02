@@ -42,11 +42,11 @@
     </form>
 </div>
 <div id="sysDicList_toolbar">
-    <shiro:hasPermission name="角色管理_新增">
+    <shiro:hasPermission name="数据字典_新增">
         <a onclick="sysDicList_add(null);" href="javascript:void(0);"
            class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-plus'">新增</a>
     </shiro:hasPermission>
-    <shiro:hasPermission name="角色管理_删除">
+    <shiro:hasPermission name="数据字典_删除">
         <a onclick="sysDicList_del();" href="javascript:void(0);"
            class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-times '">删除</a>
     </shiro:hasPermission>
@@ -98,7 +98,7 @@
     //操作列
     function operate(val, row, index) {
         var operation = '';
-        <shiro:hasPermission name="角色管理_修改">
+        <shiro:hasPermission name="数据字典_修改">
         operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysDicList_change" '
             + 'onClick="sysDicList_add(\'' + row.id + '\')">修改</a>';
         </shiro:hasPermission>
