@@ -7,7 +7,5 @@ package com.cjdjyf.newssm.constant;
  */
 public interface SysConstant {
     String SOURCE_MENU_ID = "1";//根目录ID
-    String SOURCE_MENU_PARENT = "0";//根目录父ID
-    String SOURCE_GROUP_PARENT = "0";//根部门父ID
-    String DEFAULT_PASSWORD = "000000";
+    String DEFAULT_PASSWORD = "000000";//新增以及重置的默认密码
 }

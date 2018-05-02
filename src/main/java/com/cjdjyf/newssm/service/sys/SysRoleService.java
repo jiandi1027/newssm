@@ -45,7 +45,7 @@ public class SysRoleService extends BaseService<SysRoleMapper, SysRole> {
     /**
      * @return : java.lang.String
      * @author : cjd
-     * @description : 新增账号
+     * @description : 重写新增 角色新增的同时要新增角色权限关联表
      * @params : [sysRole]
      * @date : 17:53 2018/3/11
      */
@@ -70,7 +70,7 @@ public class SysRoleService extends BaseService<SysRoleMapper, SysRole> {
     /**
      * @return : java.lang.String
      * @author : cjd
-     * @description : 更新账号
+     * @description : 重写修改 角色修改的同时要新增角色权限关联表
      * @params : [sysRole]
      * @date : 17:53 2018/3/11
      */
@@ -133,23 +133,5 @@ public class SysRoleService extends BaseService<SysRoleMapper, SysRole> {
             }
         }
         return StringUtils.join(arrayList.toArray(), ",");
-
-    /*    SysRole sysRole = this.findById(id);
-        if (sysRole == null) {
-            return null;
-        }
-        List<String> arrayList = new ArrayList<>(Arrays.asList(sysRole.getPermissionId().split(",")));
-
-        for (int i = 0; i < arrayList.size(); i++) {
-            SysPermission byId = sysPermissionService.findById(arrayList.get(i));
-            if (byId == null) {
-                arrayList.remove(i);
-            }
-        }
-        sysRole.setPermissionId(StringUtils.join(arrayList.toArray(), ","));
-        return sysRole;*/
     }
-
-
-
 }

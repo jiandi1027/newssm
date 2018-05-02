@@ -18,7 +18,7 @@ import java.util.*;
  */
 @Service
 public class SysPermissionService extends BaseService<SysPermissionMapper, SysPermission> {
-    private Set<String> treeSet;
+    private Set<String> treeSet; //防止权限多次添加
 
     /**
      * @return : java.util.List<com.cjdjyf.newssm.pojo.sys.TreeNode.MenuNode>
@@ -112,7 +112,6 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
         }
         return menuNode;
     }
-
 
     /**
      * @return : java.lang.String

@@ -57,7 +57,7 @@ public class SysAccountService extends BaseService<SysAccountMapper, SysAccount>
     /**
      * @return : java.lang.String
      * @author : cjd
-     * @description : 重写更新 更新账号的同时更新关联表
+     * @description : 重写修改 修改账号的同时修改关联表
      * @params : [sysAccount]
      * @date : 17:53 2018/3/11
      */
@@ -81,7 +81,7 @@ public class SysAccountService extends BaseService<SysAccountMapper, SysAccount>
     /**
      * @return : java.lang.String
      * @author : cjd
-     * @description : 重写新增 新增账号同事新增账号角色关联表
+     * @description : 重写新增 新增账号同时新增账号角色关联表
      * @params : [sysAccount]
      * @date : 17:53 2018/3/11
      */
