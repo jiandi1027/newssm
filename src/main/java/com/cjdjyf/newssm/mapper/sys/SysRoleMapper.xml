@@ -18,8 +18,8 @@
         select
         <include refid="Base_Column_List"/>,a.permission_id
         from sys_role t
-        right join sys_role_permission a on a.role_id = t.id
-        where t.id = #{id,jdbcType=VARCHAR}
+        left join sys_role_permission a on a.role_id = t.id
+        where t.id = #{id,jdbcType=VARCHAR} and t.del_flag = '0'
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from sys_role

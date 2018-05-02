@@ -3,6 +3,7 @@ package com.cjdjyf.newssm.service.sys;
 import com.cjdjyf.newssm.base.BaseService;
 import com.cjdjyf.newssm.base.PageBean;
 import com.cjdjyf.newssm.mapper.sys.SysRoleMapper;
+import com.cjdjyf.newssm.pojo.sys.SysPermission;
 import com.cjdjyf.newssm.pojo.sys.SysRole;
 import com.cjdjyf.newssm.pojo.sys.SysRolePermission;
 import com.cjdjyf.newssm.utils.MyUtils;
@@ -10,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -102,12 +105,51 @@ public class SysRoleService extends BaseService<SysRoleMapper, SysRole> {
                 StringBuilder permissionName = new StringBuilder();
                 String[] permissionId = role.getPermissionId().split(",");
                 for (String permission : permissionId) {
-                    permissionName.append(sysPermissionService.findById(permission).getPermissionName()).append(",");
+                    SysPermission byId = sysPermissionService.findById(permission);
+                    if (byId == null) {
+                        continue;
+                    }
+                    permissionName.append(byId.getPermissionName()).append(",");
                 }
                 role.setPermissionName(permissionName.substring(0, permissionName.length() - 1));
             }
         }
     }
+
+    /**
+     * @return : com.cjdjyf.newssm.pojo.sys.SysRole
+     * @author : cjd
+     * @description : 移除已删除角色
+     * @params : [id]
+     * @date : 9:08 2018/5/2
+     */
+    public String removeDel(String roles) {
+        List<String> arrayList = new ArrayList<>(Arrays.asList(roles.split(",")));
+        for (int i = 0; i<arrayList.size(); i++) {
+            SysRole byId = this.findById(arrayList.get(i));
+            if(byId ==null){
+                arrayList.remove(i);
+                i=i-1;      //移除后长度减一
+            }
+        }
+        return StringUtils.join(arrayList.toArray(), ",");
+
+    /*    SysRole sysRole = this.findById(id);
+        if (sysRole == null) {
+            return null;
+        }
+        List<String> arrayList = new ArrayList<>(Arrays.asList(sysRole.getPermissionId().split(",")));
+
+        for (int i = 0; i < arrayList.size(); i++) {
+            SysPermission byId = sysPermissionService.findById(arrayList.get(i));
+            if (byId == null) {
+                arrayList.remove(i);
+            }
+        }
+        sysRole.setPermissionId(StringUtils.join(arrayList.toArray(), ","));
+        return sysRole;*/
+    }
+
 
 
 }

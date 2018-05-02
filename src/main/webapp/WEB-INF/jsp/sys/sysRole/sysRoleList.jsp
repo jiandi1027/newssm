@@ -6,7 +6,6 @@
     <%@include file="/WEB-INF/head/headTag.jsp" %>
     <%@include file="/WEB-INF/head/headJs.jsp" %>
 </head>
-<body>
 <div class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center'">
         <table id="sysRoleList_list" class="easyui-datagrid"></table>
@@ -15,8 +14,8 @@
         <div data-options="region:'east',iconCls:'icon-reload',title:'搜索条件',split:true" class="searchForm-east">
             <div class="easyui-layout">
                 <div data-options="region:'center'" class="center">
-                    <span> 角色名称： </span> <input class="easyui-textbox" name="roleName" data-options="width:100"
-                                                title="">
+                    <span> 角色名称： </span>
+                    <input class="easyui-textbox" name="roleName" data-options="width:100" title="">
                 </div>
                 <div data-options="region:'south'" class="south">
                     <a class="easyui-linkbutton search_btn" data-options="iconCls:'icon-search'" id="sysRoleList_search"

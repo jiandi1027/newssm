@@ -4,6 +4,7 @@ import com.cjdjyf.newssm.base.PageBean;
 import com.cjdjyf.newssm.base.ResultBean;
 import com.cjdjyf.newssm.pojo.sys.SysAccount;
 import com.cjdjyf.newssm.service.sys.SysAccountService;
+import com.cjdjyf.newssm.service.sys.SysRoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 public class SysAccountController {
     @Autowired
     private SysAccountService sysAccountService;
+
+    @Autowired
+    private SysRoleService sysRoleService;
 
     /**
      * @return :java.lang.String
@@ -46,15 +50,19 @@ public class SysAccountController {
      */
     @GetMapping("/addList")
     public String sysAccountAddList(String id, HttpServletRequest request) {
-        request.setAttribute("sysAccount", sysAccountService.findById(id));
+        SysAccount sysAccount = sysAccountService.findById(id);
+        if (sysAccount != null) {
+            sysAccount.setRoleId(sysRoleService.removeDel(sysAccount.getRoleId()));
+        }
+        request.setAttribute("sysAccount", sysAccount);
         return "sys/sysAccount/sysAccountAddList";
     }
 
     /**
+     * @return : java.lang.String
      * @author : cjd
      * @description : 修改密码页面
      * @params : [request]
-     * @return : java.lang.String
      * @date : 11:30 2018/4/27
      */
     @GetMapping("/changePwdList")
@@ -70,10 +78,10 @@ public class SysAccountController {
      */
     @PostMapping("/list")
     @ResponseBody
-    public PageBean<SysAccount> forList(SysAccount sysAccount,HttpServletRequest request) {
+    public PageBean<SysAccount> forList(SysAccount sysAccount, HttpServletRequest request) {
         //如果部门为空 就查自己部门的数据
         if (StringUtils.isEmpty(sysAccount.getGroupId())) {
-            SysAccount user = (SysAccount)request.getSession().getAttribute("user");
+            SysAccount user = (SysAccount) request.getSession().getAttribute("user");
             sysAccount.setGroupId(user.getGroupId());
         }
         return sysAccountService.findPageBean(sysAccount);
@@ -120,10 +128,10 @@ public class SysAccountController {
     }
 
     /**
+     * @return : com.cjdjyf.newssm.base.ResultBean<java.lang.String>
      * @author : cjd
      * @description : 修改密码
      * @params : [sysAccount]
-     * @return : com.cjdjyf.newssm.base.ResultBean<java.lang.String>
      * @date : 11:30 2018/4/27
      */
     @PostMapping("changePwd")

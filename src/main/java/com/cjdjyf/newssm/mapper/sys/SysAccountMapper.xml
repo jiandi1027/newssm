@@ -197,7 +197,7 @@
             AND t.password = #{password,jdbcType=VARCHAR}
         </if>
         <if test="groupId != null and groupId!=''">
-            AND FIND_IN_SET(b.id,getChild_oneself(#{groupId,jdbcType=VARCHAR}))>0
+            AND FIND_IN_SET(b.id,getChild(#{groupId,jdbcType=VARCHAR}))>0
         </if>
         <if test="note != null and note!=''">
             AND t.note = #{note,jdbcType=VARCHAR}

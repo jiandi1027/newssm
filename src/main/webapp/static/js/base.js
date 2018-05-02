@@ -51,15 +51,35 @@ $(function () {
                 //选中父节点
                 checkNode($('.combotree-permissions').combotree('tree').tree('getParent', node.target));
             }
-        },
+        }
+
+        /*,
         onLoadSuccess: function (node, data) {
             var t = $('.combotree-permissions').combotree('tree');//获取tree
             for (var i = 0; i < data.length; i++) {
                 node = t.tree("find", data[i].id);
                 t.tree('expandAll', node.target);//展开所有节点
             }
-        }
+        }*/
     });
+
+    function removeNull(data)
+    {
+        //如果不含中文
+        if (!hasChinese(data.text)){
+            console.log(data);
+            delete data.children;
+            console.log(data);
+        }
+        if(data.childrenSize>0){
+            console.log(data.children[0]);
+            removeNull(data.children[0]);
+        }
+    }
+
+    function hasChinese(str){
+        return /.*[\u4e00-\u9fa5]+.*$/.test(str);
+    }
 
     //部门树形下拉树 单选
     $('.combotree-group').combotree({

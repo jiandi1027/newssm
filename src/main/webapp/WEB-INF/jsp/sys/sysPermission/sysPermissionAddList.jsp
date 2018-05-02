@@ -51,7 +51,15 @@
         <tr>
             <td>父菜单：</td>
             <td><input name="parentId" class="combotree-permission" value="${sysPermission.parentId}"
-                       data-options="required:true,validType:['length[0,50]'],delay:'0'"
+                       data-options="required:true,validType:['length[0,50]'],delay:'0',
+                          onLoadSuccess: function (node, data) {
+                          var t = $('.combotree-permission').combotree('tree');//获取tree
+                         for (var i = 0; i < data.length; i++) {
+                         node = t.tree('find', data[i].id);
+                         t.tree('expandAll', node.target);//展开所有节点
+                      }
+                 }
+                "
                        title=""/></td>
         </tr>
     </table>

@@ -22,7 +22,17 @@
         </tr>
         <tr>
             <td>拥有权限：</td>
-            <td><input name="permissionId" class="combotree-permissions" id="sysRoleAddList_permission" value="${sysRole.permissionId}" title=""/></td>
+            <td><input name="permissionId" class="combotree-permissions" id="sysRoleAddList_permission"
+                       value="${sysRole.permissionId}" title="" data-options="
+                          onLoadSuccess: function (node, data) {
+                          var t = $('.combotree-permissions').combotree('tree');//获取tree
+                         for (var i = 0; i < data.length; i++) {
+                         node = t.tree('find', data[i].id);
+                         t.tree('expandAll', node.target);//展开所有节点
+                      }
+                 }
+                "/>
+            </td>
         </tr>
     </table>
 </form>

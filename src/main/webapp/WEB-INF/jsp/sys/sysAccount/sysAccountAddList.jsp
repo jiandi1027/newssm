@@ -41,7 +41,17 @@
         <tr>
             <td>部门：</td>
             <td><input name="groupId" class="combotree-group" id="sysAccountAddList_group"
-                       data-options="required:true,value:'${sysAccount.groupId}'" title=""> </td>
+                       data-options="required:true,value:'${sysAccount.groupId}',
+                          onLoadSuccess: function (node, data) {
+                          var t = $('.combotree-group').combotree('tree');//获取tree
+                         for (var i = 0; i < data.length; i++) {
+                         node = t.tree('find', data[i].id);
+                         t.tree('expandAll', node.target);//展开所有节点
+                      }
+                 }
+                "
+
+            > </td>
         </tr>
         <tr>
             <td>备注：</td>

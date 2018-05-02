@@ -5,6 +5,7 @@ import com.cjdjyf.newssm.constant.SysConstant;
 import com.cjdjyf.newssm.mapper.sys.SysPermissionMapper;
 import com.cjdjyf.newssm.pojo.sys.SysPermission;
 import com.cjdjyf.newssm.pojo.sys.TreeNode.MenuNode;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +43,7 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
         //树查询要返回List
         return menuNodes;
     }
+
     /**
      * @return : com.cjdjyf.newssm.pojo.sys.SysMenu
      * @author : cjd
@@ -70,8 +72,6 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
         return menuNode;
     }
 
-
-
     /**
      * @return : java.util.List<com.cjdjyf.newssm.pojo.sys.TreeNode.MenuNode>
      * @author : cjd
@@ -79,12 +79,12 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
      * @params : [sysPermission1]
      * @date : 12:07 2018/4/28
      */
-    public List<MenuNode> getPermissionList(String  loginGroupId) {
+    public List<MenuNode> getPermissionList(String loginGroupId) {
         treeSet = new HashSet<>();
         ArrayList<MenuNode> menuNodes = new ArrayList<>();
         //查根目录下的权限
         if (treeSet.add(SysConstant.SOURCE_MENU_ID)) {
-            menuNodes.add(getPermissionChildren(this.findById(SysConstant.SOURCE_MENU_ID).getMenuNode(),loginGroupId));
+            menuNodes.add(getPermissionChildren(this.findById(SysConstant.SOURCE_MENU_ID).getMenuNode(), loginGroupId));
         }
         //树查询要返回List
         return menuNodes;
@@ -111,5 +111,25 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
             menuNode.setState("1");
         }
         return menuNode;
+    }
+
+
+    /**
+     * @return : java.lang.String
+     * @author : cjd
+     * @description : 移除已删除权限
+     * @params : [permissions]
+     * @date : 9:34 2018/5/2
+     */
+    public String removeDel(String permissions) {
+        List<String> arrayList = new ArrayList<>(Arrays.asList(permissions.split(",")));
+        for (int i = 0; i < arrayList.size(); i++) {
+            SysPermission byId = this.findById(arrayList.get(i));
+            if (byId == null) {
+                arrayList.remove(i);
+                i=i-1;       //移除后长度减一
+            }
+        }
+        return StringUtils.join(arrayList.toArray(), ",");
     }
 }

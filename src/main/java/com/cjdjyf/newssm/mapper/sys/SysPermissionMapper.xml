@@ -25,7 +25,7 @@
         select
         <include refid="Base_Column_List"/>
         from sys_permission t
-        where id = #{id,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR} and t.del_flag = '0'
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from sys_permission
@@ -196,7 +196,6 @@
         <where>
             <include refid="findAllWhere"/>
         </where>
-
         order by t.order_num
     </select>
     <sql id="findAllWhere">
