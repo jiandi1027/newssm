@@ -136,7 +136,7 @@
             AND FIND_IN_SET(b.group_id,getChild_oneself( #{LoginGroupId,jdbcType=VARCHAR}))>0
         </if>
         <if test="roleName != null and roleName!=''">
-            AND FIND_IN_SET(t.role_name,#{roleName,jdbcType=VARCHAR}) > 0
+            AND instr(t.role_name,#{roleName,jdbcType=VARCHAR}) > 0
         </if>
         <if test="createPeople != null and createPeople!=''">
             AND t.create_people = #{createPeople,jdbcType=VARCHAR}

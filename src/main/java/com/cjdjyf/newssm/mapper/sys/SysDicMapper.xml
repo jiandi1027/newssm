@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjdjyf.newssm.mapper.sys.SysDicMapper">
+    <resultMap id="BaseResultMap" type="com.cjdjyf.newssm.pojo.sys.SysDic">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="tab_name" jdbcType="VARCHAR" property="tabName"/>
+        <result column="column_name" jdbcType="VARCHAR" property="columnName"/>
+        <result column="parent_key" jdbcType="VARCHAR" property="parentKey"/>
+        <result column="key" jdbcType="VARCHAR" property="key"/>
+        <result column="value" jdbcType="VARCHAR" property="value"/>
+        <result column="note" jdbcType="VARCHAR" property="note"/>
+        <result column="order_num" jdbcType="VARCHAR" property="orderNum"/>
+        <result column="create_people" jdbcType="VARCHAR" property="createPeople"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_people" jdbcType="VARCHAR" property="updatePeople"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    t.id, t.tab_name, t.column_name, t.parent_key, t.key, t.value, t.note, t.order_num, t.create_people,
+    t.create_time, t.update_people, t.update_time, t.del_flag
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dic t
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_dic
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.cjdjyf.newssm.pojo.sys.SysDic">
+    insert into sys_dic (id, tab_name, `column_name`,
+      parent_key, `key`, `value`,
+      note, order_num, create_people, 
+      create_time, update_people, update_time, 
+      del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{tabName,jdbcType=VARCHAR}, #{columnName,jdbcType=VARCHAR}, 
+      #{parentKey,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, 
+      #{note,jdbcType=VARCHAR}, #{orderNum,jdbcType=VARCHAR}, #{createPeople,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updatePeople,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.cjdjyf.newssm.pojo.sys.SysDic">
+        insert into sys_dic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="tabName != null">
+                tab_name,
+            </if>
+            <if test="columnName != null">
+                column_name,
+            </if>
+            <if test="parentKey != null">
+                parent_key,
+            </if>
+            <if test="key != null">
+                key,
+            </if>
+            <if test="value != null">
+                value,
+            </if>
+            <if test="note != null">
+                note,
+            </if>
+            <if test="orderNum != null">
+                order_num,
+            </if>
+            <if test="createPeople != null">
+                create_people,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updatePeople != null">
+                update_people,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="tabName != null">
+                #{tabName,jdbcType=VARCHAR},
+            </if>
+            <if test="columnName != null">
+                #{columnName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentKey != null">
+                #{parentKey,jdbcType=VARCHAR},
+            </if>
+            <if test="key != null">
+                #{key,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null">
+                #{value,jdbcType=VARCHAR},
+            </if>
+            <if test="note != null">
+                #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNum != null">
+                #{orderNum,jdbcType=VARCHAR},
+            </if>
+            <if test="createPeople != null">
+                #{createPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePeople != null">
+                #{updatePeople,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cjdjyf.newssm.pojo.sys.SysDic">
+        update sys_dic
+        <set>
+            <if test="tabName != null">
+                tab_name = #{tabName,jdbcType=VARCHAR},
+            </if>
+            <if test="columnName != null">
+                column_name = #{columnName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentKey != null">
+                parent_key = #{parentKey,jdbcType=VARCHAR},
+            </if>
+            <if test="key != null">
+                key = #{key,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null">
+                value = #{value,jdbcType=VARCHAR},
+            </if>
+            <if test="note != null">
+                note = #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNum != null">
+                order_num = #{orderNum,jdbcType=VARCHAR},
+            </if>
+            <if test="createPeople != null">
+                create_people = #{createPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePeople != null">
+                update_people = #{updatePeople,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.cjdjyf.newssm.pojo.sys.SysDic">
+    update sys_dic
+    set tab_name = #{tabName,jdbcType=VARCHAR},
+      column_name = #{columnName,jdbcType=VARCHAR},
+      parent_key = #{parentKey,jdbcType=VARCHAR},
+      key = #{key,jdbcType=VARCHAR},
+      value = #{value,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
+      order_num = #{orderNum,jdbcType=VARCHAR},
+      create_people = #{createPeople,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_people = #{updatePeople,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+    <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.sys.SysDic" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dic t
+        left join sys_account b on b.user_name = t.create_people
+        <where>
+            <include refid="findAllWhere"/>
+        </where>
+        <if test="orderStr!=null">
+            <![CDATA[
+           order by  ${orderStr}
+      ]]>
+        </if>
+    </select>
+    <sql id="findAllWhere">
+        <if test="LoginGroupId != null and LoginGroupId!=''">
+            AND FIND_IN_SET(b.group_id,getChild_oneself( #{LoginGroupId,jdbcType=VARCHAR}))>0
+        </if>
+        <if test="tabName != null and tabName!=''">
+            AND instr(t.tab_name,#{tabName,jdbcType=VARCHAR})>0
+        </if>
+        <if test="columnName != null and columnName!=''">
+            AND instr(t.column_name,#{columnName,jdbcType=VARCHAR})>0
+        </if>
+        <if test="parentKey != null and parentKey!=''">
+            AND t.parent_key = #{parentKey,jdbcType=VARCHAR}
+        </if>
+        <if test="key != null and key!=''">
+            AND t.key = #{key,jdbcType=VARCHAR}
+        </if>
+        <if test="value != null and value!=''">
+            AND t.value = #{value,jdbcType=VARCHAR}
+        </if>
+        <if test="note != null and note!=''">
+            AND t.note = #{note,jdbcType=VARCHAR}
+        </if>
+        <if test="orderNum != null and orderNum!=''">
+            AND t.order_num = #{orderNum,jdbcType=VARCHAR}
+        </if>
+        <if test="createPeople != null and createPeople!=''">
+            AND t.create_people = #{createPeople,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null">
+            AND t.create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updatePeople != null and updatePeople!=''">
+            AND t.update_people = #{updatePeople,jdbcType=VARCHAR}
+        </if>
+        <if test="updateTime != null">
+            AND t.update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="delFlag != null and delFlag!=''">
+            AND t.del_flag = #{delFlag,jdbcType=VARCHAR}
+        </if>
+    </sql>
+</mapper>

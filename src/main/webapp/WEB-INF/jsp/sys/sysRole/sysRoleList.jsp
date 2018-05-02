@@ -72,7 +72,6 @@
     function operate(val, row, index) {
         var operation = '';
         <shiro:hasPermission name="角色管理_修改">
-        console.log(row);
         operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysRoleList_change" '
             + 'onClick="sysRoleList_add(\'' + row.id + '\')">修改</a>';
         </shiro:hasPermission>
@@ -88,29 +87,25 @@
     function sysRoleList_del() {
         var sysRoleList_list = $('#sysRoleList_list');
         var row = sysRoleList_list.datagrid('getSelected');
-        if (row.username === 'admin' || row === null) {
-            $.messager.alert('提示', '无法删除！', 'info');
-        } else {
-            $.messager.confirm('删除', '确认要删除吗？', function (r) {
-                if (r) {
-                    $.ajax({
-                        type: 'POST',
-                        data: {
-                            id: row.id
-                        },
-                        url: 'sys/sysRole/del',
-                        success: function (data) {
-                            if (data.code === 200) {
-                                sysRoleList_list.treegrid('reload');
-                                showMsg(data.data);
-                            }else{
-                                showMsg('删除失败');
-                            }
+        $.messager.confirm('删除', '确认要删除吗？', function (r) {
+            if (r) {
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        id: row.id
+                    },
+                    url: 'sys/sysRole/del',
+                    success: function (data) {
+                        if (data.code === 200) {
+                            sysRoleList_list.datagrid('reload');
+                            showMsg(data.data);
+                        } else {
+                            showMsg('删除失败');
                         }
-                    })
-                }
-            });
-        }
+                    }
+                })
+            }
+        });
     }
 </script>
 </body>

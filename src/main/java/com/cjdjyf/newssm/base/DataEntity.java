@@ -29,14 +29,12 @@ public abstract class DataEntity<T> implements Serializable
 	/**删除标识 0/1 否/是 */
 	private String delFlag = "0";
 
-
 	/**排序字段*/
 	private String sort;
 	/**排序方式 asc/desc  */
 	private String order;
 	/**sort+order */
 	private String orderStr ;
-
 
 	/**页码 */
 	private Integer page ;

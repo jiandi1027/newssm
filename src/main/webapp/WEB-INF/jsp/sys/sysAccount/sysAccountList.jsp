@@ -19,11 +19,12 @@
                 </div>
                 <div data-options="region:'center'" class="center" title="条件查询">
                     <div>
-                        <span> 账号： </span> <input class="easyui-textbox" name="fuzzyName" data-options="width:100"
-                                                  title="">
+                        <span> 账号： </span>
+                        <input class="easyui-textbox" name="fuzzyName" data-options="width:100" title="">
                     </div>
                     <div>
-                        <span> 角色： </span> <input class="combobox-role" name="roleId" data-options="width:100" title="">
+                        <span> 角色： </span>
+                        <input class="combobox-role" name="roleId" data-options="width:100" title="">
                     </div>
                 </div>
                 <div data-options="region:'south'" class="south">
@@ -105,7 +106,7 @@
                     success: function (data) {
                         if (data.code === 200) {
                             showMsg('重置密码成功');
-                        }else{
+                        } else {
                             showMsg('重置密码失败');
                         }
                     }
@@ -135,7 +136,7 @@
                         if (data.code === 200) {
                             sysAccountList_list.datagrid('reload');
                             showMsg(data.data);
-                        }else{
+                        } else {
                             showMsg('删除失败');
                         }
                     }

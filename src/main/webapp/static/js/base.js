@@ -78,10 +78,9 @@ $(function () {
         }
     });
 
-    //角色下拉框 多选
+    //角色下拉框
     $('.combobox-role').combobox({
         panelHeight: 'auto',
-        multiple: true,
         url: 'sys/sysRole/list',
         valueField: 'id',
         textField: 'roleName',
@@ -102,3 +101,5 @@ function checkNode(node) {
         $('.combotree-permissions').combotree('tree').tree('check', node.target);
     }
 }
+
+

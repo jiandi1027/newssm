@@ -51,6 +51,9 @@ public class MyUtils {
         return obj.toString();
     }
 
+
+
+
     @Test
     public void test() {
         System.out.println(GetMD5("池剑迪", "1"));

@@ -16,7 +16,7 @@
     <table id="sysRoleAddList_table" class="add_table">
         <tr>
             <td>角色名称：</td>
-            <td><input name="roleName" id="sysRoleAddList_userName" class="easyui-textbox easyui-validatebox"
+            <td><input name="roleName"  class="easyui-textbox easyui-validatebox"
                        data-options="required:true,validType:['length[0,20]'],delay:'0'"
                        value="${sysRole.roleName}" title=""/></td>
         </tr>
