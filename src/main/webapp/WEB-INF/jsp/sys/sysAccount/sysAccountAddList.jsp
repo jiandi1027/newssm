@@ -22,15 +22,15 @@
                        data-options="required:true,validType:['length[0,20]'],delay:'0'"
                        value="${sysAccount.userName}" title=""/></td>
         </tr>
-      <%--  <c:if test="${empty sysAccount.id}">
-            <tr>
-                <td>密码：</td>
-                <td><input name="password" class="easyui-validatebox easyui-passwordbox"
-                           ondragenter="return false"
-                           data-options="required:true,delay:'0',validType:['length[0,20]']"
-                           value="000000" title=""/></td>
-            </tr>
-        </c:if>--%>
+        <%--  <c:if test="${empty sysAccount.id}">
+              <tr>
+                  <td>密码：</td>
+                  <td><input name="password" class="easyui-validatebox easyui-passwordbox"
+                             ondragenter="return false"
+                             data-options="required:true,delay:'0',validType:['length[0,20]']"
+                             value="000000" title=""/></td>
+              </tr>
+          </c:if>--%>
         <tr>
             <td>角色：</td>
             <td><input name="roleId" class="combobox-role" id="sysAccountAddList_comboboxRole"
@@ -51,14 +51,14 @@
                  }
                 "
 
-            > </td>
+            ></td>
         </tr>
         <tr>
             <td>备注：</td>
             <td><input name="note" id="sysAccountAddList_note"
-                class="easyui-textbox easyui-validatebox"
-                data-options="validType:['length[0,20]'],delay:'0'"
-                value="${sysAccount.note}  " title=""/>
+                       class="easyui-textbox easyui-validatebox"
+                       data-options="validType:['length[0,20]'],delay:'0'"
+                       value="${sysAccount.note}  " title=""/>
             </td>
         </tr>
     </table>
@@ -96,6 +96,8 @@
             if (data.code === 200) {
                 window.location = document.getElementsByTagName("base")[0].getAttribute("href") + "sys/sysAccount/list";
                 showMsg(data.data);
+            } else {
+                showMsg('编辑失败');
             }
         }, error: function (data) {
         }

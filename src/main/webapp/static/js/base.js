@@ -63,23 +63,6 @@ $(function () {
         }*/
     });
 
-    function removeNull(data)
-    {
-        //如果不含中文
-        if (!hasChinese(data.text)){
-            console.log(data);
-            delete data.children;
-            console.log(data);
-        }
-        if(data.childrenSize>0){
-            console.log(data.children[0]);
-            removeNull(data.children[0]);
-        }
-    }
-
-    function hasChinese(str){
-        return /.*[\u4e00-\u9fa5]+.*$/.test(str);
-    }
 
     //部门树形下拉树 单选
     $('.combotree-group').combotree({

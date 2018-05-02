@@ -54,7 +54,7 @@ public class SysRoleController {
         if (sysRole != null) {
             sysRole.setPermissionId(sysPermissionService.removeDel(sysRole.getPermissionId()));
         }
-        request.setAttribute("sysAccount", sysRole);
+        request.setAttribute("sysRole", sysRole);
         return "sys/sysRole/sysRoleAddList";
     }
 

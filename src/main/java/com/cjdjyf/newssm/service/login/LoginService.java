@@ -1,5 +1,6 @@
 package com.cjdjyf.newssm.service.login;
 
+import com.cjdjyf.newssm.pojo.sys.SysAccount;
 import com.cjdjyf.newssm.service.sys.SysAccountService;
 import com.cjdjyf.newssm.utils.MyUtils;
 import org.apache.shiro.SecurityUtils;
@@ -39,7 +40,10 @@ public class LoginService {
         }
         subject.login(token);
         logger.info("-------------登录成功-------------userName:{}", userName);
-        request.getSession().setAttribute("user",sysAccountService.findByName(userName));
+        SysAccount byName = sysAccountService.findByName(userName);
+        request.getSession().setAttribute("user",byName);
+        request.getSession().setAttribute("groupId", byName.getGroupId());
+
         return "登录成功";
     }
 

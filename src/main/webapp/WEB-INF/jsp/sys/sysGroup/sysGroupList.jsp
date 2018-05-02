@@ -9,19 +9,21 @@
 <body>
 <div class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center'">
-        <table id="sysGroupList_list" class="easyui-treegrid">
-        </table>
+        <table id="sysGroupList_list" class="easyui-treegrid"></table>
     </div>
 </div>
 <div id="sysGroupList_toolbar">
-    <a onclick="sysGroupList_add(null);" href="javascript:void(0);"
-       class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-plus'">新增</a> <a
-        onclick="sysGroupList_del();" href="javascript:void(0);"
-        class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-times '">删除</a>
+    <shiro:hasPermission name="部门管理_新增">
+        <a onclick="sysGroupList_add(null);" href="javascript:void(0);"
+           class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-plus'">新增</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="部门管理_删除">
+        <a onclick="sysGroupList_del();" href="javascript:void(0);"
+           class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-times '">删除</a>
+    </shiro:hasPermission>
+
 </div>
-<div id="sysGroupList_dialog"></div>
 <script>
-    var sysGroupList_dialog = $('#sysGroupList_dialog');
     $(function () {
         $('#sysGroupList_list').treegrid({
             title: "部门管理",
@@ -36,7 +38,7 @@
             fitColumns: true,
             striped: true,
             animate: true,
-            onLoadSuccess: function (data) {
+            onLoadSuccess: function () {
                 $('.sysGroupList_change').linkbutton({text: '修改', plain: true, iconCls: 'fa fa-repeat'});
             },
             columns: [[
@@ -64,8 +66,12 @@
     //操作列
     function operate(val, row, index) {
         var operation = '';
-        operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysGroupList_change" '
-            + 'onClick="sysGroupList_add(\'' + row.id + '\')">修改</a>';
+        <shiro:hasPermission name="部门管理_修改">
+        if (row.id !== '${groupId}') {              //禁止对自己团队修改
+            operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysGroupList_change" '
+                + 'onClick="sysGroupList_add(\'' + row.id + '\')">修改</a>';
+        }
+        </shiro:hasPermission>
         return operation;
     }
 
@@ -78,26 +84,29 @@
     function sysGroupList_del() {
         var sysGroupList_list = $('#sysGroupList_list');
         var row = sysGroupList_list.treegrid('getSelected');
-        $.messager.confirm('删除', '确认要删除吗？', function (r) {
-            if (r) {
-                $.ajax({
-                    type: 'POST',
-                    data: {
-                        id: row.id
-                    },
-                    url: 'sys/sysGroup/del',
-                    success: function (data) {
-                        if (data.code === 200) {
-                            sysGroupList_list.treegrid('reload');
-                            $.messager.show({
-                                title: '提示',
-                                msg: data.data
-                            });
+        if (row.id === '${groupId}') {              //禁止对自己团队删除
+            showMsg('无法删除所在团队');
+        } else {
+            $.messager.confirm('删除', '确认要删除吗？', function (r) {
+                if (r) {
+                    $.ajax({
+                        type: 'POST',
+                        data: {
+                            id: row.id
+                        },
+                        url: 'sys/sysGroup/del',
+                        success: function (data) {
+                            if (data.code === 200) {
+                                sysGroupList_list.treegrid('reload');
+                                showMsg(data.data);
+                            }else{
+                                showMsg('删除失败');
+                            }
                         }
-                    }
-                })
-            }
-        });
+                    })
+                }
+            });
+        }
     }
 </script>
 </body>

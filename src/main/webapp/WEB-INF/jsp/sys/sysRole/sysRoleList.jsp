@@ -6,6 +6,7 @@
     <%@include file="/WEB-INF/head/headTag.jsp" %>
     <%@include file="/WEB-INF/head/headJs.jsp" %>
 </head>
+<body>
 <div class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center'">
         <table id="sysRoleList_list" class="easyui-datagrid"></table>
@@ -25,16 +26,18 @@
                 </div>
             </div>
         </div>
-</div>
-</form>
+    </form>
 </div>
 <div id="sysRoleList_toolbar">
-    <a onclick="sysRoleList_add(null);" href="javascript:void(0);"
-       class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-plus'">新增</a> <a
-        onclick="sysRoleList_del();" href="javascript:void(0);"
-        class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-times '">删除</a>
+    <shiro:hasPermission name="角色管理_新增">
+        <a onclick="sysRoleList_add(null);" href="javascript:void(0);"
+           class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-plus'">新增</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="角色管理_删除">
+        <a onclick="sysRoleList_del();" href="javascript:void(0);"
+           class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-times '">删除</a>
+    </shiro:hasPermission>
 </div>
-<div id="sysRoleList_dialog"></div>
 <script>
     $(function () {
         $('#sysRoleList_list').datagrid({
@@ -51,7 +54,7 @@
             pagination: true,
             pageSize: 10,
             pageList: [5, 10, 15, 20, 30, 50],
-            onLoadSuccess: function (data) {
+            onLoadSuccess: function () {
                 $('.sysRoleList_change').linkbutton({text: '修改', plain: true, iconCls: 'fa fa-repeat'});
             },
             columns: [[
@@ -68,8 +71,11 @@
     //操作列
     function operate(val, row, index) {
         var operation = '';
+        <shiro:hasPermission name="角色管理_修改">
+        console.log(row);
         operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysRoleList_change" '
             + 'onClick="sysRoleList_add(\'' + row.id + '\')">修改</a>';
+        </shiro:hasPermission>
         return operation;
     }
 
@@ -94,11 +100,12 @@
                         },
                         url: 'sys/sysRole/del',
                         success: function (data) {
-                            sysRoleList_list.datagrid('reload');
-                            $.messager.show({
-                                title: '提示',
-                                msg: data.data
-                            });
+                            if (data.code === 200) {
+                                sysRoleList_list.treegrid('reload');
+                                showMsg(data.data);
+                            }else{
+                                showMsg('删除失败');
+                            }
                         }
                     })
                 }

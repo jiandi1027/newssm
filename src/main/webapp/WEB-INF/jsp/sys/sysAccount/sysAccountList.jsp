@@ -27,7 +27,8 @@
                     </div>
                 </div>
                 <div data-options="region:'south'" class="south">
-                    <a class="easyui-linkbutton search_btn" data-options="iconCls:'icon-search'" id="sysAccountList_search"
+                    <a class="easyui-linkbutton search_btn" data-options="iconCls:'icon-search'"
+                       id="sysAccountList_search"
                        onClick="$('#sysAccountList_list').datagrid('load',$.serializeObject($('#sysAccountList_searchForm')));">搜索</a>
                     <a class="easyui-linkbutton" data-options="iconCls:'icon-clear'" id="sysAccountList_clear"
                        onClick="$('#sysAccountList_searchForm').form('clear');$('#sysAccountList_list').datagrid('load',$.serializeObject($('#sysAccountList_searchForm')));">清空</a>
@@ -49,7 +50,7 @@
 <script>
     $(function () {
         $('#sysAccountList_list').datagrid({
-            title: "角色管理",
+            title: "账号管理",
             url: 'sys/sysAccount/list',
             method: 'post',
             toolbar: '#sysAccountList_toolbar',
@@ -62,7 +63,7 @@
             pagination: true,
             pageSize: 10,
             pageList: [5, 10, 15, 20, 30, 50],
-            onLoadSuccess: function (data) {
+            onLoadSuccess: function () {
                 $('.sysAccountList_change').linkbutton({text: '修改', plain: true, iconCls: 'fa fa-repeat'});
                 $('.sysAccountList_reset').linkbutton({text: '重置密码', plain: true, iconCls: 'fa fa-repeat'});
             },
@@ -72,7 +73,7 @@
                 {title: '拥有角色', field: 'roleName', width: '19%', align: 'center'},
                 {title: '所属单位', field: 'groupName', width: '19%', align: 'center'},
                 {title: '备注', field: 'note', width: '21%', align: 'center'},
-                {title: '操作列', field: 'a', width: '20%', align: 'center', formatter: operate}
+                {title: '操作列', field: 'a', width: '21%', align: 'center', formatter: operate}
             ]]
         });
     });
@@ -80,10 +81,14 @@
     //操作列
     function operate(val, row, index) {
         var operation = '';
+        <shiro:hasPermission name="账号管理_修改">
         operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysAccountList_change" '
             + 'onClick="sysAccountList_add(\'' + row.id + '\')">修改</a>';
+        </shiro:hasPermission>
+        <shiro:hasPermission name="账号管理_重置密码">
         operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysAccountList_reset" '
             + 'onClick="sysAccountList_reset(\'' + row.id + '\')">重置密码</a>';
+        </shiro:hasPermission>
         return operation;
     }
 
@@ -98,10 +103,11 @@
                     },
                     url: 'sys/sysAccount/reset',
                     success: function (data) {
-                        $.messager.show({
-                            title: '提示',
-                            msg: data.data
-                        });
+                        if (data.code === 200) {
+                            showMsg('重置密码成功');
+                        }else{
+                            showMsg('重置密码失败');
+                        }
                     }
                 });
             }
@@ -117,28 +123,25 @@
     function sysAccountList_del() {
         var sysAccountList_list = $('#sysAccountList_list');
         var row = sysAccountList_list.datagrid('getSelected');
-        if (row.userName === 'admin' || row === null) {
-            $.messager.alert('提示', '无法删除！', 'info');
-        } else {
-            $.messager.confirm('删除', '确认要删除吗？', function (r) {
-                if (r) {
-                    $.ajax({
-                        type: 'POST',
-                        data: {
-                            id: row.id
-                        },
-                        url: 'sys/sysAccount/del',
-                        success: function (data) {
+        $.messager.confirm('删除', '确认要删除吗？', function (r) {
+            if (r) {
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        id: row.id
+                    },
+                    url: 'sys/sysAccount/del',
+                    success: function (data) {
+                        if (data.code === 200) {
                             sysAccountList_list.datagrid('reload');
-                            $.messager.show({
-                                title: '提示',
-                                msg: data.data
-                            });
+                            showMsg(data.data);
+                        }else{
+                            showMsg('删除失败');
                         }
-                    })
-                }
-            });
-        }
+                    }
+                })
+            }
+        });
     }
 </script>
 </body>

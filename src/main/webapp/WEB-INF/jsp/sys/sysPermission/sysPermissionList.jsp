@@ -14,14 +14,16 @@
     </div>
 </div>
 <div id="sysPermissionList_toolbar">
-    <a onclick="sysPermissionList_add(null);" href="javascript:void(0);"
-       class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-plus'">新增</a> <a
-        onclick="sysPermissionList_del();" href="javascript:void(0);"
-        class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-times '">删除</a>
+    <shiro:hasPermission name="权限管理_新增">
+        <a onclick="sysPermissionList_add(null);" href="javascript:void(0);"
+           class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-plus'">新增</a>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="权限管理_删除">
+        <a onclick="sysPermissionList_del();" href="javascript:void(0);"
+           class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-times '">删除</a>
+    </shiro:hasPermission>
 </div>
-<div id="sysPermissionList_dialog"></div>
 <script>
-    var sysPermissionList_dialog = $('#sysPermissionList_dialog');
     $(function () {
         $('#sysPermissionList_list').treegrid({
             title: "权限管理",
@@ -36,7 +38,7 @@
             fitColumns: true,
             striped: true,
             animate: true,
-            onLoadSuccess: function (data) {
+            onLoadSuccess: function () {
                 $('.sysPermissionList_change').linkbutton({text: '修改', plain: true, iconCls: 'fa fa-repeat'});
             },
             columns: [[
@@ -74,41 +76,51 @@
     //操作列
     function operate(val, row, index) {
         var operation = '';
-        operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysPermissionList_change" '
-            + 'onClick="sysPermissionList_add(\'' + row.id + '\')">修改</a>';
+        <shiro:hasPermission name="权限管理_修改">
+        if (row.text === '根目录') {                       //限制根目录修改
+        } else {
+            operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysPermissionList_change" '
+                + 'onClick="sysPermissionList_add(\'' + row.id + '\')">修改</a>';
+        }
+        </shiro:hasPermission>
         return operation;
     }
 
     //添加 修改
     function sysPermissionList_add(id) {
-        window.location = document.getElementsByTagName("base")[0].getAttribute("href")+ 'sys/sysPermission/addList?id=' + id;
+        window.location = document.getElementsByTagName("base")[0].getAttribute("href") + 'sys/sysPermission/addList?id=' + id;
     }
 
     //删除
     function sysPermissionList_del() {
         var sysPermissionList_list = $('#sysPermissionList_list');
         var row = sysPermissionList_list.treegrid('getSelected');
-        $.messager.confirm('删除', '确认要删除吗？', function (r) {
-            if (r) {
-                $.ajax({
-                    type: 'POST',
-                    data: {
-                        id: row.id
-                    },
-                    url: 'sys/sysPermission/del',
-                    success: function (data) {
-                        if (data.code === 200) {
-                            sysPermissionList_list.treegrid('reload');
-                            $.messager.show({
-                                title: '提示',
-                                msg: data.data
-                            });
-                        }
+        if (row.text === '根目录') {                       //限制根目录删除
+            showMsg('根目录无法删除');
+        } else {
+            $.messager.confirm('删除', '确认要删除吗？', function (r) {
+                    if (r) {
+                        $.ajax({
+                            type: 'POST',
+                            data: {
+                                id: row.id
+                            },
+                            url: 'sys/sysPermission/del',
+                            success: function (data) {
+                                if (data.code === 200) {
+                                    sysPermissionList_list.treegrid('reload');
+                                    showMsg(data.data);
+                                }else{
+                                    showMsg('删除失败');
+                                }
+                            }
+                        })
                     }
-                })
-            }
-        });
+                }
+            );
+        }
     }
+
 
 </script>
 </body>

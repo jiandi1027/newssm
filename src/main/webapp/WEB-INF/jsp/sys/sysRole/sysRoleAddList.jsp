@@ -69,6 +69,8 @@
             if (data.code === 200) {
                 window.location = document.getElementsByTagName("base")[0].getAttribute("href") + "sys/sysRole/list";
                 showMsg(data.data);
+            } else {
+                showMsg('编辑失败');
             }
         }, error: function (data) {
         }

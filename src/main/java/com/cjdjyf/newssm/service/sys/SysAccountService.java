@@ -91,7 +91,7 @@ public class SysAccountService extends BaseService<SysAccountMapper, SysAccount>
         List<SysAccount> sysAccountList = this.findAll(new SysAccount(sysAccount.getUserName()));
         if (sysAccountList.size() == 0) {
             logger.info("管理员{}新增账号{}", MyUtils.getSysAccount(), sysAccount.getUserName());
-            sysAccount.setPassword(MyUtils.GetMD5(sysAccount.getUserName(),SysConstant.DEFAULT_PASSWORD));
+            sysAccount.setPassword(MyUtils.GetMD5(sysAccount.getUserName(), SysConstant.DEFAULT_PASSWORD));
             //新增账号和关联表
             super.insert(sysAccount);
             sysAccountRoleService.insert(new SysAccountRole(sysAccount.getId(), sysAccount.getRoleId()));
@@ -103,7 +103,6 @@ public class SysAccountService extends BaseService<SysAccountMapper, SysAccount>
     }
 
     /**
-     * @return : void
      * @author : cjd
      * @description : 替换角色ID为角色名称
      * @params : [sysAccountList]
@@ -128,29 +127,29 @@ public class SysAccountService extends BaseService<SysAccountMapper, SysAccount>
     }
 
     /**
+     * @return : java.lang.String
      * @author : cjd
      * @description : 重置密码
      * @params : [sysAccount]
-     * @return : java.lang.String
      * @date : 10:09 2018/4/26
      */
     public String reset(SysAccount sysAccount) {
-        sysAccount.setPassword(MyUtils.GetMD5(MyUtils.getSysAccount(),SysConstant.DEFAULT_PASSWORD));
+        sysAccount.setPassword(MyUtils.GetMD5(MyUtils.getSysAccount(), SysConstant.DEFAULT_PASSWORD));
         return super.updateByIdSelective(sysAccount);
     }
 
     /**
+     * @return : java.lang.Void
      * @author : cjd
      * @description : 修改密码
      * @params : [sysAccount]
-     * @return : java.lang.Void
      * @date : 10:57 2018/4/26
      */
     public String changePwd(SysAccount sysAccount) {
         SysAccount user = this.findByName(MyUtils.getSysAccount());
         //如果相同 替换密码
-        if (MyUtils.GetMD5(MyUtils.getSysAccount(),sysAccount.getPassword()).equals(user.getPassword())) {
-            user.setPassword(MyUtils.GetMD5(MyUtils.getSysAccount(),sysAccount.getReplacePassword()));
+        if (MyUtils.GetMD5(MyUtils.getSysAccount(), sysAccount.getPassword()).equals(user.getPassword())) {
+            user.setPassword(MyUtils.GetMD5(MyUtils.getSysAccount(), sysAccount.getReplacePassword()));
         } else {
             return "密码不正确";
         }
