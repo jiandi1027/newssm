@@ -1,0 +1,74 @@
+Manifest-Version: 1.0
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-SymbolicName: org.mybatis.generator.mybatis-generator-core
+Archiver-Version: Plexus Archiver
+Built-By: xiaoguang
+Bnd-LastModified: 1483063355359
+Specification-Title: MyBatis Generator Core
+Implementation-Vendor-Id: org.mybatis.generator
+Bundle-DocURL: http://www.mybatis.org/mybatis-generator/mybatis-genera
+ tor-core/
+Include-Resource: log4j.properties=src/main/resources/log4j.properties
+ ,org/mybatis/generator/config/xml/ibator-config_1_0.dtd=src/main/reso
+ urces/org/mybatis/generator/config/xml/ibator-config_1_0.dtd,org/myba
+ tis/generator/config/xml/mybatis-generator-config_1_0.dtd=src/main/re
+ sources/org/mybatis/generator/config/xml/mybatis-generator-config_1_0
+ .dtd,org/mybatis/generator/internal/util/messages/messages.properties
+ =src/main/resources/org/mybatis/generator/internal/util/messages/mess
+ ages.properties,META-INF/LICENSE=LICENSE,META-INF/NOTICE=NOTICE
+Import-Package: javax.xml.parsers,org.apache.log4j,org.apache.tools.an
+ t,org.apache.tools.ant.types,org.w3c.dom,org.xml.sax
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"
+Main-Class: org.mybatis.generator.api.ShellRunner
+Implementation-Build-Date: 2016-12-30 02:01:34+0000
+Export-Package: org.mybatis.generator.ant;version="1.3.3.SNAPSHOT",org
+ .mybatis.generator.api;version="1.3.3.SNAPSHOT",org.mybatis.generator
+ .api.dom;version="1.3.3.SNAPSHOT",org.mybatis.generator.api.dom.java;
+ version="1.3.3.SNAPSHOT",org.mybatis.generator.api.dom.xml;version="1
+ .3.3.SNAPSHOT",org.mybatis.generator.codegen;version="1.3.3.SNAPSHOT"
+ ,org.mybatis.generator.codegen.ibatis2;version="1.3.3.SNAPSHOT",org.m
+ ybatis.generator.codegen.ibatis2.dao;version="1.3.3.SNAPSHOT",org.myb
+ atis.generator.codegen.ibatis2.dao.elements;version="1.3.3.SNAPSHOT",
+ org.mybatis.generator.codegen.ibatis2.dao.templates;version="1.3.3.SN
+ APSHOT",org.mybatis.generator.codegen.ibatis2.model;version="1.3.3.SN
+ APSHOT",org.mybatis.generator.codegen.ibatis2.sqlmap;version="1.3.3.S
+ NAPSHOT",org.mybatis.generator.codegen.ibatis2.sqlmap.elements;versio
+ n="1.3.3.SNAPSHOT",org.mybatis.generator.codegen.mybatis3;version="1.
+ 3.3.SNAPSHOT",org.mybatis.generator.codegen.mybatis3.javamapper;versi
+ on="1.3.3.SNAPSHOT",org.mybatis.generator.codegen.mybatis3.javamapper
+ .elements;version="1.3.3.SNAPSHOT",org.mybatis.generator.codegen.myba
+ tis3.javamapper.elements.annotated;version="1.3.3.SNAPSHOT",org.mybat
+ is.generator.codegen.mybatis3.javamapper.elements.sqlprovider;version
+ ="1.3.3.SNAPSHOT",org.mybatis.generator.codegen.mybatis3.model;versio
+ n="1.3.3.SNAPSHOT",org.mybatis.generator.codegen.mybatis3.xmlmapper;v
+ ersion="1.3.3.SNAPSHOT",org.mybatis.generator.codegen.mybatis3.xmlmap
+ per.elements;version="1.3.3.SNAPSHOT",org.mybatis.generator.config;ve
+ rsion="1.3.3.SNAPSHOT",org.mybatis.generator.config.xml;version="1.3.
+ 3.SNAPSHOT",org.mybatis.generator.exception;version="1.3.3.SNAPSHOT",
+ org.mybatis.generator.internal;version="1.3.3.SNAPSHOT",org.mybatis.g
+ enerator.internal.db;version="1.3.3.SNAPSHOT",org.mybatis.generator.i
+ nternal.rules;version="1.3.3.SNAPSHOT",org.mybatis.generator.internal
+ .types;version="1.3.3.SNAPSHOT",org.mybatis.generator.internal.util;v
+ ersion="1.3.3.SNAPSHOT",org.mybatis.generator.internal.util.messages;
+ version="1.3.3.SNAPSHOT",org.mybatis.generator.logging;version="1.3.3
+ .SNAPSHOT",org.mybatis.generator.plugins;version="1.3.3.SNAPSHOT"
+Bundle-Name: MyBatis Generator Core
+Implementation-Title: MyBatis Generator Core
+Bundle-Description: The MyBatis parent POM.
+Implementation-Version: 1.3.3-SNAPSHOT
+Specification-Vendor: MyBatis.org
+Bundle-ManifestVersion: 2
+Bundle-Vendor: MyBatis.org
+Tool: Bnd-2.4.1.201501161923
+Implementation-Vendor: MyBatis.org
+Originally-Created-By: Maven Integration for Eclipse
+Bundle-Version: 1.3.3.SNAPSHOT
+X-Compile-Target-JDK: 1.6
+Private-Package: log4j.properties
+X-Compile-Source-JDK: 1.6
+Created-By: Apache Maven Bundle Plugin
+Build-Jdk: 1.8.0_65
+Specification-Version: 1.3.3-SNAPSHOT
+Implementation-URL: http://www.mybatis.org/mybatis-generator/mybatis-g
+ enerator-core/
+
