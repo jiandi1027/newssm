@@ -50,7 +50,7 @@
                              targetPackage="" targetProject=".\src">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false"/>
-            <property name="rootInterface" value="?"/>
+            <property name="rootInterface" value="?com.cjdjyf.newssm.base.BaseDao"/>
         </javaClientGenerator>
 
         <table schema="" tableName="" enableCountByExample="false"

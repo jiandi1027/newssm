@@ -15,6 +15,8 @@ public class CodeCreate extends DataEntity<CodeCreate> implements Serializable {
     private String tableName;
     private String engine;
     private String tableComment;
+    private String mapperURL;
+    private String pojoURL;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
@@ -49,4 +51,21 @@ public class CodeCreate extends DataEntity<CodeCreate> implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+    public String getMapperURL() {
+        return mapperURL;
+    }
+
+    public void setMapperURL(String mapperURL) {
+        this.mapperURL = mapperURL;
+    }
+
+    public String getPojoURL() {
+        return pojoURL;
+    }
+
+    public void setPojoURL(String pojoURL) {
+        this.pojoURL = pojoURL;
+    }
+
 }

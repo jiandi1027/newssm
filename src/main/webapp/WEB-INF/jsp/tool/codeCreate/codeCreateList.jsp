@@ -74,24 +74,44 @@
         return operation;
     }
 
-    //生产代码
+    //生成代码
     function codeCreateList_create(tableName) {
-        $.ajax({
-            type: 'POST',
-            data: {
-                tableName: tableName
-            },
-            url: 'tool/codeCreate/create',
-            success: function (data) {
-                if (data.code === 200) {
-                    showMsg(data.data);
-                } else {
-                    showMsg('生成失败');
+        $('#codeCreateList_dialog').dialog({
+            title: '连接数据库',
+            iconCls: 'fa fa-fire',
+            width: 400,
+            height: 300,
+            resizable: true,
+            closed: false,
+            modal: true,
+            cache: false,
+            href: 'tool/codeCreate/dataList?tableName='+tableName,
+            buttons: [{
+                text: '连接测试',
+                iconCls: 'icon-save',
+                handler: function () {
+                    if ($("#codeCreateDataList_form").form('validate')) {
+                        $('#codeCreateDataList_form ').submit();
+                    } else {
+                        $.messager.show({
+                            title: '提示',
+                            msg: '信息不能为空'
+                        });
+                    }
                 }
-            }
-        })
-
+            }, {
+                text: '关闭',
+                iconCls: 'fa fa-remove ',
+                handler: function () {
+                    $('#codeCreateList_dialog').dialog('close');
+                }
+            }]
+        });
+        $('#codeCreateList_dialog').dialog('center');
     }
+
+
+
 </script>
 </body>
 </html>
