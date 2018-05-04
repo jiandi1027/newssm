@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="sqlmap">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../generatorSqlmapCustom/out/artifacts/sqlmap/sqlmap.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

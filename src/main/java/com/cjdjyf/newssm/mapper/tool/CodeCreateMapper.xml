@@ -2,26 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cjdjyf.newssm.mapper.tool.CodeCreateMapper">
     <resultMap id="BaseResultMap" type="com.cjdjyf.newssm.pojo.tool.CodeCreate">
+        <result column="table_name" jdbcType="VARCHAR" property="tableName"/>
+        <result column="engine" jdbcType="VARCHAR" property="engine"/>
+        <result column="table_comment" jdbcType="VARCHAR" property="tableComment"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     </resultMap>
-    <sql id="Base_Column_List">
-    </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-        SELECT
-            t.id,
-            t.user_name,
-            a.role_id,
-            t.group_id,
-            b.group_name,
-            t.note,
-            t.create_people
-        FROM sys_account t
-            LEFT JOIN sys_account_role a ON a.account_id = t.id
-            LEFT JOIN sys_group b ON b.id = t.group_id
-        WHERE t.id = #{id,jdbcType=VARCHAR}
+
+    <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.tool.CodeCreate" resultMap="BaseResultMap">
+        select t.table_name,t.engine,t.table_comment,
+        t.create_time from information_schema.tables t
+        <where>
+            <include refid="findAllWhere"/>
+        </where>
+        order by t.create_time desc
     </select>
 
-    <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.sys.SysAccount" resultMap="BaseResultMap">
-    </select>
     <sql id="findAllWhere">
+        t.table_schema = (select database())
+
+        <if test="tableName != null and tableName!=''">
+            AND INSTR(t.table_name,#{tableName,jdbcType=VARCHAR}) > 0
+        </if>
     </sql>
+
 </mapper>

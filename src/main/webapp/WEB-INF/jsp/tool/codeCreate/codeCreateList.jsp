@@ -15,8 +15,8 @@
         <div data-options="region:'east',iconCls:'icon-reload',title:'搜索条件',split:true" class="searchForm-east">
             <div class="easyui-layout">
                 <div data-options="region:'center'" class="center">
-                    <span> 角色名称： </span>
-                    <input class="easyui-textbox" name="roleName" data-options="width:100" title="">
+                    <span> 表名： </span>
+                    <input class="easyui-textbox" name="tableName" data-options="width:100" title="">
                 </div>
                 <div data-options="region:'south'" class="south">
                     <a class="easyui-linkbutton search_btn" data-options="iconCls:'icon-search'"
@@ -33,6 +33,9 @@
     <a onclick="codeCreateList_connect();" href="javascript:void(0);"
        class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-plus'">连接数据库</a>
 </div>
+<div id="codeCreateList_dialog"></div>
+
+
 <script>
     $(function () {
         $('#codeCreateList_list').datagrid({
@@ -50,13 +53,13 @@
             pageSize: 10,
             pageList: [5, 10, 15, 20, 30, 50],
             onLoadSuccess: function () {
-                $('.codeCreateList_change').linkbutton({text: '修改', plain: true, iconCls: 'fa fa-repeat'});
+                $('.codeCreateList_create').linkbutton({text: '生成', plain: true, iconCls: 'fa fa-file'});
             },
             columns: [[
                 {title: 'id', field: 'id', checkbox: true},
-                {title: '角色名称', field: 'roleName', width: '19%', align: 'center'},
-                {title: '拥有权限', field: 'permissionName', width: '19%', align: 'center'},
-                {title: '创建人', field: 'createPeople', width: '19%', align: 'center'},
+                {title: '表名', field: 'tableName', width: '19%', align: 'center'},
+                {title: '数据库引擎', field: 'engine', width: '19%', align: 'center'},
+                {title: '表描述', field: 'tableComment', width: '19%', align: 'center'},
                 {title: '创建时间', field: 'createTime', width: '19%', align: 'center'},
                 {title: '操作列', field: 'a', width: '23%', align: 'center', formatter: operate}
             ]]
@@ -66,14 +69,27 @@
     //操作列
     function operate(val, row, index) {
         var operation = '';
-        <shiro:hasPermission name="角色管理_修改">
-        operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="codeCreateList_change" '
-            + 'onClick="codeCreateList_add(\'' + row.id + '\')">修改</a>';
-        </shiro:hasPermission>
+        operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="codeCreateList_create" '
+            + 'onClick="codeCreateList_create(\'' + row.tableName + '\')">生成代码</a>';
         return operation;
     }
 
-    function codeCreateList_connect() {
+    //生产代码
+    function codeCreateList_create(tableName) {
+        $.ajax({
+            type: 'POST',
+            data: {
+                tableName: tableName
+            },
+            url: 'tool/codeCreate/create',
+            success: function (data) {
+                if (data.code === 200) {
+                    showMsg(data.data);
+                } else {
+                    showMsg('生成失败');
+                }
+            }
+        })
 
     }
 </script>

@@ -156,10 +156,10 @@ public class BaseService<D extends BaseDao<T>, T extends DataEntity<T>> {
         if (t.getPage() != null) {
             PageHelper.startPage(t.getPage(), t.getRows());
         }
-        List<T> sysRoleList = this.findAll(t);
-        pageBean.setRows(sysRoleList);
+        List<T> list = this.findAll(t);
+        pageBean.setRows(list);
         /*获取分页总数*/
-        PageInfo<T> pageInfo = new PageInfo<>(sysRoleList);
+        PageInfo<T> pageInfo = new PageInfo<>(list);
         pageBean.setTotal(pageInfo.getTotal());
         return pageBean;
     }
