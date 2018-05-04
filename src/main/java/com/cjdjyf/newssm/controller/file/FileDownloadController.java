@@ -20,7 +20,11 @@ import java.net.URLEncoder;
 public class FileDownloadController {
     @RequestMapping(value = "download", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public void download(HttpServletResponse response, String path) throws Exception {
-        response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode("xxxx.xls", "UTF-8"));
+
+
+       String fileName =path.substring(path.lastIndexOf('/')+1);
+
+        response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
         FileInputStream in = null;
         OutputStream out = null;
         try {

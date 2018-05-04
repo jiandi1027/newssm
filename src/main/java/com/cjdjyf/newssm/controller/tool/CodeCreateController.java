@@ -3,8 +3,8 @@ package com.cjdjyf.newssm.controller.tool;
 import com.cjdjyf.newssm.base.PageBean;
 import com.cjdjyf.newssm.base.ResultBean;
 import com.cjdjyf.newssm.pojo.tool.CodeCreate;
-import com.cjdjyf.newssm.pojo.tool.MapperCreate;
 import com.cjdjyf.newssm.service.tool.CodeCreateService;
+import com.cjdjyf.newssm.utils.ProjectPathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +39,7 @@ public class CodeCreateController {
      */
     @GetMapping("/dataList")
     public String dataList(String tableName, HttpServletRequest request) {
-        request.setAttribute("tableName",tableName);
+        request.setAttribute("tableName", tableName);
         return "tool/codeCreate/codeCreateDataList";
     }
 
@@ -57,16 +57,18 @@ public class CodeCreateController {
     }
 
 
+    /**
+     * @return : com.cjdjyf.newssm.base.ResultBean<java.lang.String>
+     * @author : cjd
+     * @description : 生成代码并导出成zip包
+     * @params : [codeCreate]
+     * @date : 21:16 2018/5/4
+     */
     @PostMapping("/codeExport")
     @ResponseBody
     public ResultBean<String> codeExport(CodeCreate codeCreate) {
-        MapperCreate mapperCreate = new MapperCreate(codeCreate.getTableName(), codeCreate.getMapperURL(), codeCreate.getPojoURL());
-        try {
-            mapperCreate.generator();
-        } catch (Exception e) {
-            return new ResultBean<>("生成失败");
-        }
-        return new ResultBean<>("导出成功");
+        String sourcePath = ProjectPathUtil.getProjectPath() + "/codeCreate";
+        return new ResultBean<>(sourcePath + ".zip", codeCreateService.codeExport(codeCreate));
     }
 
 }

@@ -1,6 +1,7 @@
 package com.cjdjyf.newssm.pojo.tool;
 
-import com.cjdjyf.newssm.utils.ProjectPath;
+import com.cjdjyf.newssm.utils.MyUtils;
+import com.cjdjyf.newssm.utils.ProjectPathUtil;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.Context;
@@ -31,14 +32,20 @@ public class MapperCreate implements Serializable {
         this.pojoURL = pojoURL;
     }
 
+    /**
+     * @author : cjd
+     * @description : 代码生成
+     * @return : void
+     * @date : 20:08 2018/5/4
+     */
     public void generator() throws Exception {
         List<String> warnings = new ArrayList<>();
         boolean overwrite = true;
         //指定 逆向工程配置文件
         URL url = getClass().getClassLoader().getResource("generatorConfig.xml");
-        //获取项目根目录
-        String savePath = ProjectPath.getProjectPath()+"/WEB-INF/";
-       /* String savePath = ProjectPath.getProjectPath()+"/codeCreate/";*/
+        //获取项目根目录存放临时文件
+        String savePath = ProjectPathUtil.getProjectPath()+"/codeCreate/";
+        MyUtils.deleteDir(savePath);
 
         File file = new File(savePath);
         if (!file.exists()) {
@@ -64,7 +71,6 @@ public class MapperCreate implements Serializable {
      * @date : 19:50 2018/5/4
      */
     private void setContext(Context context, String savePath) {
-
         //mapper地址
         context.getSqlMapGeneratorConfiguration().setTargetProject(savePath);
         context.getSqlMapGeneratorConfiguration().setTargetPackage(mapperURL);
@@ -77,12 +83,13 @@ public class MapperCreate implements Serializable {
         context.getTableConfigurations().get(0).setTableName(tableName);
         //首字母大写
         String[] split = tableName.split("_");
-        StringBuilder upper = new StringBuilder("");
-        for (String s : split) {
-            upper.append(s.substring(0, 1).toUpperCase().concat(s.substring(1).toLowerCase()));
-        }
+
+
+
         context.getTableConfigurations().get(0).setDomainObjectName(tableName);
-        context.getTableConfigurations().get(0).setDomainObjectName(upper.toString());
+        //表名首字母大写
+        context.getTableConfigurations().get(0).setDomainObjectName(MyUtils.toUpperCaseFirst(split));
     }
+
 
 }

@@ -17,12 +17,17 @@ public class ResultBean<T> implements Serializable {
     /* 默认成功 若AOP拦截异常则失败*/
     private int code = SUCCESS;
     private T data;
-
+    private String msg;
     public ResultBean() {
     }
 
     public ResultBean(T data) {
         this.data = data;
+    }
+
+    public ResultBean(T data, String msg) {
+        this.data = data;
+        this.msg = msg;
     }
 
     public T getData() {
@@ -39,5 +44,13 @@ public class ResultBean<T> implements Serializable {
 
     public void setCode(int code) {
         this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

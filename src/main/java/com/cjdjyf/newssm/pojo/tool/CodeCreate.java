@@ -12,11 +12,18 @@ import java.util.Date;
  * @date : 2018/5/3 17:25
  */
 public class CodeCreate extends DataEntity<CodeCreate> implements Serializable {
+    //表名
     private String tableName;
+    //表引擎
     private String engine;
+    //表描述
     private String tableComment;
+    //mapper存放路径
     private String mapperURL;
+    //实体类存放路径
     private String pojoURL;
+    //作者
+    private String author;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
@@ -68,4 +75,11 @@ public class CodeCreate extends DataEntity<CodeCreate> implements Serializable {
         this.pojoURL = pojoURL;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 }

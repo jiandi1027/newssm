@@ -8,17 +8,17 @@ import java.net.URLDecoder;
  * @description : 获取项目根路径
  * @date : 20:01 2018/5/4
  */
-public class ProjectPath {
+public class ProjectPathUtil {
 
     private static String rootPath = "";
 
-    private ProjectPath() {
+    private ProjectPathUtil() {
         init();
     }
 
     @SuppressWarnings("deprecation")
     private static void init() {
-        String path = ProjectPath.class.getResource("ProjectPath.class").toString();
+        String path = ProjectPathUtil.class.getResource("ProjectPathUtil.class").toString();
         path = URLDecoder.decode(path);
         path.replaceAll("\\\\", "/");
         int index = path.indexOf("WEB-INF");

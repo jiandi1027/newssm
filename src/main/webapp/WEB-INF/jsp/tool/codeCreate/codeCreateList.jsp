@@ -30,12 +30,8 @@
     </form>
 </div>
 <div id="codeCreateList_toolbar">
-    <a onclick="codeCreateList_connect();" href="javascript:void(0);"
-       class="easyui-linkbutton" data-options="plain:true,iconCls:'fa fa-plus'">连接数据库</a>
 </div>
 <div id="codeCreateList_dialog"></div>
-
-
 <script>
     $(function () {
         $('#codeCreateList_list').datagrid({
@@ -77,7 +73,7 @@
     //生成代码
     function codeCreateList_create(tableName) {
         $('#codeCreateList_dialog').dialog({
-            title: '连接数据库',
+            title: '数据',
             iconCls: 'fa fa-fire',
             width: 400,
             height: 300,
@@ -87,7 +83,7 @@
             cache: false,
             href: 'tool/codeCreate/dataList?tableName='+tableName,
             buttons: [{
-                text: '连接测试',
+                text: '生成',
                 iconCls: 'icon-save',
                 handler: function () {
                     if ($("#codeCreateDataList_form").form('validate')) {
