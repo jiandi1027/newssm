@@ -62,4 +62,14 @@ public class MyUtils {
     public void test() {
         System.out.println(GetMD5("池剑迪", "1"));
     }
+
+    @Test
+    public void tes1t() throws Exception {
+        try {
+            MapperCreate generatorSqlmap = new MapperCreate("sys_group","com.cjdjyf.newssm.sys.mapper","com.cjdjyf.newssm.sys.pojo","com.cjdjyf.newssm.base.BaseDao");
+            generatorSqlmap.generator();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
