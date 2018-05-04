@@ -35,7 +35,6 @@ public class MyUtils {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
-
     /**
      * @return : java.lang.String
      * @author : cjd
@@ -52,8 +51,13 @@ public class MyUtils {
     }
 
 
-
-
+    /**
+     * @author : cjd
+     * @description : 防止弄错了密码 直接修改数据库0.0
+     * @params : []
+     * @return : void
+     * @date : 17:03 2018/5/3
+     */
     @Test
     public void test() {
         System.out.println(GetMD5("池剑迪", "1"));

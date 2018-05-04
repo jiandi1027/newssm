@@ -41,7 +41,7 @@
 <%--底部版权声明--%>
 <div data-options="region:'south'" style="height: 30px;">
     <div style="line-height: 30px; overflow: hidden; text-align: center; background-color: rgb(238, 238, 238); width: 100%; height: 28px;">
-        XXX 联系方式:xxxxxxxxxxxx
+        池剑迪 联系方式:17367167160
         <div id="index_html"></div>
     </div>
 </div>

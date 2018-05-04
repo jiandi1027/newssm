@@ -21,7 +21,7 @@
                 <div data-options="region:'south'" class="south">
                     <a class="easyui-linkbutton search_btn" data-options="iconCls:'icon-search'" id="sysRoleList_search"
                        onClick="$('#sysRoleList_list').datagrid('load',$.serializeObject($('#sysRoleList_searchForm')));">搜索</a>
-                    <a class="easyui-linkbutton" data-options="iconCls:'icon-clear'" id="sysAccountList_clear"
+                    <a class="easyui-linkbutton" data-options="iconCls:'icon-clear'"
                        onClick="$('#sysRoleList_searchForm').form('clear');$('#sysRoleList_list').datagrid('load',$.serializeObject($('#sysRoleList_searchForm')));">清空</a>
                 </div>
             </div>
