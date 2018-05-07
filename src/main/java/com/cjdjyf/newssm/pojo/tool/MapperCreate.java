@@ -51,7 +51,6 @@ public class MapperCreate implements Serializable {
         if (!file.exists()) {
             file.mkdir();
         }
-
         //主要用来获取context 设置属性
         Configuration config = new ConfigurationParser(warnings).parseConfiguration(new File(url.getFile()));
         for (Context context : config.getContexts()) {
@@ -83,9 +82,6 @@ public class MapperCreate implements Serializable {
         context.getTableConfigurations().get(0).setTableName(tableName);
         //首字母大写
         String[] split = tableName.split("_");
-
-
-
         context.getTableConfigurations().get(0).setDomainObjectName(tableName);
         //表名首字母大写
         context.getTableConfigurations().get(0).setDomainObjectName(MyUtils.toUpperCaseFirst(split));

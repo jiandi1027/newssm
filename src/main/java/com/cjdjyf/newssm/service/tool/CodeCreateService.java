@@ -18,10 +18,12 @@ import org.springframework.stereotype.Service;
 public class CodeCreateService extends BaseService<CodeCreateMapper,CodeCreate>{
 
     public String codeExport(CodeCreate codeCreate) {
+        //构造器 传入参数
         MapperCreate mapperCreate = new MapperCreate(codeCreate.getTableName(), codeCreate.getMapperURL(), codeCreate.getPojoURL());
         //项目根目录下的代码生成文件夹
         String sourcePath = ProjectPathUtil.getProjectPath() + "/codeCreate";
         try {
+            //生成代码
             mapperCreate.generator();
         } catch (Exception e) {
             return "生成失败";

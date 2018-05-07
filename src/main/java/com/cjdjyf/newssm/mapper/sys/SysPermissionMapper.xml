@@ -188,7 +188,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
     <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.sys.SysPermission" resultMap="BaseResultMap">
-        select
+        select distinct
         <include refid="Base_Column_List"/>
         from sys_permission t
         left join sys_role_permission a on a.role_id = t.id

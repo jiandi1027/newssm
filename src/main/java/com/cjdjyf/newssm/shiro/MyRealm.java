@@ -85,8 +85,12 @@ public class MyRealm extends AuthorizingRealm {
             String permissionId = permissionList.get(0).getPermissionId();
             String permissions[] = permissionId.split(",");
             for (String permission1 : permissions) {
-                String permissionName = sysPermissionService.findById(permission1).getPermissionName();
-                info.addStringPermission(permissionName);
+                try {
+                    String permissionName = sysPermissionService.findById(permission1).getPermissionName();
+                    info.addStringPermission(permissionName);
+                } catch (Exception e) {
+                    logger.error("无找到权限{}",permission1);
+                }
             }
             stringBuilder.append(permissionList.get(0).getPermissionId()).append(",");
         }
