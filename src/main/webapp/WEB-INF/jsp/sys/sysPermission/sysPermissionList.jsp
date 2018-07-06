@@ -7,6 +7,8 @@
     <%@include file="/WEB-INF/head/headJs.jsp" %>
 </head>
 <body>
+<loading:loading>
+</loading:loading>
 <div class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center'">
         <table id="sysPermissionList_list" class="easyui-treegrid">
@@ -40,6 +42,8 @@
             animate: true,
             onLoadSuccess: function () {
                 $('.sysPermissionList_change').linkbutton({text: '修改', plain: true, iconCls: 'fa fa-repeat'});
+                $('.sysPermissionList_addChild').linkbutton({text: '新增子节点', plain: true, iconCls: 'fa fa-flag'});
+
             },
             columns: [[
                 {title: 'id', field: 'id', checkbox: true},
@@ -77,14 +81,24 @@
     function operate(val, row, index) {
         var operation = '';
         <shiro:hasPermission name="权限管理_修改">
-        if (row.text === '根目录') {                       //限制根目录修改
+        if (row.text === '根目录') {                       //所有人都能看到根目录 限制根目录修改
         } else {
             operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysPermissionList_change" '
                 + 'onClick="sysPermissionList_add(\'' + row.id + '\')">修改</a>';
         }
         </shiro:hasPermission>
+
+        operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysPermissionList_addChild" '
+            + 'onClick="sysPermissionList_addChild(\'' + row.id + '\')">新增子节点</a>';
+
         return operation;
     }
+
+    //新增子节点
+    function sysPermissionList_addChild(id) {
+        window.location = document.getElementsByTagName("base")[0].getAttribute("href") + 'sys/sysPermission/addList?parentId=' + id;
+    }
+
 
     //添加 修改
     function sysPermissionList_add(id) {
@@ -110,7 +124,7 @@
                                 if (data.code === 200) {
                                     sysPermissionList_list.treegrid('reload');
                                     showMsg(data.data);
-                                }else{
+                                } else {
                                     showMsg('删除失败');
                                 }
                             }

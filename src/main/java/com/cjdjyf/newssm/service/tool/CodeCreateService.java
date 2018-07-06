@@ -2,8 +2,8 @@ package com.cjdjyf.newssm.service.tool;
 
 import com.cjdjyf.newssm.base.BaseService;
 import com.cjdjyf.newssm.mapper.tool.CodeCreateMapper;
-import com.cjdjyf.newssm.pojo.tool.CodeCreate;
-import com.cjdjyf.newssm.pojo.tool.MapperCreate;
+import com.cjdjyf.newssm.pojo.tool.codeCreate.CodeCreate;
+import com.cjdjyf.newssm.pojo.tool.codeCreate.MapperCreate;
 import com.cjdjyf.newssm.utils.MyUtils;
 import com.cjdjyf.newssm.utils.ProjectPathUtil;
 import com.cjdjyf.newssm.utils.ZipUtil;

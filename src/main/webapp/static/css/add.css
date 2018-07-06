@@ -1,5 +1,6 @@
 .add_table {
-    margin: 15px
+    margin: 15px;
+    border-spacing: 10px;
 }
 
 .add_table td {

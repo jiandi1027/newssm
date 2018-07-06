@@ -28,19 +28,20 @@ public abstract class DataEntity<T> implements Serializable
 	private Date updateTime;
 	/**删除标识 0/1 否/是 */
 	private String delFlag = "0";
-
 	/**排序字段*/
 	private String sort;
 	/**排序方式 asc/desc  */
 	private String order;
 	/**sort+order */
 	private String orderStr ;
-
 	/**页码 */
 	private Integer page ;
 	/**页长度 */
 	private Integer rows ;
-
+	/**查询时间始 -仅支持单时间查询 */
+	private String timeStart;
+    /**查询时间止 */
+    private String timeEnd;
 	/**登录账号的部门ID 用来查数据创建人部门在登录账号下的部门底下的数据 */
 	private String LoginGroupId;
 
@@ -138,5 +139,21 @@ public abstract class DataEntity<T> implements Serializable
 
 	public void setLoginGroupId(String loginGroupId) {
 		LoginGroupId = loginGroupId;
+	}
+
+	public String getTimeStart() {
+		return timeStart;
+	}
+
+	public void setTimeStart(String timeStart) {
+		this.timeStart = timeStart;
+	}
+
+	public String getTimeEnd() {
+		return timeEnd;
+	}
+
+	public void setTimeEnd(String timeEnd) {
+		this.timeEnd = timeEnd;
 	}
 }

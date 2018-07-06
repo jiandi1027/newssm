@@ -28,6 +28,7 @@
         <property name="realm" ref="myRealm"/>
         <!--开启缓存配置-->
         <property name="cacheManager" ref="cacheManager"/>
+
     </bean>
 
     <!-- 缓存管理器 使用Ehcache实现 防止shiro重复权限验证 -->

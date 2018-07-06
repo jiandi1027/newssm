@@ -1,5 +1,6 @@
 package com.cjdjyf.newssm.base;
 
+import com.cjdjyf.newssm.service.tool.ToolFlowService;
 import com.cjdjyf.newssm.utils.MyUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -12,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * @author : cjd
  * @description : 基本Service
@@ -20,7 +20,8 @@ import java.util.List;
  */
 @Transactional(readOnly = true)
 public class BaseService<D extends BaseDao<T>, T extends DataEntity<T>> {
-
+    @Autowired
+    private ToolFlowService toolFlowService;
 
     /**
      * 日志对象
@@ -54,7 +55,6 @@ public class BaseService<D extends BaseDao<T>, T extends DataEntity<T>> {
             return 0;
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return -1;
         }
@@ -65,9 +65,11 @@ public class BaseService<D extends BaseDao<T>, T extends DataEntity<T>> {
      */
     @Transactional()
     public String insert(T record) {
-        record.setId(MyUtils.uuid());
+        if (StringUtils.isEmpty(record.getId())) {
+            record.setId(MyUtils.uuid());
+        }
         record.setDelFlag("0");
-        record.setCreatePeople(MyUtils.getSysAccount());
+        record.setCreatePeople(MyUtils.getUserName());
         record.setCreateTime(new Date());
         if (dao.insert(record) > 0) {
             return "新增成功";
@@ -80,7 +82,12 @@ public class BaseService<D extends BaseDao<T>, T extends DataEntity<T>> {
      */
     @Transactional()
     public String insertSelective(T record) {
-        record.setId(MyUtils.uuid());
+        if (StringUtils.isEmpty(record.getId())) {
+            record.setId(MyUtils.uuid());
+        }
+        record.setDelFlag("0");
+        record.setCreatePeople(MyUtils.getUserName());
+        record.setCreateTime(new Date());
         if (dao.insertSelective(record) > 0) {
             return "新增成功";
         }
@@ -91,7 +98,25 @@ public class BaseService<D extends BaseDao<T>, T extends DataEntity<T>> {
      * 根据主键获取数据
      */
     public T findById(String id) {
-        return dao.selectByPrimaryKey(id);
+        T t = dao.selectByPrimaryKey(id);
+        //如果为流程 设置历史评论
+        if (t instanceof ProcessEntity) {
+            setProcessEntity((ProcessEntity) t);
+        }
+        return t;
+    }
+
+    /**
+     * @return :void
+     * @Author : cjd
+     * @Description : 设置流程评论、当前处理人
+     * @params :[t]
+     * @Date : 17:27 2018/5/28
+     */
+    private void setProcessEntity(ProcessEntity t) {
+        ProcessEntity entity = t;
+        entity.setCommentSet(toolFlowService.getHisComment(entity));
+        entity.setTaskName(toolFlowService.getTaskName(entity));
     }
 
     /**
@@ -106,7 +131,7 @@ public class BaseService<D extends BaseDao<T>, T extends DataEntity<T>> {
      */
     @Transactional(readOnly = false)
     public String updateByIdSelective(T record) {
-        record.setUpdatePeople(MyUtils.getSysAccount());
+        record.setUpdatePeople(MyUtils.getUserName());
         record.setUpdateTime(new Date());
         if (dao.updateByPrimaryKeySelective(record) > 0) {
             return "修改成功";
@@ -119,7 +144,7 @@ public class BaseService<D extends BaseDao<T>, T extends DataEntity<T>> {
      */
     @Transactional()
     public String updateById(T record) {
-        record.setUpdatePeople(MyUtils.getSysAccount());
+        record.setUpdatePeople(MyUtils.getUserName());
         record.setUpdateTime(new Date());
         if (dao.updateByPrimaryKey(record) > 0) {
             return "更新成功";
@@ -133,7 +158,7 @@ public class BaseService<D extends BaseDao<T>, T extends DataEntity<T>> {
     @Transactional()
     public String del(T record) {
         record.setDelFlag("1");
-        record.setUpdatePeople(MyUtils.getSysAccount());
+        record.setUpdatePeople(MyUtils.getUserName());
         record.setUpdateTime(new Date());
         if (dao.updateByPrimaryKeySelective(record) > 0) {
             return "删除成功";
@@ -157,12 +182,19 @@ public class BaseService<D extends BaseDao<T>, T extends DataEntity<T>> {
             PageHelper.startPage(t.getPage(), t.getRows());
         }
         List<T> list = this.findAll(t);
+        //如果走流程的话
+        for (T t1 : list) {
+            if (t1 instanceof ProcessEntity) {
+                setProcessEntity((ProcessEntity) t1);
+            }
+        }
         pageBean.setRows(list);
         /*获取分页总数*/
         PageInfo<T> pageInfo = new PageInfo<>(list);
         pageBean.setTotal(pageInfo.getTotal());
         return pageBean;
     }
+
 
     /**
      * @return : java.lang.String

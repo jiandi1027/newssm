@@ -188,11 +188,11 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
     <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.sys.SysPermission" resultMap="BaseResultMap">
-        select distinct
+        select
         <include refid="Base_Column_List"/>
         from sys_permission t
         left join sys_role_permission a on a.role_id = t.id
-        left join sys_account b on b.user_name = t.create_people
+        left join sys_account b on b.user_name = t.create_people and b.del_flag = '0'
         <where>
             <include refid="findAllWhere"/>
         </where>
@@ -200,7 +200,7 @@
     </select>
     <sql id="findAllWhere">
         <if test="LoginGroupId != null and LoginGroupId!=''">
-            AND FIND_IN_SET(b.group_id,getChild_oneself( #{LoginGroupId,jdbcType=VARCHAR}))>0
+            AND INTE_ARRAY(b.group_id,getChild_oneself( #{LoginGroupId,jdbcType=VARCHAR}))>0
         </if>
         <if test="permissionName != null and permissionName!=''">
             AND t.permission_name = #{permissionName,jdbcType=VARCHAR}

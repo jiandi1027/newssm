@@ -1,9 +1,9 @@
 package com.cjdjyf.newssm.controller.sys;
 
 import com.cjdjyf.newssm.base.ResultBean;
-import com.cjdjyf.newssm.pojo.sys.SysAccount;
 import com.cjdjyf.newssm.pojo.sys.SysGroup;
 import com.cjdjyf.newssm.service.sys.SysGroupService;
+import com.cjdjyf.newssm.utils.MyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author : cjd
@@ -33,7 +34,8 @@ public class SysGroupController {
      * @date : 16:39 2018/4/25
      */
     @GetMapping("/list")
-    public String list() {
+    public String list(HttpServletRequest request) {
+        request.setAttribute("groupId", MyUtils.getGroupId());
         return "sys/sysGroup/sysGroupList";
     }
 
@@ -45,8 +47,9 @@ public class SysGroupController {
      * @date : 16:39 2018/4/25
      */
     @GetMapping("/addList")
-    public String sysAccountAddList(String id, HttpServletRequest request) {
+    public String sysAccountAddList(String id, HttpServletRequest request, String parentId) {
         request.setAttribute("sysGroup", sysGroupService.findById(id));
+        request.setAttribute("parentId", parentId);
         return "sys/sysGroup/sysGroupAddList";
     }
 
@@ -59,11 +62,10 @@ public class SysGroupController {
      */
     @PostMapping("/list")
     @ResponseBody
-    public HashMap<String, Object> forList(HttpServletRequest request) {
+    public HashMap<String, Object> forList() {
         HashMap<String, Object> map = new HashMap<>();
-        SysAccount user = (SysAccount) request.getSession().getAttribute("user");
         //treegrid只接收rows数据    获取登录账号下的部门树
-        map.put("rows", sysGroupService.getGroup(user.getGroupId()));
+        map.put("rows", sysGroupService.getGroup(MyUtils.getGroupId()));
         return map;
     }
 
@@ -91,6 +93,17 @@ public class SysGroupController {
     @ResponseBody
     public ResultBean<String> del(SysGroup sysGroup) {
         return new ResultBean<>(sysGroupService.del(sysGroup));
+    }
+
+    /**
+     * @author : cjd
+     * @description : 获取同级无下属的的部门
+     * @date : 14:43 2018/5/11
+     */
+    @PostMapping("getLevelGroup")
+    @ResponseBody
+    public ResultBean<List> getLevelGroup() {
+        return new ResultBean<>(sysGroupService.getLevelGroup());
     }
 
 }

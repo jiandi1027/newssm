@@ -18,6 +18,8 @@ import java.io.Serializable;
 public class SysRole extends DataEntity<SysRole> implements Serializable {
     /**权限名称 */
     private String roleName;
+    /**基本岗位 0/1 否/是 为是时 所有人都能分配改角色 */
+    private String baseFlag;
     /**拥有权限ID */
     private String permissionId;
     /**拥有权限名称 */
@@ -52,5 +54,13 @@ public class SysRole extends DataEntity<SysRole> implements Serializable {
 
     public void setPermissionName(String permissionName) {
         this.permissionName = permissionName;
+    }
+
+    public String getBaseFlag() {
+        return baseFlag;
+    }
+
+    public void setBaseFlag(String baseFlag) {
+        this.baseFlag = baseFlag;
     }
 }

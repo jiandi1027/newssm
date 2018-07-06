@@ -86,6 +86,11 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
         if (treeSet.add(SysConstant.SOURCE_MENU_ID)) {
             menuNodes.add(getPermissionChildren(this.findById(SysConstant.SOURCE_MENU_ID).getMenuNode(), loginGroupId));
         }
+        //所有能改权限的都赋予 系统设置权限
+      /*  SysPermission sysPermission = new SysPermission();
+        sysPermission.setPermissionName("系统设置");
+        menuNodes.get(0).getChildren().add(getPermissionChildren(this.findAll(sysPermission).get(0).getMenuNode(),null));
+      */
         //树查询要返回List
         return menuNodes;
     }
@@ -99,6 +104,7 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
      */
     private MenuNode getPermissionChildren(MenuNode menuNode, String loginGroupId) {
         SysPermission sysPermission1 = new SysPermission(menuNode.getId());
+        //添加后只能查出部门及子部门创建的权限
         sysPermission1.setLoginGroupId(loginGroupId);
         for (SysPermission sysPermission : this.findAll(sysPermission1)) {
             if (treeSet.add(sysPermission.getId())) {
@@ -126,7 +132,7 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
             SysPermission byId = this.findById(arrayList.get(i));
             if (byId == null) {
                 arrayList.remove(i);
-                i=i-1;       //移除后长度减一
+                i = i - 1;       //移除后长度减一
             }
         }
         return StringUtils.join(arrayList.toArray(), ",");

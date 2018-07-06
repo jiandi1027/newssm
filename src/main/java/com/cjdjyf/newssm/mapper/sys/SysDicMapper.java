@@ -7,4 +7,5 @@
 package com.cjdjyf.newssm.mapper.sys;
 
 public interface SysDicMapper extends com.cjdjyf.newssm.base.BaseDao<com.cjdjyf.newssm.pojo.sys.SysDic> {
+    String getValueByParentKeyAndKey(String parentKey, String key);
 }

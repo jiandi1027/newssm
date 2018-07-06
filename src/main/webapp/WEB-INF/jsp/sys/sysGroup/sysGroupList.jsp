@@ -7,6 +7,8 @@
     <%@include file="/WEB-INF/head/headJs.jsp" %>
 </head>
 <body>
+<loading:loading>
+</loading:loading>
 <div class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center'">
         <table id="sysGroupList_list" class="easyui-treegrid"></table>
@@ -40,15 +42,18 @@
             animate: true,
             onLoadSuccess: function () {
                 $('.sysGroupList_change').linkbutton({text: '修改', plain: true, iconCls: 'fa fa-repeat'});
+
+                $('.sysGroupList_addChild').linkbutton({text: '新增子节点', plain: true, iconCls: 'fa fa-flag'});
+
             },
             columns: [[
                 {title: 'id', field: 'id', checkbox: true},
-                {title: '部门名称', field: 'text', width: '16%', align: 'center'},
-                {title: '部门图标', field: 'iconCls', width: '16%', align: 'center'},
-                {title: '是否展开', field: 'state', width: '16%', align: 'center', formatter: is_unfold},
-                {title: '创建人', field: 'createPeople', width: '16%', align: 'center'},
-                {title: '创建时间', field: 'createTime', width: '16%', align: 'center'},
-                {title: '操作列', field: 'a', width: '18%', align: 'center', formatter: operate}
+                {title: '部门名称', field: 'text', width: '70%', align: 'center'},
+                /*{title: '部门图标', field: 'iconCls', width: '16%', align: 'center'},
+                {title: '是否展开', field: 'state', width: '19%', align: 'center', formatter: is_unfold},
+                {title: '创建人', field: 'createPeople', width: '19%', align: 'center'},
+                {title: '创建时间', field: 'createTime', width: '19%', align: 'center'},*/
+                {title: '操作列', field: 'a', width: '29%', align: 'center', formatter: operate}
             ]]
         });
     });
@@ -66,13 +71,24 @@
     //操作列
     function operate(val, row, index) {
         var operation = '';
+        console.log(row.id);
+        console.log(${groupId});
         <shiro:hasPermission name="部门管理_修改">
         if (row.id !== '${groupId}') {              //禁止对自己团队修改
             operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysGroupList_change" '
                 + 'onClick="sysGroupList_add(\'' + row.id + '\')">修改</a>';
         }
         </shiro:hasPermission>
+
+        operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysGroupList_addChild" '
+            + 'onClick="sysGroupList_addChild(\'' + row.id + '\')">新增子节点</a>';
+
         return operation;
+    }
+
+    //新增子节点
+    function sysGroupList_addChild(id) {
+        window.location = document.getElementsByTagName("base")[0].getAttribute("href") + 'sys/sysGroup/addList?parentId=' + id;
     }
 
     //添加 修改

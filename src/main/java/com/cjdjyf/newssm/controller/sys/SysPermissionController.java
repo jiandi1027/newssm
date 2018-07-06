@@ -1,10 +1,10 @@
 package com.cjdjyf.newssm.controller.sys;
 
 import com.cjdjyf.newssm.base.ResultBean;
-import com.cjdjyf.newssm.pojo.sys.SysAccount;
 import com.cjdjyf.newssm.pojo.sys.SysPermission;
 import com.cjdjyf.newssm.pojo.sys.TreeNode.MenuNode;
 import com.cjdjyf.newssm.service.sys.SysPermissionService;
+import com.cjdjyf.newssm.utils.MyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,8 +47,9 @@ public class SysPermissionController {
      * @Date : 11:13 2018/4/20
      */
     @GetMapping("/addList")
-    public String sysPermissionAddList(String id, HttpServletRequest request) {
+    public String sysPermissionAddList(String id, HttpServletRequest request, String parentId) {
         request.setAttribute("sysPermission", SysPermissionService.findById(id));
+        request.setAttribute("parentId", parentId);
         return "sys/sysPermission/sysPermissionAddList";
     }
 
@@ -75,10 +76,9 @@ public class SysPermissionController {
     @PostMapping("/list")
     @ResponseBody
     public HashMap<String, Object> forList( HttpServletRequest request) {
-        SysAccount user = (SysAccount) request.getSession().getAttribute("user");
         HashMap<String, Object> map = new HashMap<>();
         //treegrid只接收rows数据
-        map.put("rows", SysPermissionService.getPermissionList(user.getGroupId()));
+        map.put("rows", SysPermissionService.getPermissionList(MyUtils.getGroupId()));
         return map;
     }
 

@@ -16,7 +16,6 @@
 
         </commentGenerator>
         <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
-
         <!--<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
             connectionURL="jdbc:oracle:thin:@localhost:1521:orcl" userId="newsifa"
             password="newsifa">

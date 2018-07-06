@@ -1,6 +1,9 @@
 /*list页面 css*/
 .searchForm-east {
-    width: 220px;
+    width: 250px;
+}
+.combotree-group{
+    width: 235px;
 }
 
 .searchForm-east .easyui-layout {
@@ -8,12 +11,17 @@
     height: 100%;
 }
 
+
 .searchForm-east .easyui-layout .center {
     padding: 20px 10px;
 }
 
 .searchForm-east .easyui-layout .center div {
     margin: 0 0 10px 0;
+}
+
+.searchForm-east .easyui-layout .center div input {
+    width: 160px
 }
 
 .searchForm-east .easyui-layout .south {
@@ -24,3 +32,14 @@
 .searchForm-east .easyui-layout .south .search_btn {
     margin-right: 20px;
 }
+
+
+.datagrid-cell {
+    font-size: 16px !important;
+}
+
+
+/*opacity是设置遮罩透明度的，可以自己调节*/
+#loading{position:fixed;top:0;left:0;width:100%;height:100%;background:#f8f8f8;opacity:1;z-index:15000;}
+#loading img{position:absolute;top:50%;left:50%;width:33px;height:33px;margin-top:-15px;margin-left:-15px;}
+#loading p{position:absolute;top:55%;left:48%;width:33px;height:33px;margin-top:-15px;margin-left:-15px;}

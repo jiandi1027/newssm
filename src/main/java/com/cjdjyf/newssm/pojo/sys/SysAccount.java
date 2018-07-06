@@ -24,16 +24,22 @@ public class SysAccount extends DataEntity<SysAccount> implements Serializable {
     private String groupId;
     /**团队名称 */
     private String groupName;
+    /**团队层级 */
+    private String groupLevel;
+    /**是否停用 0/1 否/是 */
+    private String stopFlag;
     /**备注 */
     private String note;
     /**拥有角色ID */
     private String roleId;
     /**拥有角色名称 */
     private String roleName;
-    /**模糊查询名称,yi */
+    /**模糊查询名称 */
     private String fuzzyName;
     /**修改密码 */
     private String replacePassword;
+    /**父部门ID */
+    private String groupParentId;
 
     public SysAccount(String userName) {
         this.userName = userName;
@@ -112,5 +118,29 @@ public class SysAccount extends DataEntity<SysAccount> implements Serializable {
 
     public void setReplacePassword(String replacePassword) {
         this.replacePassword = replacePassword;
+    }
+
+    public String getGroupLevel() {
+        return groupLevel;
+    }
+
+    public void setGroupLevel(String groupLevel) {
+        this.groupLevel = groupLevel;
+    }
+
+    public String getGroupParentId() {
+        return groupParentId;
+    }
+
+    public void setGroupParentId(String groupParentId) {
+        this.groupParentId = groupParentId;
+    }
+
+    public String getStopFlag() {
+        return stopFlag;
+    }
+
+    public void setStopFlag(String stopFlag) {
+        this.stopFlag = stopFlag;
     }
 }

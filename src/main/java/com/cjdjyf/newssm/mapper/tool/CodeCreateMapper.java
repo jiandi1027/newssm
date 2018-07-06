@@ -5,7 +5,7 @@
 */
 package com.cjdjyf.newssm.mapper.tool;
 
-import com.cjdjyf.newssm.pojo.tool.CodeCreate;
+import com.cjdjyf.newssm.pojo.tool.codeCreate.CodeCreate;
 
 public interface CodeCreateMapper extends com.cjdjyf.newssm.base.BaseDao<CodeCreate> {
 }

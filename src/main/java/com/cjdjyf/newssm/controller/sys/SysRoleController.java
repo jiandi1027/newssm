@@ -2,10 +2,10 @@ package com.cjdjyf.newssm.controller.sys;
 
 import com.cjdjyf.newssm.base.PageBean;
 import com.cjdjyf.newssm.base.ResultBean;
-import com.cjdjyf.newssm.pojo.sys.SysAccount;
 import com.cjdjyf.newssm.pojo.sys.SysRole;
 import com.cjdjyf.newssm.service.sys.SysPermissionService;
 import com.cjdjyf.newssm.service.sys.SysRoleService;
+import com.cjdjyf.newssm.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -67,12 +67,13 @@ public class SysRoleController {
      */
     @PostMapping("/list")
     @ResponseBody
-    public PageBean<SysRole> forList(SysRole sysRole, HttpServletRequest request) {
+    public PageBean<SysRole> forList(SysRole sysRole) {
         //如果传入部门为空 就查自己部门下属的数据
         if (StringUtils.isEmpty(sysRole.getLoginGroupId())) {
-            SysAccount user = (SysAccount) request.getSession().getAttribute("user");
-            sysRole.setLoginGroupId(user.getGroupId());
+            sysRole.setLoginGroupId(MyUtils.getGroupId());
         }
+        //查基本岗位
+        sysRole.setBaseFlag("1");
         return sysRoleService.findPageBean(sysRole);
     }
 

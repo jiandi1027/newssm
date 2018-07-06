@@ -2,8 +2,12 @@
   <dictionary name="cjd">
     <words>
       <w>combotree</w>
+      <w>filebox</w>
+      <w>numberbox</w>
+      <w>numberspinner</w>
       <w>treegird</w>
       <w>treegrid</w>
+      <w>upflow</w>
     </words>
   </dictionary>
 </component>

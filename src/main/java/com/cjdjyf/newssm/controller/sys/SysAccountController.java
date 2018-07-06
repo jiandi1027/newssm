@@ -79,11 +79,13 @@ public class SysAccountController {
     @PostMapping("/list")
     @ResponseBody
     public PageBean<SysAccount> forList(SysAccount sysAccount, HttpServletRequest request) {
+        SysAccount user = (SysAccount) request.getSession().getAttribute("user");
         //如果部门为空 就查自己部门的数据
-        if (StringUtils.isEmpty(sysAccount.getGroupId())) {
-            SysAccount user = (SysAccount) request.getSession().getAttribute("user");
-            sysAccount.setGroupId(user.getGroupId());
+        if (StringUtils.isEmpty(sysAccount.getLoginGroupId())) {
+            sysAccount.setLoginGroupId(user.getGroupId());
         }
+        //不查自己的账号
+        sysAccount.setId(user.getId());
         return sysAccountService.findPageBean(sysAccount);
     }
 

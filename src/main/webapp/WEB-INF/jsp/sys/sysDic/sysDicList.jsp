@@ -7,6 +7,8 @@
     <%@include file="/WEB-INF/head/headJs.jsp" %>
 </head>
 <body>
+<loading:loading>
+</loading:loading>
 <div class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center'">
         <table id="sysDicList_list" class="easyui-datagrid"></table>
@@ -17,17 +19,11 @@
                 <div data-options="region:'center'" class="center">
                     <div>
                         <span> 表名： </span>
-                        <input class="easyui-textbox" name="tabName" data-options="width:100" title="">
+                        <input class="easyui-textbox" name="tabName" title="">
                     </div>
                     <div>
                         <span> 列名： </span>
-                        <input class="easyui-textbox" name="columnName" data-options="width:100" title="">
-                    </div>
-
-                    <div>
-                        <span> 测试下拉框： </span>
-                        <input class="easyui-combobox" id="sysDicList_test" name="key"
-                               data-options=""/>
+                        <input class="easyui-textbox" name="columnName" title="">
                     </div>
                 </div>
 
@@ -53,18 +49,6 @@
 </div>
 <script>
     $(function () {
-        $('#sysDicList_test').combobox({
-            width: 100,
-            valueField: 'key',
-            textField: 'value',
-            url: 'sys/sysDic/getValue?parentKey=1',
-            panelHeight: 'auto',
-            panelMaxWidth: 200,
-            panelMaxHeight: 170,
-            editable: true
-        });
-
-
         $('#sysDicList_list').datagrid({
             title: "数据字典",
             url: 'sys/sysDic/list',
@@ -123,7 +107,6 @@
                     },
                     url: 'sys/sysDic/del',
                     success: function (data) {
-                        console.log(data);
                         if (data.code === 200) {
                             sysDicList_list.datagrid('reload');
                             showMsg(data.data);

@@ -8,10 +8,17 @@
     <%@include file="/WEB-INF/head/headJs.jsp" %>
     <title>首页</title>
 </head>
+<style>
+    .tree-title {
+        font-size: 16px !important;
+    }
+</style>
+<loading:loading></loading:loading>
 <body class="easyui-layout">
 <div data-options="region:'north'" style="height: 100px;">
     <div style="width: 100%; height: 100%; background-size: 100% 100%; background-image: url('static/images/top.jpg');">
-        <div style="float: right; margin: 50px 60px 0 0; color: red; font-size: 20px">
+        <div style="float: right; margin: 20px 60px 0 0; color: red; font-size: 20px">
+            <div> ${user.groupName}</div>
             <span style="font-size: 15px">欢迎</span>
             <span style="margin: 0 40px 0 0; font-size: 25px">${user.userName}</span>
             <a style="cursor: pointer; font-size: 10px" id="change_pwd">[修改密码]</a>
@@ -41,7 +48,11 @@
 <%--底部版权声明--%>
 <div data-options="region:'south'" style="height: 30px;">
     <div style="line-height: 30px; overflow: hidden; text-align: center; background-color: rgb(238, 238, 238); width: 100%; height: 28px;">
-        池剑迪 联系方式:17367167160
+        <script>
+            date = new Date();
+            year = date.getFullYear();
+            document.write("Copyright©2018-" + year + " 浙江新天地. All Rights Reserved.")
+        </script>
         <div id="index_html"></div>
     </div>
 </div>
@@ -184,23 +195,25 @@
                         text: '提交',
                         iconCls: 'fa fa-floppy-o',
                         handler: function () {
-                            var sysAccountChangePwd_form = $("#sysAccountChangePwdList_form");
-                            if (sysAccountChangePwd_form.form('validate')) {
+                            if ($('#sysAccountChangePwdList_form').form('validate')) {
                                 var pwd1 = $('#sysAccountChangePwdList_pwd1').passwordbox('getValue');
                                 var pwd2 = $('#sysAccountChangePwdList_pwd2').passwordbox('getValue');
                                 if (pwd1 !== pwd2) {
                                     showMsg("两次输入的密码不一致");
                                 } else {
-                                    sysAccountChangePwd_form.form('submit',
-                                        {
-                                            url: 'sys/sysAccount/changePwd',
-                                            onSubmit: function () {
-                                            },
-                                            success: function (data) {
+                                    $.ajax({
+                                        type: 'POST',
+                                        data: $('#sysAccountChangePwdList_form').serialize(),
+                                        url: 'sys/sysAccount/changePwd',
+                                        success: function (data) {
+                                            if (data.code === 200) {
                                                 index_dialog.dialog('close');
-                                                showMsg(JSON.parse(data).data);
+                                                showMsg(data.data);
+                                            } else {
+                                                showMsg('编辑失败');
                                             }
-                                        })
+                                        }
+                                    });
                                 }
                             } else {
                                 showMsg('数据不能为空');
@@ -217,5 +230,7 @@
             });
         index_dialog.dialog('center');
     })
+
+
 </script>
 </html>

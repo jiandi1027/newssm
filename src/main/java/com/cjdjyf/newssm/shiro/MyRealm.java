@@ -49,20 +49,29 @@ public class MyRealm extends AuthorizingRealm {
             List<SysAccountRole> sysAccountRoleList = sysAccountRoleService.findAll(new SysAccountRole(accountId));
             if (sysAccountRoleList.size() > 0) {
                 String roleId = sysAccountRoleList.get(0).getRoleId();
-                StringBuilder stringBuilder = new StringBuilder();
+                SecurityUtils.getSubject().getSession().setAttribute("roleId", roleId);
+                //流程处理要根据当前角色判断是否有权限
+                StringBuilder permissionId = new StringBuilder();
+                StringBuilder permissionName = new StringBuilder();
+
                 if (StringUtils.isNotEmpty(roleId)) {
                     String roles[] = roleId.split(",");
+                    StringBuilder roleName = new StringBuilder("");
                     for (String role : roles) {
                         try {
+                            String name = sysRoleService.findById(role).getRoleName();
                             //获取角色名 添加进缓存
-                            info.addRole(sysRoleService.findById(role).getRoleName());
+                            info.addRole(name);
+                            roleName.append(name).append(",");
                             //按角色添加权限
-                            addPermissionByRole(info, role, stringBuilder);
+                            addPermissionByRole(info, role, permissionId,permissionName);
                         } catch (Exception e) {
                             logger.error("角色{}下无权限", role);
                         }
                     }
-                    SecurityUtils.getSubject().getSession().setAttribute("permissionId", stringBuilder.substring(0, stringBuilder.length() - 1));
+                    SecurityUtils.getSubject().getSession().setAttribute("roleName", roleName.toString().substring(0, roleName.length() - 1));
+                    SecurityUtils.getSubject().getSession().setAttribute("permissionId", permissionId.substring(0, permissionId.length() - 1));
+                    SecurityUtils.getSubject().getSession().setAttribute("permissionName", permissionName.substring(0, permissionName.length() - 1));
                 }
             }
         } catch (Exception e) {
@@ -78,7 +87,7 @@ public class MyRealm extends AuthorizingRealm {
      * @params :[info, role]
      * @Date : 9:55 2018/4/19
      */
-    private void addPermissionByRole(SimpleAuthorizationInfo info, String role, StringBuilder stringBuilder) {
+    private void addPermissionByRole(SimpleAuthorizationInfo info, String role, StringBuilder permissionIds, StringBuilder permissionNames) {
         //取出角色对应权限ID
         List<SysRolePermission> permissionList = sysRolePermissionService.findAll(new SysRolePermission(role));
         if (permissionList.size() > 0) {
@@ -87,12 +96,13 @@ public class MyRealm extends AuthorizingRealm {
             for (String permission1 : permissions) {
                 try {
                     String permissionName = sysPermissionService.findById(permission1).getPermissionName();
+                    permissionNames.append(permissionName.trim()).append(",");
                     info.addStringPermission(permissionName);
                 } catch (Exception e) {
-                    logger.error("无找到权限{}",permission1);
+                    logger.error("无法找到权限{}", permission1);
                 }
             }
-            stringBuilder.append(permissionList.get(0).getPermissionId()).append(",");
+            permissionIds.append(permissionList.get(0).getPermissionId()).append(",");
         }
     }
 
@@ -106,15 +116,20 @@ public class MyRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
+        SysAccount sysAccount;
         try {
-            SysAccount sysAccount = sysAccountService.findByName(token.getUsername());
-            if (token.getUsername().equals(sysAccount.getUserName())) {
-                //加密
-                ByteSource salt = ByteSource.Util.bytes(sysAccount.getUserName());
-                return new SimpleAuthenticationInfo(sysAccount.getUserName(), sysAccount.getPassword(), salt, getName());
-            }
+            sysAccount = sysAccountService.findByName(token.getUsername());
         } catch (Exception ignored) {
+            throw new AuthenticationException("账号不存在");
         }
-        throw new AuthenticationException();
+        if (sysAccount.getStopFlag().equals("1")) {
+            throw new AuthenticationException("账号已停用");
+        }
+        if (token.getUsername().equals(sysAccount.getUserName())) {
+            //加密
+            ByteSource salt = ByteSource.Util.bytes(sysAccount.getUserName());
+            return new SimpleAuthenticationInfo(sysAccount.getUserName(), sysAccount.getPassword(), salt, getName());
+        }
+        throw new AuthenticationException("未知原因登录失败");
     }
 }

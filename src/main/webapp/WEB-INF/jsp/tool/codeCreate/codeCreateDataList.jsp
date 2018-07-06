@@ -44,8 +44,8 @@
             data = JSON.parse(data);
             if (data.code === 200) {
                 //下载zip
-                window.location = document.getElementsByTagName("base")[0].getAttribute("href") + "sys/file/download?path=" + data.data;
-                $('#codeCreateList_dialog').dialog('destroy');
+                window.location = document.getElementsByTagName("base")[0].getAttribute("href") + "sys/sysFile/download?path=" + data.data;
+                $('#codeCreateList_dialog').dialog('close');
                 showMsg(data.msg);
             } else {
                 showMsg('生成代码失败');

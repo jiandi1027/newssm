@@ -13,10 +13,11 @@
         <result column="update_people" jdbcType="VARCHAR" property="updatePeople"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+        <result column="group_level" jdbcType="VARCHAR" property="groupLevel"/>
     </resultMap>
     <sql id="Base_Column_List">
     t.id, t.group_name, t.parent_id, t.create_people, t.create_time, t.update_people, t.update_time,
-    t.del_flag, t.group_icon, t.group_state, t.order_num
+    t.del_flag, t.group_icon, t.group_state, t.order_num, t.group_level
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
@@ -24,6 +25,13 @@
         from sys_group t
         where t.id = #{id,jdbcType=VARCHAR}
     </select>
+
+    <select id="getChildCount" parameterType="com.cjdjyf.newssm.pojo.sys.SysGroup" resultType="java.lang.Integer">
+        SELECT count(1) FROM sys_group t
+        where t.parent_id = #{id,jdbcType=VARCHAR} and t.del_flag = '0'
+    </select>
+
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from sys_group
     where id = #{id,jdbcType=VARCHAR}
@@ -31,10 +39,11 @@
     <insert id="insert" parameterType="com.cjdjyf.newssm.pojo.sys.SysGroup">
     insert into sys_group (id, group_name, parent_id, 
       create_people, create_time, update_people, 
-      update_time, del_flag, group_icon, group_state, order_num)
+      update_time, del_flag, group_icon, group_state, order_num, group_level)
     values (#{id,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
       #{createPeople,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updatePeople,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR},#{groupIcon,jdbcType=VARCHAR},#{groupState,jdbcType=VARCHAR},#{orderNum,jdbcType=VARCHAR})
+      #{updateTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR},#{groupIcon,jdbcType=VARCHAR},#{groupState,jdbcType=VARCHAR},#{orderNum,jdbcType=VARCHAR},
+      #{groupLevel,jdbcType=VARCHAR})
   </insert>
     <insert id="insertSelective" parameterType="com.cjdjyf.newssm.pojo.sys.SysGroup">
         insert into sys_group
@@ -72,6 +81,9 @@
             <if test="orderNum != null">
                 order_num,
             </if>
+            <if test="groupLevel != null">
+                group_level,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -106,6 +118,9 @@
             </if>
             <if test="orderNum != null">
                 #{orderNum,jdbcType=VARCHAR},
+            </if>
+            <if test="groupLevel != null">
+                #{groupLevel,jdbcType=VARCHAR},
             </if>
 
         </trim>
@@ -143,6 +158,10 @@
             <if test="orderNum != null">
                 order_num = #{orderNum,jdbcType=VARCHAR},
             </if>
+            <if test="groupLevel != null">
+                group_level = #{groupLevel,jdbcType=VARCHAR},
+            </if>
+
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
@@ -157,7 +176,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_people = #{updatePeople,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      del_flag = #{delFlag,jdbcType=VARCHAR}
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      group_level = #{groupLevel,jdbcType=VARCHAR},
     where id = #{id,jdbcType=VARCHAR}
   </update>
     <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.sys.SysGroup" resultMap="BaseResultMap">
@@ -167,11 +187,13 @@
         <where>
             <include refid="findAllWhere"/>
         </where>
-        order by t.order_num
+        order by CONVERT(t.order_num,SIGNED)
     </select>
+
+
     <sql id="findAllWhere">
         <if test="groupName != null and groupName!=''">
-            AND group_name = #{groupName,jdbcType=VARCHAR}
+            AND instr(t.group_name ,#{groupName,jdbcType=VARCHAR})>0
         </if>
         <if test="parentId != null and parentId!=''">
             AND parent_id = #{parentId,jdbcType=VARCHAR}
@@ -200,5 +222,10 @@
         <if test="orderNum != null and orderNum!=''">
             AND order_num = #{orderNum,jdbcType=VARCHAR}
         </if>
+
+        <if test="groupLevel != null and groupLevel!=''">
+            AND group_level = #{groupLevel,jdbcType=VARCHAR}
+        </if>
+
     </sql>
 </mapper>

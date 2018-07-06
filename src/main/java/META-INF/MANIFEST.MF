@@ -16,8 +16,8 @@ Include-Resource: log4j.properties=src/main/resources/log4j.properties
  .dtd,org/mybatis/generator/internal/util/messages/messages.properties
  =src/main/resources/org/mybatis/generator/internal/util/messages/mess
  ages.properties,META-INF/LICENSE=LICENSE,META-INF/NOTICE=NOTICE
-Import-Package: javax.xml.parsers,org.apache.log4j,org.apache.tools.an
- t,org.apache.tools.ant.types,org.w3c.dom,org.xml.sax
+Import-Package: org.activiti.engine,
+ org.activiti.spring
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"
 Main-Class: org.mybatis.generator.api.ShellRunner
 Implementation-Build-Date: 2016-12-30 02:01:34+0000

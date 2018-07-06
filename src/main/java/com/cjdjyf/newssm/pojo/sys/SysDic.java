@@ -37,6 +37,14 @@ public class SysDic extends DataEntity<SysDic> implements Serializable {
     /**排序号 */
     private String orderNum;
 
+    public SysDic(String parentKey, String key) {
+        this.parentKey = parentKey;
+        this.key = key;
+    }
+
+    public SysDic() {
+    }
+
     public String getTabName() {
         return tabName;
     }

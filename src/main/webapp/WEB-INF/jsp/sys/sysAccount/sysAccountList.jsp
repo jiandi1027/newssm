@@ -7,24 +7,27 @@
     <%@include file="/WEB-INF/head/headJs.jsp" %>
 </head>
 <body>
+<loading:loading>
+</loading:loading>
 <div class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'center'">
         <table id="sysAccountList_list" class="easyui-datagrid"></table>
     </div>
     <form id="sysAccountList_searchForm">
-        <div data-options="region:'east',iconCls:'icon-reload',title:'搜索条件',split:true" class="searchForm-east">
+        <div data-options="collapsed:true,region:'east',iconCls:'icon-reload',title:'搜索条件',split:true"
+             class="searchForm-east">
             <div class="easyui-layout">
                 <div data-options="region:'north'" style="height:218px" title="部门查询">
-                    <input class="combotree-group" name="groupId" data-options="width:210" title="">
+                    <input id="sysAccountList_searchGroup" name="groupId" title="" data-options="width:230">
                 </div>
                 <div data-options="region:'center'" class="center" title="条件查询">
                     <div>
                         <span> 账号： </span>
-                        <input class="easyui-textbox" name="fuzzyName" data-options="width:100" title="">
+                        <input class="easyui-textbox" name="fuzzyName" title="">
                     </div>
                     <div>
                         <span> 角色： </span>
-                        <input class="combobox-role" name="roleId" data-options="width:100" title="">
+                        <input id="sysAccountList_role" name="roleId" title="">
                     </div>
                 </div>
                 <div data-options="region:'south'" class="south">
@@ -49,6 +52,7 @@
     </shiro:hasPermission>
 </div>
 <script>
+    var sysAccountList_list = $('#sysAccountList_list');
     $(function () {
         $('#sysAccountList_list').datagrid({
             title: "账号管理",
@@ -67,6 +71,9 @@
             onLoadSuccess: function () {
                 $('.sysAccountList_change').linkbutton({text: '修改', plain: true, iconCls: 'fa fa-repeat'});
                 $('.sysAccountList_reset').linkbutton({text: '重置密码', plain: true, iconCls: 'fa fa-repeat'});
+                $('.sysAccountList_stop').linkbutton({text: '停用', plain: true, iconCls: 'fa fa-window-close'});
+                $('.sysAccountList_start').linkbutton({text: '启用', plain: true, iconCls: 'fa fa-play'});
+
             },
             columns: [[
                 {title: 'id', field: 'id', checkbox: true},
@@ -77,6 +84,8 @@
                 {title: '操作列', field: 'a', width: '21%', align: 'center', formatter: operate}
             ]]
         });
+        getGroup('sysAccountList_searchGroup');
+        getRole('sysAccountList_role');
     });
 
     //操作列
@@ -88,19 +97,55 @@
         </shiro:hasPermission>
         <shiro:hasPermission name="账号管理_重置密码">
         operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysAccountList_reset" '
-            + 'onClick="sysAccountList_reset(\'' + row.id + '\')">重置密码</a>';
+            + 'onClick="sysAccountList_reset(\'' + row.id + '\',\'' + row.userName + '\')">重置密码</a>';
         </shiro:hasPermission>
+        <shiro:hasPermission name="账号管理_停用">
+        </shiro:hasPermission>
+        if (row.stopFlag == '1') {
+            operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysAccountList_start" '
+                + 'onClick="sysAccountList_stop(\'' + row.id + '\',0)">启用</a>';
+        } else if (row.stopFlag == '0') {
+            operation += '<a href="javascript:void(0);" href="javascript:void(0);" class="sysAccountList_stop" '
+                + 'onClick="sysAccountList_stop(\'' + row.id + '\',1)">停用</a>';
+        }
         return operation;
     }
 
+    //停用 启用
+    function sysAccountList_stop(id, stopFlag) {
+        if (stopFlag == '0') {
+            var message = '启用账号';
+        } else if (stopFlag == '1') {
+            var message = '停用账号';
+        }
+
+        $.ajax({
+            type: 'POST',
+            data: {
+                id: id,
+                stopFlag: stopFlag
+            },
+            url: 'sys/sysAccount/save',
+            success: function (data) {
+                if (data.code === 200) {
+                    showMsg(message + '成功');
+                    sysAccountList_list.datagrid('reload');
+                } else {
+                    showMsg(message + '失败');
+                }
+            }
+        });
+    }
+
     //重置密码
-    function sysAccountList_reset(id) {
+    function sysAccountList_reset(id, userName) {
         $.messager.confirm('确认', '您确认想要重置密码吗？', function (r) {
             if (r) {
                 $.ajax({
                     type: 'POST',
                     data: {
-                        id: id
+                        id: id,
+                        userName: userName
                     },
                     url: 'sys/sysAccount/reset',
                     success: function (data) {
@@ -122,7 +167,6 @@
 
     //删除
     function sysAccountList_del() {
-        var sysAccountList_list = $('#sysAccountList_list');
         var row = sysAccountList_list.datagrid('getSelected');
         $.messager.confirm('删除', '确认要删除吗？', function (r) {
             if (r) {

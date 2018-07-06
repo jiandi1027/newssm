@@ -2,7 +2,7 @@ package com.cjdjyf.newssm.controller.tool;
 
 import com.cjdjyf.newssm.base.PageBean;
 import com.cjdjyf.newssm.base.ResultBean;
-import com.cjdjyf.newssm.pojo.tool.CodeCreate;
+import com.cjdjyf.newssm.pojo.tool.codeCreate.CodeCreate;
 import com.cjdjyf.newssm.service.tool.CodeCreateService;
 import com.cjdjyf.newssm.utils.ProjectPathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ public class CodeCreateController {
     }
 
     /**
-     * @return : com.cjdjyf.newssm.base.PageBean<com.cjdjyf.newssm.pojo.tool.CodeCreate>
+     * @return : com.cjdjyf.newssm.base.PageBean<com.cjdjyf.newssm.pojo.tool.codeCreate.CodeCreate>
      * @author : cjd
      * @description : 代码生成页面数据 -获取所有表格
      * @params : [codeCreate, request]

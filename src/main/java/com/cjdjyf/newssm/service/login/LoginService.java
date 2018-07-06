@@ -23,11 +23,12 @@ public class LoginService {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private SysAccountService sysAccountService;
+
     /**
+     * @return :java.lang.String
      * @Author : cjd
      * @Description : 登录验证
      * @params :[userName, password, request]
-     * @return :java.lang.String
      * @Date : 9:49 2018/4/19
      */
     public String login(String userName, String password, HttpServletRequest request) {
@@ -40,24 +41,25 @@ public class LoginService {
         }
         subject.login(token);
         logger.info("-------------登录成功-------------userName:{}", userName);
+        //设置登录超时时间
+        SecurityUtils.getSubject().getSession().setTimeout(1000 * 60 * 180);
         SysAccount byName = sysAccountService.findByName(userName);
-        request.getSession().setAttribute("user",byName);
-        request.getSession().setAttribute("groupId", byName.getGroupId());
-
+        request.getSession().setAttribute("user", byName);
+       /* request.getSession().setAttribute("groupId", byName.getGroupId());*/
         return "登录成功";
     }
 
     /**
+     * @return :java.lang.String
      * @Author : cjd
      * @Description : 退出登录
      * @params :[request]
-     * @return :java.lang.String
      * @Date : 9:50 2018/4/19
      */
     public String logout(HttpServletRequest request) {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
-            logger.debug("用户{}退出", MyUtils.getSysAccount());
+            logger.debug("用户{}退出", MyUtils.getUserName());
             subject.logout(); // session 会销毁，在SessionListener监听session销毁，清理权限缓存
         }
         return "退出失败";

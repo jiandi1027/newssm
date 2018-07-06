@@ -9,8 +9,8 @@
         <module name="newssm" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="newssm" target="1.7" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="newssm" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

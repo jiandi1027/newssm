@@ -26,6 +26,13 @@
         from sys_dic t
         where id = #{id,jdbcType=VARCHAR}
     </select>
+
+    <select id="getValueByParentKeyAndKey" resultType="java.lang.String">
+        select t.value
+        from sys_dic t
+        where t.parent_key = #{0} and t.key = #{1}
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from sys_dic
     where id = #{id,jdbcType=VARCHAR}
@@ -128,80 +135,76 @@
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.cjdjyf.newssm.pojo.sys.SysDic">
-        update sys_dic
+        update sys_dic t
         <set>
             <if test="tabName != null">
-                tab_name = #{tabName,jdbcType=VARCHAR},
+                t.tab_name = #{tabName,jdbcType=VARCHAR},
             </if>
             <if test="columnName != null">
-                column_name = #{columnName,jdbcType=VARCHAR},
+                t.column_name = #{columnName,jdbcType=VARCHAR},
             </if>
             <if test="parentKey != null">
-                parent_key = #{parentKey,jdbcType=VARCHAR},
+                t.parent_key = #{parentKey,jdbcType=VARCHAR},
             </if>
             <if test="key != null">
-                key = #{key,jdbcType=VARCHAR},
+                t.key = #{key,jdbcType=VARCHAR},
             </if>
             <if test="value != null">
-                value = #{value,jdbcType=VARCHAR},
+                t.value = #{value,jdbcType=VARCHAR},
             </if>
             <if test="note != null">
-                note = #{note,jdbcType=VARCHAR},
+                t.note = #{note,jdbcType=VARCHAR},
             </if>
             <if test="orderNum != null">
-                order_num = #{orderNum,jdbcType=VARCHAR},
+                t.order_num = #{orderNum,jdbcType=VARCHAR},
             </if>
             <if test="createPeople != null">
-                create_people = #{createPeople,jdbcType=VARCHAR},
+                t.create_people = #{createPeople,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
+                t.create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="updatePeople != null">
-                update_people = #{updatePeople,jdbcType=VARCHAR},
+                t.update_people = #{updatePeople,jdbcType=VARCHAR},
             </if>
             <if test="updateTime != null">
-                update_time = #{updateTime,jdbcType=TIMESTAMP},
+                t.update_time = #{updateTime,jdbcType=TIMESTAMP},
             </if>
             <if test="delFlag != null">
-                del_flag = #{delFlag,jdbcType=VARCHAR},
+                t.del_flag = #{delFlag,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.cjdjyf.newssm.pojo.sys.SysDic">
-    update sys_dic
-    set tab_name = #{tabName,jdbcType=VARCHAR},
-      column_name = #{columnName,jdbcType=VARCHAR},
-      parent_key = #{parentKey,jdbcType=VARCHAR},
-      key = #{key,jdbcType=VARCHAR},
-      value = #{value,jdbcType=VARCHAR},
-      note = #{note,jdbcType=VARCHAR},
-      order_num = #{orderNum,jdbcType=VARCHAR},
-      create_people = #{createPeople,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_people = #{updatePeople,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      del_flag = #{delFlag,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    update sys_dic t
+    set t.tab_name = #{tabName,jdbcType=VARCHAR},
+      t.column_name = #{columnName,jdbcType=VARCHAR},
+      t.parent_key = #{parentKey,jdbcType=VARCHAR},
+      t.key = #{key,jdbcType=VARCHAR},
+      t.value = #{value,jdbcType=VARCHAR},
+      t.note = #{note,jdbcType=VARCHAR},
+      t.order_num = #{orderNum,jdbcType=VARCHAR},
+      t.create_people = #{createPeople,jdbcType=VARCHAR},
+      t.create_time = #{createTime,jdbcType=TIMESTAMP},
+      t.update_people = #{updatePeople,jdbcType=VARCHAR},
+      t.update_time = #{updateTime,jdbcType=TIMESTAMP},
+      t.del_flag = #{delFlag,jdbcType=VARCHAR}
+    where t.id = #{id,jdbcType=VARCHAR}
   </update>
     <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.sys.SysDic" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from sys_dic t
-        left join sys_account b on b.user_name = t.create_people
+        left join sys_account b on b.user_name = t.create_people and b.del_flag = '0'
         <where>
             <include refid="findAllWhere"/>
         </where>
-        <if test="orderStr!=null">
-            <![CDATA[
-           order by  ${orderStr}
-      ]]>
-        </if>
+        ORDER by CAST(t.parent_key AS SIGNED) desc,CAST(t.key AS SIGNED)
     </select>
     <sql id="findAllWhere">
         <if test="LoginGroupId != null and LoginGroupId!=''">
-            AND FIND_IN_SET(b.group_id,getChild_oneself( #{LoginGroupId,jdbcType=VARCHAR}))>0
+            AND INTE_ARRAY(b.group_id,getChild_oneself( #{LoginGroupId,jdbcType=VARCHAR}))>0
         </if>
         <if test="tabName != null and tabName!=''">
             AND instr(t.tab_name,#{tabName,jdbcType=VARCHAR})>0

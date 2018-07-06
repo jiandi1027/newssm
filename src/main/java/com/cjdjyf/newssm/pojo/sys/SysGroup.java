@@ -23,6 +23,8 @@ public class SysGroup extends DataEntity<SysGroup> implements Serializable {
     private String groupIcon;
     /**部门状态 0/1 关闭/展开 */
     private String groupState;
+    /**部门阶级 */
+    private String groupLevel;
     /**排序号 */
     private String orderNum;
     /**父团队ID */
@@ -34,6 +36,11 @@ public class SysGroup extends DataEntity<SysGroup> implements Serializable {
     }
 
     public SysGroup() {
+    }
+
+    public SysGroup(String groupName, String parentId) {
+        this.groupName = groupName;
+        this.parentId = parentId;
     }
 
     public GroupNode getGroupNode() {
@@ -85,5 +92,13 @@ public class SysGroup extends DataEntity<SysGroup> implements Serializable {
 
     public void setOrderNum(String orderNum) {
         this.orderNum = orderNum;
+    }
+
+    public String getGroupLevel() {
+        return groupLevel;
+    }
+
+    public void setGroupLevel(String groupLevel) {
+        this.groupLevel = groupLevel;
     }
 }

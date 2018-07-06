@@ -55,7 +55,7 @@ public class SysRoleService extends BaseService<SysRoleMapper, SysRole> {
         List<SysRole> sysAccountList = this.findAll(new SysRole(sysRole.getRoleName()));
         //如果不存在该角色
         if (sysAccountList.size() == 0) {
-            logger.info("管理员{}新增角色{}", MyUtils.getSysAccount(), sysRole.getRoleName());
+            logger.info("管理员{}新增角色{}", MyUtils.getUserName(), sysRole.getRoleName());
             //新增角色
             super.insert(sysRole);
             //新增角色权限对应表
@@ -83,7 +83,7 @@ public class SysRoleService extends BaseService<SysRoleMapper, SysRole> {
         if (!same && exist) {
             return "已存在该角色,更新失败";
         }
-        logger.info("管理员{}更新角色{}", MyUtils.getSysAccount(), sysRole.getRoleName());
+        logger.info("管理员{}更新角色{}", MyUtils.getUserName(), sysRole.getRoleName());
         //更新角色
         super.updateByIdSelective(sysRole);
         //更新角色权限对应表

@@ -21,7 +21,6 @@ public class ControllerAOP {
             result = (ResultBean<?>) pjp.proceed();
             logger.info(pjp.getSignature() + "use time:" + (System.currentTimeMillis() - startTime));
         } catch (Throwable e) {
-            e.printStackTrace();
             result = handlerException(pjp, e);
         }
         return result;
@@ -29,10 +28,12 @@ public class ControllerAOP {
 
     private ResultBean<?> handlerException(ProceedingJoinPoint pjp, Throwable e) {
         ResultBean<String> result = new ResultBean();
-        if (e instanceof AuthenticationException){
-            result.setData("登录失败！");
+        if (e instanceof AuthenticationException) {
+            String message = e.getMessage();
+            result.setData(message.length() > 10 ? "密码不正确" : message);
+
             result.setCode(ResultBean.NO_LOGIN);
-        }else{
+        } else {
             logger.error(pjp.getSignature() + " error ", e);
             result.setData(e.toString());
             result.setCode(ResultBean.FAIL);

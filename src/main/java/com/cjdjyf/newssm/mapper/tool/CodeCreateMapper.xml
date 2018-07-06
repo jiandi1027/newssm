@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cjdjyf.newssm.mapper.tool.CodeCreateMapper">
-    <resultMap id="BaseResultMap" type="com.cjdjyf.newssm.pojo.tool.CodeCreate">
+    <resultMap id="BaseResultMap" type="com.cjdjyf.newssm.pojo.tool.codeCreate.CodeCreate">
         <result column="table_name" jdbcType="VARCHAR" property="tableName"/>
         <result column="engine" jdbcType="VARCHAR" property="engine"/>
         <result column="table_comment" jdbcType="VARCHAR" property="tableComment"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     </resultMap>
 
-    <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.tool.CodeCreate" resultMap="BaseResultMap">
+    <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.tool.codeCreate.CodeCreate" resultMap="BaseResultMap">
         select t.table_name,t.engine,t.table_comment,
         t.create_time from information_schema.tables t
         <where>
