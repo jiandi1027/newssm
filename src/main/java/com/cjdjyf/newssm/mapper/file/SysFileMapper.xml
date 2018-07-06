@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjdjyf.newssm.mapper.file.SysFileMapper">
+  <resultMap id="BaseResultMap" type="com.cjdjyf.newssm.pojo.file.SysFile">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="table_id" jdbcType="VARCHAR" property="tableId" />
+    <result column="file_size" jdbcType="VARCHAR" property="fileSize" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="create_people" jdbcType="VARCHAR" property="createPeople" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_people" jdbcType="VARCHAR" property="updatePeople" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    t.id, t.table_id, t.file_size, t.file_path, t.file_name, t.create_people, t.create_time, 
+    t.update_people, t.update_time, t.del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_file t
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_file
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cjdjyf.newssm.pojo.file.SysFile">
+    insert into sys_file (id, table_id, file_size, 
+      file_path, file_name, create_people, 
+      create_time, update_people, update_time, 
+      del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{tableId,jdbcType=VARCHAR}, #{fileSize,jdbcType=VARCHAR}, 
+      #{filePath,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{createPeople,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updatePeople,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{delFlag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cjdjyf.newssm.pojo.file.SysFile">
+    insert into sys_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tableId != null">
+        table_id,
+      </if>
+      <if test="fileSize != null">
+        file_size,
+      </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="createPeople != null">
+        create_people,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updatePeople != null">
+        update_people,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="tableId != null">
+        #{tableId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="createPeople != null">
+        #{createPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatePeople != null">
+        #{updatePeople,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cjdjyf.newssm.pojo.file.SysFile">
+    update sys_file
+    <set>
+      <if test="tableId != null">
+        table_id = #{tableId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        file_size = #{fileSize,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="createPeople != null">
+        create_people = #{createPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatePeople != null">
+        update_people = #{updatePeople,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cjdjyf.newssm.pojo.file.SysFile">
+    update sys_file
+    set table_id = #{tableId,jdbcType=VARCHAR},
+      file_size = #{fileSize,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      create_people = #{createPeople,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_people = #{updatePeople,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAll" parameterType="com.cjdjyf.newssm.pojo.file.SysFile" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_file t
+    <where>
+      <include refid="findAllWhere" />
+    </where>
+    <if test="orderStr!=null">
+      <![CDATA[
+           order by  ${orderStr}
+      ]]>
+    </if>
+  </select>
+  <sql id="findAllWhere">
+    <if test="tableId != null and tableId!=''">
+      AND t.table_id = #{tableId,jdbcType=VARCHAR}
+    </if>
+    <if test="fileSize != null and fileSize!=''">
+      AND t.file_size = #{fileSize,jdbcType=VARCHAR}
+    </if>
+    <if test="filePath != null and filePath!=''">
+      AND t.file_path = #{filePath,jdbcType=VARCHAR}
+    </if>
+    <if test="fileName != null and fileName!=''">
+      AND t.file_name = #{fileName,jdbcType=VARCHAR}
+    </if>
+    <if test="createPeople != null and createPeople!=''">
+      AND t.create_people = #{createPeople,jdbcType=VARCHAR}
+    </if>
+    <if test="createTime != null">
+      AND t.create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatePeople != null and updatePeople!=''">
+      AND t.update_people = #{updatePeople,jdbcType=VARCHAR}
+    </if>
+    <if test="updateTime != null">
+      AND t.update_time = #{updateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="delFlag != null and delFlag!=''">
+      AND t.del_flag = #{delFlag,jdbcType=VARCHAR}
+    </if>
+  </sql>
+</mapper>

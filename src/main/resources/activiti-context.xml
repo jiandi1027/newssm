@@ -1,0 +1,71 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--加载属性文件 -->
+    <!--   <bean id="dbProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+           <property name="location" value="classpath:jdbc.properties"/>
+           <property name="ignoreUnresolvablePlaceholders" value="true"/>
+       </bean>-->
+
+    <context:property-placeholder location="classpath:jdbc.properties" ignore-unresolvable="true"/>
+    <!--数据源-->
+    <bean id="dataSource2" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--事物管理-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource2"/>
+    </bean>
+
+    <!--创建流程引擎对象-->
+    <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
+        <property name="dataSource" ref="dataSource2"/>
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="databaseSchemaUpdate" value="true"/>
+        <property name="mailServerHost" value="localhost"/>
+        <property name="mailServerPort" value="5025"/>
+        <!--自动部署流程-->
+        <!--   <property name="deploymentResources">
+               <list>
+                   &lt;!&ndash; value>classpath*:/net/xerllent/docflow/bpmn/*</value &ndash;&gt;
+                   <value>classpath*:autoDeployment/*</value>
+               </list>
+           </property>-->
+
+    </bean>
+
+    <!--流程引擎配置-->
+    <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
+        <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
+    </bean>
+    <!-- 创建activiti提供的各种服务 -->
+    <!-- 工作流仓储服务 -->
+
+    <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService"/>
+
+    <!-- 工作流运行服务 -->
+
+    <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService"/>
+
+    <!--  工作流任务服务-->
+
+    <bean id="taskService" factory-bean="processEngine" factory-method="getTaskService"/>
+
+    <!--  工作流历史数据服务-->
+
+    <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService"/>
+
+    <!--  工作流管理服务-->
+
+    <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService"/>
+
+    <!-- 工作流唯一服务 -->
+
+    <bean id="IdentityService" factory-bean="processEngine" factory-method="getIdentityService"/>
+</beans>
