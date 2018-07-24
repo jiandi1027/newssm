@@ -1,4 +1,4 @@
-﻿/*
+/*
 Navicat MySQL Data Transfer
 
 Source Server         : localhost1
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-07-06 16:28:59
+Date: 2018-07-24 10:38:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -379,6 +379,7 @@ CREATE TABLE `act_procdef_info` (
   `REV_` int(11) DEFAULT NULL,
   `INFO_JSON_ID_` varchar(64) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`ID_`),
+  UNIQUE KEY `ACT_UNIQ_INFO_PROCDEF` (`PROC_DEF_ID_`),
   KEY `ACT_IDX_INFO_PROCDEF` (`PROC_DEF_ID_`),
   KEY `ACT_FK_INFO_JSON_BA` (`INFO_JSON_ID_`),
   CONSTRAINT `ACT_FK_INFO_JSON_BA` FOREIGN KEY (`INFO_JSON_ID_`) REFERENCES `act_ge_bytearray` (`ID_`),
@@ -809,6 +810,8 @@ CREATE TABLE `sys_account` (
 -- Records of sys_account
 -- ----------------------------
 INSERT INTO `sys_account` VALUES ('1', 'admin', '0d640a406596c708629a7824d34d0e39', '0', '0', '111', '1', '2018-04-23 15:39:11', '池剑迪', '2018-04-28 13:51:07', '0');
+INSERT INTO `sys_account` VALUES ('b8e4b1f1134d433394c45005a829c645', '测试新建业务', 'b5c876724d8d7f8bb59443e2c9fb8af4', '69a74532d4f540859fce7222295844c4', '0', '', '测试账号管理员', '2018-07-24 10:37:05', null, null, '0');
+INSERT INTO `sys_account` VALUES ('bb86874da92a4178bfb67c8dd2edfbfa', '测试账号管理员', 'aa586a53205c861716a7715ae51c04a8', '69a74532d4f540859fce7222295844c4', '0', '', 'admin', '2018-07-24 10:35:17', null, null, '0');
 
 -- ----------------------------
 -- Table structure for `sys_account_role`
@@ -830,6 +833,8 @@ CREATE TABLE `sys_account_role` (
 -- Records of sys_account_role
 -- ----------------------------
 INSERT INTO `sys_account_role` VALUES ('1', '1', 'f1a3677e1e454c08a2e1375017911a95', null, null, null, null, '0');
+INSERT INTO `sys_account_role` VALUES ('247fcf58c7ec4022a6a0baed468c419c', 'bb86874da92a4178bfb67c8dd2edfbfa', '43dd567d7cb84a78bacc17a60a36f393', 'admin', '2018-07-24 10:35:17', null, null, '0');
+INSERT INTO `sys_account_role` VALUES ('76ea45278971433dabf4ee077e838f3c', 'b8e4b1f1134d433394c45005a829c645', 'e7aed4ffe5b04a79b637aaedc57e670a', '测试账号管理员', '2018-07-24 10:37:05', null, null, '0');
 
 -- ----------------------------
 -- Table structure for `sys_dic`
@@ -855,6 +860,9 @@ CREATE TABLE `sys_dic` (
 -- ----------------------------
 -- Records of sys_dic
 -- ----------------------------
+INSERT INTO `sys_dic` VALUES ('4a135966c5dc4482aed20c9f769c58a2', 'sys_group', 'groupLevel', '20', '2', '市', '', null, 'admin', '2018-07-24 10:33:57', null, null, '0');
+INSERT INTO `sys_dic` VALUES ('7698a4dc6df94406aa831db7b5ec9f1a', 'sys_group', 'groupLevel', '20', '3', '省', '', null, 'admin', '2018-07-24 10:34:11', null, null, '0');
+INSERT INTO `sys_dic` VALUES ('bd02e59e0c4a4835be8cbfb643a5f6e9', 'sys_group', 'groupLevel', '20', '1', '县', '', null, 'admin', '2018-07-24 10:33:41', null, null, '0');
 
 -- ----------------------------
 -- Table structure for `sys_file`
@@ -902,6 +910,8 @@ CREATE TABLE `sys_group` (
 -- Records of sys_group
 -- ----------------------------
 INSERT INTO `sys_group` VALUES ('0', '总部门', 'fa fa-user', '1', '3', '000', '1', null, null, null, null, '0');
+INSERT INTO `sys_group` VALUES ('69a74532d4f540859fce7222295844c4', '测试2', '', '', '1', '845c3e4326534f29bbda856c91bcb2d7', '', 'admin', '2018-07-24 10:34:36', null, null, '0');
+INSERT INTO `sys_group` VALUES ('845c3e4326534f29bbda856c91bcb2d7', '测试', '', '', '1', '0', '', 'admin', '2018-07-24 10:34:28', null, null, '0');
 
 -- ----------------------------
 -- Table structure for `sys_permission`
@@ -927,38 +937,38 @@ CREATE TABLE `sys_permission` (
 -- ----------------------------
 -- Records of sys_permission
 -- ----------------------------
-INSERT INTO `sys_permission` VALUES ('01c46300b68a41a784ce30c123ab16c7', '流程定义部署', 'tool/toolFlow/list', '1', '', '1', '4a203654f84f466096329939221318a3', '2', '池剑迪', '2018-05-21 17:19:42', '池剑迪', '2018-05-22 14:25:17', '0');
-INSERT INTO `sys_permission` VALUES ('04bf0e8a79f3490a9735efc0650f3297', '角色管理_修改', '', '', '', '', '4', '3', '0', '2018-05-02 10:19:39', null, null, '0');
-INSERT INTO `sys_permission` VALUES ('0df9f873e7094d218f8b12f02ee59a2c', '权限管理_删除', '', '', '', '', '5', '2', '0', '2018-05-02 10:12:35', null, null, '0');
-INSERT INTO `sys_permission` VALUES ('0fe79d1da78b4421bfde6ecb6103c205', '流程列表', 'flow/getFlowList', '1', '', '', '5826d0c348b448e99ba530d0d06cd6a5', '', '0', '2018-05-08 11:26:46', null, null, '0');
-INSERT INTO `sys_permission` VALUES ('1', '根目录', '.', '1', 'fa fa-user fa-fw', '1', '0', '0', '池剑迪', null, '池剑迪', '2018-04-25 13:52:45', '0');
-INSERT INTO `sys_permission` VALUES ('196ef8b8892e4f1fb27039a7550dbcb3', '房产租赁_修改', '', '0', '', '', 'f4020de8d4ed47638ba163d5fd7ac95e', '2', '0', '2018-05-09 09:41:41', null, null, '0');
-INSERT INTO `sys_permission` VALUES ('2', '系统设置', 'sys/', '1', 'fa fa-user fa-fw', '0', '1', '1', '0', null, '池剑迪', '2018-05-09 09:09:52', '0');
-INSERT INTO `sys_permission` VALUES ('23f7d85160854f28bee151206958aa7b', '数据字典', 'sys/sysDic/list', '1', 'fa fa-book', '0', '2', '5', '0', '2018-05-02 14:22:05', '池剑迪', '2018-05-02 15:09:16', '0');
-INSERT INTO `sys_permission` VALUES ('3', '账号管理', 'sys/sysAccount/list', '1', 'fa fa-user fa-fw', '0', '2', '1', '0', null, '池剑迪', '2018-05-02 10:11:55', '0');
-INSERT INTO `sys_permission` VALUES ('337c6fe14711469489f1918492b516c9', '部门管理_新增', '', '', '', '', '6', '1', '0', '2018-05-02 10:12:51', null, null, '0');
-INSERT INTO `sys_permission` VALUES ('4', '角色管理', 'sys/sysRole/list', '1', 'fa fa-user-o fa-fw', '0', '2', '2', '0', null, '池剑迪', '2018-05-02 10:11:50', '0');
-INSERT INTO `sys_permission` VALUES ('42d6706247984ca3b0ca12531b627654', '部门管理_删除', '', '', '', '', '6', '2', '0', '2018-05-02 10:13:00', null, null, '0');
-INSERT INTO `sys_permission` VALUES ('4333da8020134dc3933de35b6829c35b', '权限管理_新增', '', '', '', '1', '5', '1', '0', '2018-05-02 10:12:25', null, null, '0');
-INSERT INTO `sys_permission` VALUES ('4a203654f84f466096329939221318a3', '开发者工具', 'tool/', '1', 'fa fa-bars', '0', '1', '3', '池剑迪', '2018-05-03 16:59:51', '0', '2018-05-10 00:15:04', '0');
-INSERT INTO `sys_permission` VALUES ('4db10cb514334b97aa8be5041264c330', '租入-已处理', 'house/houseLease/list?approvalType=2&type=2', '1', 'fa fa-asterisk', '1', '720b09698b874cbf95470d7cd31f8cae', '2', '0', '2018-05-24 14:29:49', '0', '2018-05-30 15:31:05', '0');
-INSERT INTO `sys_permission` VALUES ('5', '权限管理', 'sys/sysPermission/list', '1', 'fa fa-user-circle fa-fw', '0', '2', '3', '0', null, '池剑迪', '2018-05-02 10:12:40', '0');
-INSERT INTO `sys_permission` VALUES ('55606ead77494073898aff56f6a0d5c2', '数据字典_新增', '', '', '', '', '23f7d85160854f28bee151206958aa7b', '1', '0', '2018-05-02 16:21:33', null, null, '0');
-INSERT INTO `sys_permission` VALUES ('5826d0c348b448e99ba530d0d06cd6a5', '流程管理', 'sys/sysFlow/list', '1', '', '1', '4a203654f84f466096329939221318a3', '2', '0', '2018-05-08 11:25:15', '池剑迪', '2018-05-15 15:17:17', '1');
-INSERT INTO `sys_permission` VALUES ('5a9640960e8341b6ae8632c87b533b19', '自动代码生成', 'tool/codeCreate/list', '1', 'fa  fa-code', '0', '4a203654f84f466096329939221318a3', '1', '0', '2018-05-03 17:00:25', '池剑迪', '2018-05-04 10:17:38', '0');
-INSERT INTO `sys_permission` VALUES ('5c08b6d713104eb3a748a35e0399f0b7', '房产租赁_新增', '', '0', '', '1', 'f4020de8d4ed47638ba163d5fd7ac95e', '1', '0', '2018-05-09 09:41:28', '0', '2018-05-09 09:41:44', '0');
-INSERT INTO `sys_permission` VALUES ('6', '部门管理', 'sys/sysGroup/list', '1', 'fa fa-users fa-fw', '0', '2', '4', '0', null, '池剑迪', '2018-05-02 10:13:04', '0');
-INSERT INTO `sys_permission` VALUES ('6a336b23c44046eba7e36a0f7dfeab57', '角色管理_删除', '', '', '', '', '4', '2', '0', '2018-05-02 10:11:36', '池剑迪', '2018-05-02 10:11:44', '0');
-INSERT INTO `sys_permission` VALUES ('71a437993e40424dbf46c7986b7f4933', '数据字典_删除', '', '', '', '', '23f7d85160854f28bee151206958aa7b', '2', '0', '2018-05-02 16:21:42', null, null, '0');
-INSERT INTO `sys_permission` VALUES ('7392abefdfe64c55841e41997ba0eec9', '数据字典_修改', '', '', '', '', '23f7d85160854f28bee151206958aa7b', '3', '0', '2018-05-02 16:21:51', null, null, '0');
-INSERT INTO `sys_permission` VALUES ('86c9e0f632f3443691ff554cc78628b9', '业务功能', '/', '1', 'fa fa-star-half-o', '1', '1', '0', '0', '2018-05-07 10:27:35', '池剑迪', '2018-05-15 15:17:10', '0');
-INSERT INTO `sys_permission` VALUES ('aa4cd926d4a149be82fb72544e94a7c4', '部门管理_修改', '', '', '', '', '6', '3', '0', '2018-05-02 10:20:01', null, null, '0');
-INSERT INTO `sys_permission` VALUES ('be12d57a5fed437988eee9d4f9fee45e', '账号管理_修改', '', '', '', '', '3', '3', '0', '2018-05-02 10:18:08', null, null, '0');
-INSERT INTO `sys_permission` VALUES ('c8ee54c19e6c4125902030af972c140f', '权限管理_修改', '', '', '', '', '5', '3', '0', '2018-05-02 10:19:53', null, null, '0');
-INSERT INTO `sys_permission` VALUES ('cf92facd353a4f0aaa1da3ff4963d944', '账号管理_删除', '', '0', '', '1', '3', '2', '0', '2018-04-25 13:48:49', '池剑迪', '2018-04-25 16:01:20', '0');
-INSERT INTO `sys_permission` VALUES ('e439917453d2412eaab360f74a778d5d', '角色管理_新增', '', '', '', '', '4', '1', '0', '2018-05-02 10:11:26', '池剑迪', '2018-05-02 10:11:40', '0');
-INSERT INTO `sys_permission` VALUES ('fd99f11cc3b24c748370025c33e750eb', '账号管理_重置密码', '', '', '', '', '3', '4', '0', '2018-05-02 10:18:17', null, null, '0');
-INSERT INTO `sys_permission` VALUES ('ff6ce72808c04151923f9e5fc3f191de', '账号管理_新增', '', '0', '', '1', '3', '1', '0', '2018-04-25 13:45:49', '池剑迪', '2018-04-25 16:01:13', '0');
+INSERT INTO `sys_permission` VALUES ('01c46300b68a41a784ce30c123ab16c7', '流程定义部署', 'tool/toolFlow/list', '1', '', '1', '4a203654f84f466096329939221318a3', '2', 'admin', '2018-05-21 17:19:42', '池剑迪', '2018-05-22 14:25:17', '0');
+INSERT INTO `sys_permission` VALUES ('04bf0e8a79f3490a9735efc0650f3297', '角色管理_修改', '', '', '', '', '4', '3', 'admin', '2018-05-02 10:19:39', null, null, '0');
+INSERT INTO `sys_permission` VALUES ('0df9f873e7094d218f8b12f02ee59a2c', '权限管理_删除', '', '', '', '', '5', '2', 'admin', '2018-05-02 10:12:35', null, null, '0');
+INSERT INTO `sys_permission` VALUES ('0fe79d1da78b4421bfde6ecb6103c205', '流程列表', 'flow/getFlowList', '1', '', '', '5826d0c348b448e99ba530d0d06cd6a5', '', 'admin', '2018-05-08 11:26:46', null, null, '0');
+INSERT INTO `sys_permission` VALUES ('1', '根目录', '.', '1', 'fa fa-user fa-fw', '1', '0', '0', 'admin', null, '池剑迪', '2018-04-25 13:52:45', '0');
+INSERT INTO `sys_permission` VALUES ('196ef8b8892e4f1fb27039a7550dbcb3', '房产租赁_修改', '', '0', '', '', 'f4020de8d4ed47638ba163d5fd7ac95e', '2', 'admin', '2018-05-09 09:41:41', null, null, '0');
+INSERT INTO `sys_permission` VALUES ('2', '系统设置', 'sys/', '1', 'fa fa-user fa-fw', '0', '1', '1', 'admin', null, '池剑迪', '2018-05-09 09:09:52', '0');
+INSERT INTO `sys_permission` VALUES ('23f7d85160854f28bee151206958aa7b', '数据字典', 'sys/sysDic/list', '1', 'fa fa-book', '0', '2', '5', 'admin', '2018-05-02 14:22:05', '池剑迪', '2018-05-02 15:09:16', '0');
+INSERT INTO `sys_permission` VALUES ('3', '账号管理', 'sys/sysAccount/list', '1', 'fa fa-user fa-fw', '0', '2', '1', 'admin', null, '池剑迪', '2018-05-02 10:11:55', '0');
+INSERT INTO `sys_permission` VALUES ('337c6fe14711469489f1918492b516c9', '部门管理_新增', '', '', '', '', '6', '1', 'admin', '2018-05-02 10:12:51', null, null, '0');
+INSERT INTO `sys_permission` VALUES ('4', '角色管理', 'sys/sysRole/list', '1', 'fa fa-user-o fa-fw', '0', '2', '2', 'admin', null, '池剑迪', '2018-05-02 10:11:50', '0');
+INSERT INTO `sys_permission` VALUES ('42d6706247984ca3b0ca12531b627654', '部门管理_删除', '', '', '', '', '6', '2', 'admin', '2018-05-02 10:13:00', null, null, '0');
+INSERT INTO `sys_permission` VALUES ('4333da8020134dc3933de35b6829c35b', '权限管理_新增', '', '', '', '1', '5', '1', 'admin', '2018-05-02 10:12:25', null, null, '0');
+INSERT INTO `sys_permission` VALUES ('4a203654f84f466096329939221318a3', '开发者工具', 'tool/', '1', 'fa fa-bars', '0', '1', '3', 'admin', '2018-05-03 16:59:51', '0', '2018-05-10 00:15:04', '0');
+INSERT INTO `sys_permission` VALUES ('4db10cb514334b97aa8be5041264c330', '租入-已处理', 'house/houseLease/list?approvalType=2&type=2', '1', 'fa fa-asterisk', '1', '720b09698b874cbf95470d7cd31f8cae', '2', 'admin', '2018-05-24 14:29:49', '0', '2018-05-30 15:31:05', '0');
+INSERT INTO `sys_permission` VALUES ('5', '权限管理', 'sys/sysPermission/list', '1', 'fa fa-user-circle fa-fw', '0', '2', '3', 'admin', null, '池剑迪', '2018-05-02 10:12:40', '0');
+INSERT INTO `sys_permission` VALUES ('55606ead77494073898aff56f6a0d5c2', '数据字典_新增', '', '', '', '', '23f7d85160854f28bee151206958aa7b', '1', 'admin', '2018-05-02 16:21:33', null, null, '0');
+INSERT INTO `sys_permission` VALUES ('5826d0c348b448e99ba530d0d06cd6a5', '流程管理', 'sys/sysFlow/list', '1', '', '1', '4a203654f84f466096329939221318a3', '2', 'admin', '2018-05-08 11:25:15', '池剑迪', '2018-05-15 15:17:17', '1');
+INSERT INTO `sys_permission` VALUES ('5a9640960e8341b6ae8632c87b533b19', '自动代码生成', 'tool/codeCreate/list', '1', 'fa  fa-code', '0', '4a203654f84f466096329939221318a3', '1', 'admin', '2018-05-03 17:00:25', '池剑迪', '2018-05-04 10:17:38', '0');
+INSERT INTO `sys_permission` VALUES ('5c08b6d713104eb3a748a35e0399f0b7', '房产租赁_新增', '', '0', '', '1', 'f4020de8d4ed47638ba163d5fd7ac95e', '1', 'admin', '2018-05-09 09:41:28', '0', '2018-05-09 09:41:44', '0');
+INSERT INTO `sys_permission` VALUES ('6', '部门管理', 'sys/sysGroup/list', '1', 'fa fa-users fa-fw', '0', '2', '4', 'admin', null, '池剑迪', '2018-05-02 10:13:04', '0');
+INSERT INTO `sys_permission` VALUES ('6a336b23c44046eba7e36a0f7dfeab57', '角色管理_删除', '', '', '', '', '4', '2', 'admin', '2018-05-02 10:11:36', '池剑迪', '2018-05-02 10:11:44', '0');
+INSERT INTO `sys_permission` VALUES ('71a437993e40424dbf46c7986b7f4933', '数据字典_删除', '', '', '', '', '23f7d85160854f28bee151206958aa7b', '2', 'admin', '2018-05-02 16:21:42', null, null, '0');
+INSERT INTO `sys_permission` VALUES ('7392abefdfe64c55841e41997ba0eec9', '数据字典_修改', '', '', '', '', '23f7d85160854f28bee151206958aa7b', '3', 'admin', '2018-05-02 16:21:51', null, null, '0');
+INSERT INTO `sys_permission` VALUES ('86c9e0f632f3443691ff554cc78628b9', '业务功能', '/', '1', 'fa fa-star-half-o', '1', '1', '0', 'admin', '2018-05-07 10:27:35', '池剑迪', '2018-05-15 15:17:10', '0');
+INSERT INTO `sys_permission` VALUES ('aa4cd926d4a149be82fb72544e94a7c4', '部门管理_修改', '', '', '', '', '6', '3', 'admin', '2018-05-02 10:20:01', null, null, '0');
+INSERT INTO `sys_permission` VALUES ('be12d57a5fed437988eee9d4f9fee45e', '账号管理_修改', '', '', '', '', '3', '3', 'admin', '2018-05-02 10:18:08', null, null, '0');
+INSERT INTO `sys_permission` VALUES ('c8ee54c19e6c4125902030af972c140f', '权限管理_修改', '', '', '', '', '5', '3', 'admin', '2018-05-02 10:19:53', null, null, '0');
+INSERT INTO `sys_permission` VALUES ('cf92facd353a4f0aaa1da3ff4963d944', '账号管理_删除', '', '0', '', '1', '3', '2', 'admin', '2018-04-25 13:48:49', '池剑迪', '2018-04-25 16:01:20', '0');
+INSERT INTO `sys_permission` VALUES ('e439917453d2412eaab360f74a778d5d', '角色管理_新增', '', '', '', '', '4', '1', 'admin', '2018-05-02 10:11:26', '池剑迪', '2018-05-02 10:11:40', '0');
+INSERT INTO `sys_permission` VALUES ('fd99f11cc3b24c748370025c33e750eb', '账号管理_重置密码', '', '', '', '', '3', '4', 'admin', '2018-05-02 10:18:17', null, null, '0');
+INSERT INTO `sys_permission` VALUES ('ff6ce72808c04151923f9e5fc3f191de', '账号管理_新增', '', '0', '', '1', '3', '1', 'admin', '2018-04-25 13:45:49', '池剑迪', '2018-04-25 16:01:13', '0');
 
 -- ----------------------------
 -- Table structure for `sys_role`
@@ -979,7 +989,9 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('f1a3677e1e454c08a2e1375017911a95', '超级管理员', '0', '池剑迪', '2018-04-28 13:28:57', '池剑迪', '2018-06-11 09:20:32', '0');
+INSERT INTO `sys_role` VALUES ('43dd567d7cb84a78bacc17a60a36f393', '账号管理员', '0', 'admin', '2018-07-24 10:35:01', null, null, '0');
+INSERT INTO `sys_role` VALUES ('e7aed4ffe5b04a79b637aaedc57e670a', '业务功能角色', '1', 'admin', '2018-07-24 10:36:09', null, null, '0');
+INSERT INTO `sys_role` VALUES ('f1a3677e1e454c08a2e1375017911a95', '超级管理员', '0', 'admin', '2018-04-28 13:28:57', 'admin', '2018-07-24 10:31:54', '0');
 
 -- ----------------------------
 -- Table structure for `sys_role_permission`
@@ -1000,21 +1012,9 @@ CREATE TABLE `sys_role_permission` (
 -- ----------------------------
 -- Records of sys_role_permission
 -- ----------------------------
-INSERT INTO `sys_role_permission` VALUES ('0c8b8a0261f54fb6bc343113e1fdb618', 'c09cd685f2d643c8bcde1cb13f199c1f', '1,86c9e0f632f3443691ff554cc78628b9,f4020de8d4ed47638ba163d5fd7ac95e,46e702218a9441de9febcae0fd2eb63b,74696a1f9125488dafb543496e3b95c8,ea4666190f134ca796d4007e48820357,87b563df95384517ae4f5f771d78816b,03763696b71c471d8c9049063075387a,f6aec51b03f34d3887570357e763f8b6,661b974e1e7a49ba8967757dc608866f,9d612047b33848839b350ebdfba90bd4,720b09698b874cbf95470d7cd31f8cae,ae69146ecdb542ed9862b66576f72576,4db10cb514334b97aa8be5041264c330,9cb62ad08a99421abd2d161ef368fd39,07df5f269a1d4682aeba66af6ddc2f31', '1', '2018-05-09 09:13:35', null, null, '0');
-INSERT INTO `sys_role_permission` VALUES ('1', 'f1a3677e1e454c08a2e1375017911a95', '1,196ef8b8892e4f1fb27039a7550dbcb3,9fce49bc017e4067806d9585a7a2c73c,2,3,ff6ce72808c04151923f9e5fc3f191de,cf92facd353a4f0aaa1da3ff4963d944,be12d57a5fed437988eee9d4f9fee45e,fd99f11cc3b24c748370025c33e750eb,4,e439917453d2412eaab360f74a778d5d,6a336b23c44046eba7e36a0f7dfeab57,04bf0e8a79f3490a9735efc0650f3297,5,4333da8020134dc3933de35b6829c35b,0df9f873e7094d218f8b12f02ee59a2c,c8ee54c19e6c4125902030af972c140f,6,337c6fe14711469489f1918492b516c9,42d6706247984ca3b0ca12531b627654,aa4cd926d4a149be82fb72544e94a7c4,23f7d85160854f28bee151206958aa7b,55606ead77494073898aff56f6a0d5c2,71a437993e40424dbf46c7986b7f4933,7392abefdfe64c55841e41997ba0eec9,4a203654f84f466096329939221318a3,5a9640960e8341b6ae8632c87b533b19,01c46300b68a41a784ce30c123ab16c7', null, null, null, null, '0');
-INSERT INTO `sys_role_permission` VALUES ('1a5ef2a9948041e585830bd775834f84', '6c30c643fdf343ffb3c461ce7b0bd995', '1,86c9e0f632f3443691ff554cc78628b9,f4020de8d4ed47638ba163d5fd7ac95e', '池剑迪', '2018-05-09 09:12:10', null, null, '0');
-INSERT INTO `sys_role_permission` VALUES ('3525a48db1194159a05c6d63760fd94c', 'c43882de140542d8baf5652990e75a7b', '1,86c9e0f632f3443691ff554cc78628b9,f4020de8d4ed47638ba163d5fd7ac95e,d55137163c334007a31d6d7a91968f5c', '0', '2018-05-29 13:49:51', null, null, '0');
-INSERT INTO `sys_role_permission` VALUES ('395dfebe3aa841f68297a623976b7489', '465fb41126834bc1b9c9286b3368bc40', '1,86c9e0f632f3443691ff554cc78628b9,f4020de8d4ed47638ba163d5fd7ac95e', '1', '2018-05-09 09:15:42', null, null, '0');
-INSERT INTO `sys_role_permission` VALUES ('4cfb4a5b08fe48e68735e41ff5d2789c', '0d2e169876d54383964996998f5873b6', '1,86c9e0f632f3443691ff554cc78628b9,f4020de8d4ed47638ba163d5fd7ac95e,74696a1f9125488dafb543496e3b95c8,ea4666190f134ca796d4007e48820357,46e702218a9441de9febcae0fd2eb63b,87b563df95384517ae4f5f771d78816b,03763696b71c471d8c9049063075387a,f6aec51b03f34d3887570357e763f8b6,661b974e1e7a49ba8967757dc608866f,9d612047b33848839b350ebdfba90bd4,720b09698b874cbf95470d7cd31f8cae,ae69146ecdb542ed9862b66576f72576,4db10cb514334b97aa8be5041264c330,9cb62ad08a99421abd2d161ef368fd39,07df5f269a1d4682aeba66af6ddc2f31', '1', '2018-05-09 09:13:47', null, null, '0');
-INSERT INTO `sys_role_permission` VALUES ('4d8998b219614c0d86ad049390a142f5', 'd83d190bfd5e4506acec376997bf1b2b', '1,86c9e0f632f3443691ff554cc78628b9,f4020de8d4ed47638ba163d5fd7ac95e,87b563df95384517ae4f5f771d78816b,2c48eafe895b4d2f8d62431dbf8ded33', '0', '2018-06-13 16:28:35', null, null, '0');
-INSERT INTO `sys_role_permission` VALUES ('58463d64d8ce4caca105af022447fcb3', '62e28b83bc8d40f89ee0d19c382cc6db', '1', '池剑迪', '2018-05-23 11:02:09', null, null, '0');
-INSERT INTO `sys_role_permission` VALUES ('71ea260cd1c84852a8ff448d95e8b093', '07687ed2b7934965991e524d6cfeef67', '1,86c9e0f632f3443691ff554cc78628b9,f4020de8d4ed47638ba163d5fd7ac95e,5c08b6d713104eb3a748a35e0399f0b7,196ef8b8892e4f1fb27039a7550dbcb3,9fce49bc017e4067806d9585a7a2c73c,720b09698b874cbf95470d7cd31f8cae,188e6c74673c4745ac3184ae6990e901', '0', '2018-06-13 16:36:54', null, null, '0');
-INSERT INTO `sys_role_permission` VALUES ('734634199dda42e1a520d90c65fe1a95', 'bda84ec98b634e9ab18f8f376b611e0a', '1,2,3,ff6ce72808c04151923f9e5fc3f191de,cf92facd353a4f0aaa1da3ff4963d944,be12d57a5fed437988eee9d4f9fee45e,fd99f11cc3b24c748370025c33e750eb,4,e439917453d2412eaab360f74a778d5d,6a336b23c44046eba7e36a0f7dfeab57,04bf0e8a79f3490a9735efc0650f3297,5,4333da8020134dc3933de35b6829c35b,0df9f873e7094d218f8b12f02ee59a2c,c8ee54c19e6c4125902030af972c140f,6,337c6fe14711469489f1918492b516c9,42d6706247984ca3b0ca12531b627654,aa4cd926d4a149be82fb72544e94a7c4,23f7d85160854f28bee151206958aa7b,55606ead77494073898aff56f6a0d5c2,71a437993e40424dbf46c7986b7f4933,7392abefdfe64c55841e41997ba0eec9', '池剑迪', '2018-05-07 10:25:42', null, null, '0');
-INSERT INTO `sys_role_permission` VALUES ('7723a09be22d40f189ed5f9128166bdd', 'e901476e33024858b1b509e3e6ccc866', '', '0', '2018-05-28 15:34:24', null, null, '0');
-INSERT INTO `sys_role_permission` VALUES ('7b4722bbe5e248fab2ec35a3b400a6be', '8a7ec191e8d2478f978db1275a27ed31', '1,2,3,ff6ce72808c04151923f9e5fc3f191de,cf92facd353a4f0aaa1da3ff4963d944,be12d57a5fed437988eee9d4f9fee45e,fd99f11cc3b24c748370025c33e750eb,6,337c6fe14711469489f1918492b516c9,42d6706247984ca3b0ca12531b627654,aa4cd926d4a149be82fb72544e94a7c4', '0', '2018-06-13 16:47:47', null, null, '0');
-INSERT INTO `sys_role_permission` VALUES ('7bc0e347e3634f5f82e7a45adde83bec', '5fa5581cddd44c2c8ee2d919594125a4', '1,86c9e0f632f3443691ff554cc78628b9,f4020de8d4ed47638ba163d5fd7ac95e', '池剑迪', '2018-05-09 09:12:25', null, null, '0');
-INSERT INTO `sys_role_permission` VALUES ('ace3a23a337a425eade14e6357e55b85', 'd0510f576d5a44e3b5d48df18b9512b6', '1,86c9e0f632f3443691ff554cc78628b9,f4020de8d4ed47638ba163d5fd7ac95e', '池剑迪', '2018-05-09 09:11:54', null, null, '0');
-INSERT INTO `sys_role_permission` VALUES ('e7ba9408cd3c4827a11e64c1cb3b689d', '28753007441d4a67a95b7a58b1f83bbc', '1', '池剑迪', '2018-05-23 10:57:13', null, null, '0');
+INSERT INTO `sys_role_permission` VALUES ('1', 'f1a3677e1e454c08a2e1375017911a95', '1,86c9e0f632f3443691ff554cc78628b9,2,3,ff6ce72808c04151923f9e5fc3f191de,cf92facd353a4f0aaa1da3ff4963d944,be12d57a5fed437988eee9d4f9fee45e,fd99f11cc3b24c748370025c33e750eb,4,e439917453d2412eaab360f74a778d5d,6a336b23c44046eba7e36a0f7dfeab57,04bf0e8a79f3490a9735efc0650f3297,5,4333da8020134dc3933de35b6829c35b,0df9f873e7094d218f8b12f02ee59a2c,c8ee54c19e6c4125902030af972c140f,6,337c6fe14711469489f1918492b516c9,42d6706247984ca3b0ca12531b627654,aa4cd926d4a149be82fb72544e94a7c4,23f7d85160854f28bee151206958aa7b,55606ead77494073898aff56f6a0d5c2,71a437993e40424dbf46c7986b7f4933,7392abefdfe64c55841e41997ba0eec9,4a203654f84f466096329939221318a3,5a9640960e8341b6ae8632c87b533b19,01c46300b68a41a784ce30c123ab16c7', null, null, null, null, '0');
+INSERT INTO `sys_role_permission` VALUES ('3bc794570d8940808e7555cdb61518d2', '43dd567d7cb84a78bacc17a60a36f393', '1,2,3,ff6ce72808c04151923f9e5fc3f191de,cf92facd353a4f0aaa1da3ff4963d944,be12d57a5fed437988eee9d4f9fee45e,fd99f11cc3b24c748370025c33e750eb', 'admin', '2018-07-24 10:35:01', null, null, '0');
+INSERT INTO `sys_role_permission` VALUES ('e356a2bacaac4ce58c63373078ccf505', 'e7aed4ffe5b04a79b637aaedc57e670a', '1,86c9e0f632f3443691ff554cc78628b9', 'admin', '2018-07-24 10:36:09', null, null, '0');
 
 -- ----------------------------
 -- Function structure for `getChild`
